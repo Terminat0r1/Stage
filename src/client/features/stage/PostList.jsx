@@ -58,7 +58,7 @@ function PostList() {
           </div>
         </div>
       </div>
-      <div className="container  py-5 px-3 mx-auto">
+      <div className="container  py-5 px-3 w-100">
         {mockData.map((post) => (
           <Post post={post} key={post.id} />
         ))}
