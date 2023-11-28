@@ -24,7 +24,7 @@ export default function Navbar() {
       <h1>Task Tracker</h1>
       <menu>
         <li>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">The Stage</NavLink>
         </li>
         {token ? (
           <li>
