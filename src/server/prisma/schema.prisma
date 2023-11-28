@@ -1,26 +1,49 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  tasks    Task[]
+    id            Int             @id @default(autoincrement())
+    username      String          @unique
+    email         String          @unique
+    password      String
+    birthDate     DateTime
+    location      String
+    posts         Post[]          @relation("userPosts")
+    followers     UserFollowers[] @relation("followedBy")
+    following     UserFollowers[] @relation("following")
+    isAdmin       Boolean
+    userBookmarks UserBookmarks[] @relation("BookmarkRelation")
 }
 
-model Task {
-  id          Int     @id @default(autoincrement())
-  description String
-  done        Boolean @default(false)
-  userId      Int
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Post {
+    id            Int             @id @default(autoincrement())
+    content       String
+    createAt      DateTime        @default(now())
+    author        User            @relation("userPosts", fields: [authorId], references: [id])
+    authorId      Int
+    userBookmarks UserBookmarks[]
+}
+
+model UserFollowers {
+    id         Int      @id @default(autoincrement())
+    userId     Int
+    followerId Int
+    createAt   DateTime @default(now())
+    user       User     @relation("following", fields: [userId], references: [id])
+    follower   User     @relation("followedBy", fields: [followerId], references: [id])
+}
+
+model UserBookmarks {
+    id       Int      @id @default(autoincrement())
+    userId   Int
+    postId   Int
+    createAt DateTime @default(now())
+    user     User     @relation("BookmarkRelation", fields: [userId], references: [id])
+    post     Post     @relation(fields: [postId], references: [id])
 }
