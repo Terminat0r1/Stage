@@ -17,7 +17,7 @@ export default function AuthForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [ email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState("");
 
 
 
@@ -67,7 +67,7 @@ export default function AuthForm() {
             autoComplete="email"
           />
         </label>
-        <label>
+        {/* <label>
           Date of birth
           <input
             type="date"
@@ -75,7 +75,7 @@ export default function AuthForm() {
             onChange={(e) => setBirthday(e.target.value)}
             autoComplete="birthday"
           />
-        </label>
+        </label> */}
         <label>
           Password
           <input
