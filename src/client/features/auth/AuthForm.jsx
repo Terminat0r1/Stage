@@ -16,6 +16,10 @@ export default function AuthForm() {
   // Controlled form fields
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [ email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState('');
+
+
 
   // Form submission
   const [login, { isLoading: loginLoading, error: loginError }] =
@@ -52,6 +56,24 @@ export default function AuthForm() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
+          />
+        </label>
+        <label>
+          Email
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+          />
+        </label>
+        <label>
+          Date of birth
+          <input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            autoComplete="birthday"
           />
         </label>
         <label>

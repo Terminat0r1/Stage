@@ -21,7 +21,7 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1>Task Tracker</h1>
+      <h1></h1>
       <menu>
         <li>
           <NavLink to="/">Home</NavLink>
