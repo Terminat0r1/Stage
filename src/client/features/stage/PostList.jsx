@@ -53,7 +53,7 @@ function PostList() {
               />
             </div>
             <div className=" col-4 text-right">
-              <button className="btn btn-primary">Post</button>
+              <button className="btn btn-dark">Post</button>
             </div>
           </div>
         </div>

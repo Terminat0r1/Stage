@@ -21,30 +21,31 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1>Task Tracker</h1>
+      <h1>Music App</h1>
       <menu>
-        <li>
+        <button type="button" class="btn btn-outline-dark m-2">
           <NavLink to="/">The Stage</NavLink>
-        </li>
-        <li>
+        </button>
+        <button type="button" class="btn btn-outline-dark m-2">
           <NavLink to="/vibe">The Vibe</NavLink>
-        </li>
+        </button>
+
         {token ? (
           <>
-            <li>
+            <button type="button" class="btn btn-outline-dark m-2">
               <NavLink to="/bkmark">Bookmark</NavLink>
-            </li>
-            <li>
+            </button>{" "}
+            <button type="button" class="btn btn-outline-dark m-2">
               <NavLink to="/settings">Account Settings</NavLink>
-            </li>
-            <li>
+            </button>{" "}
+            <button type="button" class="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>
-            </li>
+            </button>
           </>
         ) : (
-          <li>
+          <button type="button" class="btn btn-outline-dark m-2">
             <NavLink to="/login">Log In</NavLink>
-          </li>
+          </button>
         )}
       </menu>
     </nav>
