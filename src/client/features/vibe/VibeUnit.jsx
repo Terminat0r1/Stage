@@ -1,15 +1,17 @@
 import React from "react";
-
+import userImg from "../ima/user.jpg";
 const VibeUnit = ({ user }) => {
   return (
-    <div class="card border border-dark rounded p-3 m-3" key={user.id}>
-      <div class="card-header">{user.location}</div>
-      <div class="card-body">
-        <h5 class="card-title">{user.username}</h5>
-        <p class="card-text">
+    <div className="card border border-dark rounded p-3 m-3" key={user.id}>
+      <div className="card-header">{user.location}</div>
+
+      <div className="card-body text-center">
+        <img className="card-img-top" src={userImg} alt="Card image cap" />
+        <h5 className="card-title">{user.username}</h5>
+        <p className="card-text">
           Post: {user.post} , Bookmark: {user.bookmark}
         </p>
-        <a href="#" class="btn btn-dark">
+        <a href="#" className="btn btn-dark">
           Follow
         </a>
       </div>
