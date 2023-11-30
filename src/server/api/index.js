@@ -1,30 +1,82 @@
-const { ServerError } = require("../errors");
-const prisma = require("../prisma");
-const jwt = require("./auth/jwt");
-
+const { ServerError } = require("../../errors");
+const prisma = require("../../prisma");
+const jwt = require("./jwt");
+const bcrypt = require("bcrypt");
 const router = require("express").Router();
+const { parse } = require("date-fns");
 module.exports = router;
-
-// Attaches user to res.locals if token is valid
-router.use(async (req, res, next) => {
-  // Check for token
-  const authHeader = req.headers.authorization;
-  const token = authHeader?.split(" ")[1]; // "Bearer <token>"
-  if (!authHeader || !token) {
-    return next();
-  }
-
-  // Get user from token
+/** Creates new account and returns token */
+router.post("/register", async (req, res, next) => {
   try {
-    const { id } = jwt.verify(token);
-    const user = await prisma.user.findUniqueOrThrow({ where: { id } });
-    res.locals.user = user;
-    next();
+    const { username, email, password, birthDate, location, isAdmin } = req.body;
+    if (!username || !email || !password || !birthDate || !location) {
+      throw new ServerError(400, "Username, email, password, birthDate, and location are required.");
+    }
+    // Parse birthDate to remove the time portion
+    const parsedBirthDate = parse(birthDate, 'yyyy-MM-dd', new Date());
+    // Check if account already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { username },
+    });
+    if (existingUser) {
+      throw new ServerError(
+        400,
+        `Account with username ${username} already exists.`
+      );
+    }
+    // Create new user
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        email,
+        password,
+        birthDate: parsedBirthDate, // Use the parsed date without the time portion
+        location,
+        isAdmin,
+      },
+    });
+    const token = jwt.sign({ id: newUser.id });
+    res.json({ token });
   } catch (err) {
-    console.error(err);
-    next(new ServerError(401, "Invalid token."));
+    next(err);
+  }
+});
+/** Returns token for account if credentials valid */
+router.post("/login", async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    // Check if username and password provided
+    if (!username || !password) {
+      throw new ServerError(400, "Username and password required.");
+    }
+    // Check if account exists
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+    if (!user) {
+      throw new ServerError(
+        400,
+        `Account with username ${username} does not exist.`
+      );
+    }
+    // Check if password is correct
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if (!passwordValid) {
+      throw new ServerError(401, "Invalid password.");
+    }
+    const token = jwt.sign({ id: user.id });
+    res.json({ token });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.use("/auth", require("./auth"));
-router.use("/tasks", require("./tasks"));
+
+
+
+
+
+
+
+
+

@@ -1,49 +1,26 @@
-require("dotenv").config();
-const path = require("path");
-const express = require("express");
-const morgan = require("morgan");
-const { createServer: createViteServer } = require("vite");
-
-const PORT = process.env.PORT ?? 3000;
-
-/**
- * The app has to be created in a separate async function
- * since we need to wait for the Vite server to be created
- */
-const createApp = async () => {
-  const app = express();
-
-  // Logging middleware
-  app.use(morgan("dev"));
-
-  // Body parsing middleware
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  // API routes
-  app.use("/api", require("./api"));
-
-  // Serve static HTML in production & Vite dev server in development
-  if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.resolve(__dirname, "../../dist/")));
-  } else {
-    // Pulled from https://vitejs.dev/config/server-options.html#server-middlewaremode
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-    });
-
-    app.use(vite.middlewares);
+const { ServerError } = require("../errors");
+const prisma = require("../prisma");
+const jwt = require("./auth/jwt");
+const router = require("express").Router();
+module.exports = router;
+// Attaches user to res.locals if token is valid
+router.use(async (req, res, next) => {
+  // Check for token
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.split(" ")[1]; // "Bearer <token>"
+  if (!authHeader || !token) {
+    return next();
   }
-
-  // Simple error handling middleware
-  app.use((err, req, res, next) => {
+  // Get user from token
+  try {
+    const { id } = jwt.verify(token);
+    const user = await prisma.user.findUniqueOrThrow({ where: { id } });
+    res.locals.user = user;
+    next();
+  } catch (err) {
     console.error(err);
-    res.status(err.status ?? 500).send(err.message ?? "Internal server error.");
-  });
-
-  app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}.`);
-  });
-};
-
-createApp();
+    next(new ServerError(401, "Invalid token."));
+  }
+});
+router.use("/auth", require("./auth"));
+router.use("/users", require("./users"));
