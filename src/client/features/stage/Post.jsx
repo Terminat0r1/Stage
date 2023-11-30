@@ -10,10 +10,10 @@ const Post = ({ post }) => {
 
   return (
     <div
-      className="row align-items-md-stretch d-flex justify-content-around"
+      className="row align-items-md-stretch d-flex justify-content-around "
       key={post.id}
     >
-      <div className="col-md-5">
+      <div className="col-md-5 w-100 m-3">
         <div className="h-100 p-5 bg-body-tertiary border rounded-3">
           <h2>{post.username}</h2>
           <p>{post.post}</p>
