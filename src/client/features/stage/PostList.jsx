@@ -38,7 +38,7 @@ function PostList() {
     <>
       <div className="container  py-4 px-3 mx-auto">
         <div>
-          <h1>The Stage</h1>
+          <h1>The Vibe</h1>
         </div>
 
         <div className="row">
