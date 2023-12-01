@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 function generateRandomUsername() {
   return `user_${Math.floor(Math.random() * 10000)}`;
 }
+
 async function seed() {
   try {
     // Create twenty users
@@ -11,6 +12,7 @@ async function seed() {
       const username = generateRandomUsername();
       const email = `user${i}@example.com`;
 
+      // Create user and capture the returned user object
       const user = await prisma.user.create({
         data: {
           username,
@@ -23,17 +25,15 @@ async function seed() {
         },
       });
 
-      console.log(`User ${username} created`)
+      console.log(`User ${username} created with ID: ${user.id}`);
 
-      // Create three posts for each user
-
+      // Create three posts for each user using the stored user object
       for (let j = 0; j < 3; j++) {
         await prisma.post.create({
           data: {
             content: `Post ${j + 1} by ${username}`,
-            createAt: new Date(),
+            createdAt: new Date(),
             authorId: user.id,
-            location: `Billings`,
           },
         });
       }
@@ -47,4 +47,5 @@ async function seed() {
     await prisma.$disconnect();
   }
 }
+
 seed();

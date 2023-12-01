@@ -8,25 +8,24 @@ datasource db {
 }
 
 model User {
-    id            Int             @id @default(autoincrement())
-    username      String          @unique
-    email         String          @unique
+    id            Int              @id @default(autoincrement())
+    username      String           @unique
+    email         String           @unique
     password      String
     birthDate     DateTime
     location      String
-    profilePhoto  String?         @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
-    posts         Post[]          @relation("userPosts")
-    followers     UserFollowers[] @relation("followedBy")
-    following     UserFollowers[] @relation("following")
+    profilePhoto  String?          @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
+    posts         Post[]           @relation("userPosts")
+    followers     UserFollowers[]  @relation("followedBy")
+    following     UsersFollowing[] @relation("following")
     isAdmin       Boolean
-    userBookmarks UserBookmarks[] @relation("BookmarkRelation")
+    userBookmarks UserBookmarks[]  @relation("BookmarkRelation")
 }
 
 model Post {
     id            Int             @id @default(autoincrement())
     content       String
-    createAt      DateTime        @default(now())
-    location      String?         @default("Billings")
+    createdAt     DateTime        @default(now())
     author        User            @relation("userPosts", fields: [authorId], references: [id])
     authorId      Int
     userBookmarks UserBookmarks[]
@@ -36,16 +35,23 @@ model UserFollowers {
     id         Int      @id @default(autoincrement())
     userId     Int
     followerId Int
-    createAt   DateTime @default(now())
-    user       User     @relation("following", fields: [userId], references: [id])
+    createdAt  DateTime @default(now())
     follower   User     @relation("followedBy", fields: [followerId], references: [id])
+}
+
+model UsersFollowing {
+    id          Int      @id @default(autoincrement())
+    userId      Int
+    followingId Int
+    createdAt   DateTime @default(now())
+    user        User     @relation("following", fields: [userId], references: [id])
 }
 
 model UserBookmarks {
     id       Int      @id @default(autoincrement())
     userId   Int
     postId   Int
-    createAt DateTime @default(now())
+    createdAt DateTime @default(now())
     user     User     @relation("BookmarkRelation", fields: [userId], references: [id])
     post     Post     @relation(fields: [postId], references: [id])
 }
