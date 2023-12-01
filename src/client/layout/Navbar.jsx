@@ -86,19 +86,30 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1></h1>
+      <h1>Music App</h1>
       <menu>
-        <li>
-          <NavLink to="/">Home</NavLink>
-        </li>
+        <button type="button" class="btn btn-outline-dark m-2">
+          <NavLink to="/">The Stage</NavLink>
+        </button>
+        <button type="button" class="btn btn-outline-dark m-2">
+          <NavLink to="/vibe">The Vibe</NavLink>
+        </button>
         {token ? (
-          <li>
-            <a onClick={handleLogout}>Log Out</a>
-          </li>
+          <>
+            <button type="button" class="btn btn-outline-dark m-2">
+              <NavLink to="/bkmark">Bookmark</NavLink>
+            </button>{" "}
+            <button type="button" class="btn btn-outline-dark m-2">
+              <NavLink to="/settings">Account Settings</NavLink>
+            </button>{" "}
+            <button type="button" class="btn btn-outline-dark m-2">
+              <a onClick={handleLogout}>Log Out</a>
+            </button>
+          </>
         ) : (
-          <li>
+          <button type="button" class="btn btn-outline-dark m-2">
             <NavLink to="/login">Log In</NavLink>
-          </li>
+          </button>
         )}
       </menu>
     </nav>

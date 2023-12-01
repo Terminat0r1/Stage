@@ -9,7 +9,10 @@
 // `$body-color` or write more CSS that override's Bootstrap's CSS like so:
 // `body { color: red; }`.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> nathan_branch
 //
 // Bring in Bootstrap
 //
@@ -28,7 +31,11 @@
 $enable-gradients: true;
 $enable-shadows: true;
 
+<<<<<<< HEAD
 $offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+=======
+$offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+>>>>>>> nathan_branch
 
 // Include functions first
 @import "bootstrap/scss/functions";
@@ -36,7 +43,11 @@ $offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
 // Customize some defaults
 $body-color: #333;
 $body-bg: #fff;
+<<<<<<< HEAD
 $border-radius: .4rem;
+=======
+$border-radius: 0.4rem;
+>>>>>>> nathan_branch
 $success: #7952b3;
 
 // Required
@@ -84,7 +95,10 @@ $success: #7952b3;
 // Utilities
 @import "bootstrap/scss/utilities/api";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> nathan_branch
 //
 // Custom styles
 //
@@ -93,4 +107,8 @@ $success: #7952b3;
 
 body {
   padding: 1.5rem;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> nathan_branch

@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import "./index.less";
+import "./scss/styles.scss";
 
 import { Provider } from "react-redux";
 import store from "./store";
 
 import AuthForm from "./features/auth/AuthForm";
-import Tasks from "./features/tasks/Tasks";
+import Vibe from "./features/vibe/Vibe.jsx";
 import Root from "./layout/Root.jsx";
 import ProfilePage from "./features/profile/ProfilePage";
+import Bookmark from "./features/bookmark/Bookmark.jsx";
+import Settings from "./features/setting/Settings.jsx";
+import PostList from "./features/stage/PostList.jsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NavbarMain from "./layout/TopNavbar.jsx";
@@ -21,10 +24,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     children: [
-      { path: "/", element: <Tasks /> },
-      { path: "/tasks", element: <Tasks /> },
+      { path: "/", element: <PostList /> },
+      { path: "/vibe", element: <Vibe /> },
       { path: "/login", element: <AuthForm /> },
       { path: "/profile", element: <ProfilePage/> },
+      { path: "/bkmark", element: <Bookmark /> },
+      { path: "/settings", element: <Settings /> },
     ],
   },
 ]);
