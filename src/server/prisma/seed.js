@@ -17,7 +17,8 @@ async function seed() {
           email,
           password: 'password123',
           birthDate: new Date(`1990-01-01`),
-          location: 'Random City',
+          location: 'Pittsburgh',
+          profilePhoto: 'https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg',
           isAdmin: false,
         },
       });
@@ -32,6 +33,7 @@ async function seed() {
             content: `Post ${j + 1} by ${username}`,
             createAt: new Date(),
             authorId: user.id,
+            location: `Billings`,
           },
         });
       }

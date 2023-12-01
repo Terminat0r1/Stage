@@ -14,6 +14,7 @@ model User {
     password      String
     birthDate     DateTime
     location      String
+    profilePhoto  String?         @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
     posts         Post[]          @relation("userPosts")
     followers     UserFollowers[] @relation("followedBy")
     following     UserFollowers[] @relation("following")
@@ -25,6 +26,7 @@ model Post {
     id            Int             @id @default(autoincrement())
     content       String
     createAt      DateTime        @default(now())
+    location      String?         @default("Billings")
     author        User            @relation("userPosts", fields: [authorId], references: [id])
     authorId      Int
     userBookmarks UserBookmarks[]
