@@ -3,7 +3,7 @@ import ProfileNavTabs from './ProfileNavbar';
 
 
 
- <ProfileNavTabs /> 
+//  <ProfileNavTabs /> 
 
 const ProfilePage = () => {
   return (
@@ -19,6 +19,7 @@ const ProfilePage = () => {
       </div>
 
       <div className="profile-content">
+      <ProfileNavTabs /> 
         <h2>About Me</h2>
         <p>
           Hi, I'm John Doe, a passionate web developer with a focus on creating

@@ -1,3 +1,59 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import NavbarMain from "./TopNavbar";
@@ -9,12 +65,14 @@ export default function Root() {
     
 {/* {currentPage === "login"  && <Navbar/>} */}
 
+ {/* <Navbar/> */}
 
 
 
+    
 
-      <Navbar/>
-       <NavbarMain/> {/*this will be removed, it's just to test the new navbar and for mobility  */}
+       <NavbarMain/> 
+       after the redux store 
 
       <main>
         <Outlet />
