@@ -16,29 +16,22 @@ import NavbarMain from "./layout/TopNavbar.jsx";
 
 
 
-const rootRoutes = [
-  { path: "/", element: <Tasks /> },
-  { path: "/login", element: <AuthForm /> },
-];
-
-const otherRoutes = [
-  { path: "/tasks", element: <Tasks /> },
-  { path: "/profile", element: <ProfilePage /> },
-  // Add more routes as needed
-];
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    children: rootRoutes,
-  },
-  {
-    path: "/",  // This catches all paths not covered by rootRoutes
-    element: <NavbarMain />,
-    children: otherRoutes,
+    children: [
+      { path: "/", element: <Tasks /> },
+      { path: "/tasks", element: <Tasks /> },
+      { path: "/login", element: <AuthForm /> },
+      { path: "/profile", element: <ProfilePage/> },
+    ],
   },
 ]);
+
+
+
+
 
 
 
