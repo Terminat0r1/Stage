@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import AuthForm from "./features/auth/AuthForm";
-import Vibe from "./features/vibe/Vibe.jsx";
+import Stage from "./features/vibe/Stage.jsx";
 import Root from "./layout/Root.jsx";
 import Bookmark from "./features/bookmark/Bookmark.jsx";
 import Settings from "./features/setting/Settings.jsx";
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { path: "/", element: <PostList /> },
-      { path: "/vibe", element: <Vibe /> },
+      { path: "/stage", element: <Stage /> },
       { path: "/login", element: <AuthForm /> },
       { path: "/bkmark", element: <Bookmark /> },
       { path: "/settings", element: <Settings /> },
