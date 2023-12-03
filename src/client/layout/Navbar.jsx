@@ -5,64 +5,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout, selectToken } from "../features/auth/authSlice";
@@ -94,6 +36,9 @@ export default function Navbar() {
         <button type="button" class="btn btn-outline-dark m-2">
           <NavLink to="/vibe">The Vibe</NavLink>
         </button>
+        <button type="button" class="btn btn-outline-dark m-2">
+              <NavLink to="/profile">profile</NavLink>
+            </button>{" "}
         {token ? (
           <>
             <button type="button" class="btn btn-outline-dark m-2">
@@ -105,6 +50,9 @@ export default function Navbar() {
             <button type="button" class="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>
             </button>
+            <button type="button" class="btn btn-outline-dark m-2">
+              <NavLink to="/profile">profile</NavLink>
+            </button>{" "}
           </>
         ) : (
           <button type="button" class="btn btn-outline-dark m-2">

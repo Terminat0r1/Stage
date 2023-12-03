@@ -58,7 +58,7 @@ export default function AuthForm() {
             autoComplete="username"
           />
         </label>
-        <label>
+        {/* <label>
           Email
           <input
             type="text"
@@ -67,7 +67,7 @@ export default function AuthForm() {
             autoComplete="email"
           />
         </label>
-        {/* <label>
+        <label>
           Date of birth
           <input
             type="date"
