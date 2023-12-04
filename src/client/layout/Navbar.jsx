@@ -36,9 +36,7 @@ export default function Navbar() {
         <button type="button" class="btn btn-outline-dark m-2">
           <NavLink to="/vibe">The Vibe</NavLink>
         </button>
-        <button type="button" class="btn btn-outline-dark m-2">
-              <NavLink to="/profile">profile</NavLink>
-            </button>{" "}
+
         {token ? (
           <>
             <button type="button" class="btn btn-outline-dark m-2">
