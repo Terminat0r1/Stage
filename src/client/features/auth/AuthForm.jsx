@@ -58,6 +58,17 @@ export default function AuthForm() {
             autoComplete="username"
           />
         </label>
+      
+    
+        {/* <label>
+          location
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            autoComplete="Location"
+          />
+        </label> */}
         {/* <label>
           Email
           <input
