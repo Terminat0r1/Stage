@@ -31,10 +31,10 @@ export default function Navbar() {
       <h1>Music App</h1>
       <menu>
         <button type="button" class="btn btn-outline-dark m-2">
-          <NavLink to="/">The Stage</NavLink>
+          <NavLink to="/">The Vibe</NavLink>
         </button>
         <button type="button" class="btn btn-outline-dark m-2">
-          <NavLink to="/vibe">The Vibe</NavLink>
+          <NavLink to="/stage">The Stage</NavLink>
         </button>
 
         {token ? (
