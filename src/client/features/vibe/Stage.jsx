@@ -258,7 +258,7 @@ const Stage = () => {
     <>
       <div className="container  py-4 px-3 mx-auto">
         <div>
-          <h1>The Stage</h1>
+          <h1>The Stage Page</h1>
         </div>
 
         <div className="row">
