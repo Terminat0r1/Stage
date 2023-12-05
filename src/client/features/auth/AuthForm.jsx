@@ -18,7 +18,7 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [ email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-
+  const [location, setLocation] = useState("");
 
 
   // Form submission
@@ -32,7 +32,11 @@ export default function AuthForm() {
     evt.preventDefault();
 
     const authMethod = isLogin ? login : register;
-    const credentials = { username, password };
+    const credentials = { username, password, email, birthday, location };
+//add more feilds here
+
+
+
 
     // We don't want to navigate if there's an error.
     // `unwrap` will throw an error if there is one
@@ -59,8 +63,17 @@ export default function AuthForm() {
           />
         </label>
       
+        <label>
+          Password
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+        </label>
     
-        {/* <label>
+        <label>
           location
           <input
             type="text"
@@ -68,8 +81,8 @@ export default function AuthForm() {
             onChange={(e) => setLocation(e.target.value)}
             autoComplete="Location"
           />
-        </label> */}
-        {/* <label>
+        </label>
+        <label>
           Email
           <input
             type="text"
@@ -86,16 +99,8 @@ export default function AuthForm() {
             onChange={(e) => setBirthday(e.target.value)}
             autoComplete="birthday"
           />
-        </label> */}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
         </label>
+        
         <button>{authAction}</button>
       </form>
       <a onClick={() => setIsLogin(!isLogin)}>{altCopy}</a>
