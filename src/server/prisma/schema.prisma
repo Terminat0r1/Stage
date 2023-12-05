@@ -16,9 +16,9 @@ model User {
     location      String
     profilePhoto  String?          @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
     posts         Post[]           @relation("userPosts")
-    followers     UserFollowers[]  @relation("followedBy")
-    following     UsersFollowing[] @relation("following")
     isAdmin       Boolean
+    followers     Follow[]         @relation("userIsFollowedByTheseUsers")
+    usersFollowed Follow[]         @relation("userFollowsTheseUsers")
     userBookmarks UserBookmarks[]  @relation("BookmarkRelation")
 }
 
@@ -31,27 +31,20 @@ model Post {
     userBookmarks UserBookmarks[]
 }
 
-model UserFollowers {
-    id         Int      @id @default(autoincrement())
-    userId     Int
-    followerId Int
-    createdAt  DateTime @default(now())
-    follower   User     @relation("followedBy", fields: [followerId], references: [id])
-}
+model Follow {
+    followerId      Int        
+    follower        User       @relation("userFollowsTheseUsers", fields: [followerId], references: [id])
+    userFollowedId  Int        
+    userFollowed    User       @relation("userIsFollowedByTheseUsers", fields: [userFollowedId], references: [id])
 
-model UsersFollowing {
-    id          Int      @id @default(autoincrement())
-    userId      Int
-    followingId Int
-    createdAt   DateTime @default(now())
-    user        User     @relation("following", fields: [userId], references: [id])
+    @@id([followerId, userFollowedId])
 }
 
 model UserBookmarks {
-    id       Int      @id @default(autoincrement())
-    userId   Int
-    postId   Int
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    postId    Int
     createdAt DateTime @default(now())
-    user     User     @relation("BookmarkRelation", fields: [userId], references: [id])
-    post     Post     @relation(fields: [postId], references: [id])
+    user      User     @relation("BookmarkRelation", fields: [userId], references: [id])
+    post      Post     @relation(fields: [postId], references: [id])
 }

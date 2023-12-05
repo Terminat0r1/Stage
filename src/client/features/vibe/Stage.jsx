@@ -5,7 +5,7 @@ import "./vibe.css";
 const userMockData = [
   {
     id: 1,
-    username: "Emmy",
+    username: "emmy",
     location: "Denver",
     post: "15",
     bookmark: "3",
@@ -21,7 +21,7 @@ const userMockData = [
         allowFullScreen
       ></iframe>
     ),
-    username: "Noah",
+    username: "noah",
     location: "Tampa",
     post: "95",
     bookmark: "76",
@@ -40,7 +40,7 @@ const userMockData = [
   },
   {
     id: 3,
-    username: "Hanna",
+    username: "hanna",
     location: "New york",
     post: "58",
     bookmark: "26",
@@ -59,7 +59,7 @@ const userMockData = [
   },
   {
     id: 4,
-    username: "Olivia",
+    username: "olivia",
     location: "New york",
     post: "58",
     bookmark: "26",
@@ -78,7 +78,7 @@ const userMockData = [
   },
   {
     id: 5,
-    username: "Ella",
+    username: "ella",
     location: "Los Angeles",
     post: "45",
     bookmark: "2",
@@ -97,7 +97,7 @@ const userMockData = [
   },
   {
     id: 6,
-    username: "James",
+    username: "james",
     location: "Chicago",
     post: "68",
     bookmark: "71",
@@ -116,7 +116,7 @@ const userMockData = [
   },
   {
     id: 7,
-    username: "Hazel",
+    username: "hazel",
     location: "Houston",
     post: "75",
     bookmark: "16",
@@ -135,7 +135,7 @@ const userMockData = [
   },
   {
     id: 8,
-    username: "Riley",
+    username: "riley",
     location: "Phoenix",
     post: "14",
     bookmark: "62",
@@ -154,7 +154,7 @@ const userMockData = [
   },
   {
     id: 9,
-    username: "Isabella",
+    username: "isabella",
     location: "Houston",
     post: "35",
     bookmark: "75",
@@ -173,7 +173,7 @@ const userMockData = [
   },
   {
     id: 10,
-    username: "Liam",
+    username: "liam",
     location: "New york",
     post: "24",
     bookmark: "52",
@@ -192,7 +192,7 @@ const userMockData = [
   },
   {
     id: 11,
-    username: "Bella",
+    username: "bella",
     location: "Chicago",
     post: "18",
     bookmark: "36",
@@ -211,7 +211,7 @@ const userMockData = [
   },
   {
     id: 12,
-    username: "Leo",
+    username: "leo",
     location: "Los Angeles",
     post: "53",
     bookmark: "82",
