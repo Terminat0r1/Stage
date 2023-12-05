@@ -62,8 +62,17 @@ const mockProfileData = {
 const ProfilePage = () => {
   const { user, stats, posts, following, likedPosts } = mockProfileData;
  
+
+  const [activeTab, setActiveTab] = useState("posts");
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   const token = useSelector(selectToken);
   const [isEditing, setIsEditing] = useState(false);
+  
+
   
   // if (!token) {
   //   return (
@@ -112,7 +121,8 @@ const ProfilePage = () => {
           <p>Following: {stats.following}</p>
         </section>
 
-        <section>
+       
+      <section>
           <h2>Posts</h2>
           <div className="posts">
             {posts.map(post => (
@@ -144,15 +154,17 @@ const ProfilePage = () => {
             ))}
           </div>
         </section>
+
+
+
+
+  
       </div>
     </div>
   );
 };
     
 export default ProfilePage;
-
-
-
 
 
 
@@ -263,3 +275,49 @@ export default ProfilePage;
     
 
 
+
+
+
+<div>
+      {/* ... */}
+      {/* <section>
+        <h2>Posts</h2>
+        {activeTab === "posts" && (
+          <div className="posts">
+            {posts.map((post) => (
+              <div key={post.id} className="post">
+                <img src={post.imageUrl} alt={`Post ${post.id}`} />
+                <p>{post.caption}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2>Following</h2>
+        {activeTab === "following" && (
+          <ul>
+            {following.map((followedUser) => (
+              <li key={followedUser.id}>{followedUser.username}</li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section>
+        <h2>Liked Posts</h2>
+        {activeTab === "liked" && (
+          <div className="liked-posts">
+            {likedPosts.map((likedPost) => (
+              <div key={likedPost.id} className="post">
+                <img src={likedPost.imageUrl} alt={`Liked Post ${likedPost.id}`} />
+                <p>{likedPost.caption}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section> */}
+
+      {/* ... */}
+    </div>
