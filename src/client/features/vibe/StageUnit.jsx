@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import userImg from "../ima/user.jpg";
 const StageUnit = ({ user }) => {
   const [liked, setLiked] = useState(false);
@@ -12,20 +13,30 @@ const StageUnit = ({ user }) => {
     // Toggle the liked state when the button is clicked
     setLiked(!liked);
   };
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   return (
     <div
-      className="stagecard card border  border-dark rounded w-100 p-3 m-3"
+      className="stagecard card border border-dark rounded w-100 p-3 m-3"
       key={user.id}
     >
       <div className="card-header">{user.location}</div>
 
-      <div className=" d-flex card-body align-items-center text-center">
-        <img
-          className="card-img-top userImg p-2"
-          src={userImg}
-          alt="Card image cap"
-        />
-        <h5 className="card-title p-2">{user.username}</h5>
+      <div className="d-flex card-body align-items-center text-center">
+        <Link to={`/profile`}>
+          <div className="d-flex align-items-center justify-content-center">
+            <img
+              className="card-img-top userImg p-2"
+              src={userImg}
+              alt="Card image cap"
+            />
+            <h5 className="card-title p-2">
+              {capitalizeFirstLetter(user.username)}
+            </h5>
+          </div>
+        </Link>
         <p className="card-text m-3">
           Post: {user.post} , Bookmark: {user.bookmark}
         </p>
@@ -60,7 +71,7 @@ const StageUnit = ({ user }) => {
             width="16"
             height="16"
             fill="currentColor"
-            class="bi bi-plus-circle-fill me-2 "
+            className="bi bi-plus-circle-fill me-2"
             viewBox="0 0 16 16"
           >
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
