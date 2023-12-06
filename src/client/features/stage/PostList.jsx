@@ -1,6 +1,8 @@
 import Post from "./Post";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
+import { useCreatePostMutation } from "./postSlice";
+import { useState } from "react";
 const mockData = [
   {
     id: 1,
@@ -24,6 +26,22 @@ const mockData = [
 
 function PostList() {
   const token = useSelector(selectToken);
+  const [newPost, setNewPost] = useState("");
+  const [createPost] = useCreatePostMutation();
+
+  const create = async (evt) => {
+    evt.preventDefault();
+
+    const credentials = {
+      content: newPost,
+    };
+    try {
+      await createPost(credentials).unwrap();
+      setNewPost("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (!token) {
     return (
@@ -43,18 +61,22 @@ function PostList() {
 
         <div className="row">
           <div className="col text-center">
-            <div className="form-floating">
-              <textarea
-                className="form-control "
-                placeholder="Post here"
-                id="floatingTextarea2"
-                style={{ width: "75%", height: 100 }}
-                defaultValue={""}
-              />
-            </div>
-            <div className=" col-4 text-right">
-              <button className="btn btn-dark">Post</button>
-            </div>
+            <form onSubmit={create}>
+              <div className="form-floating">
+                <textarea
+                  type="text"
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  className="form-control "
+                  placeholder="Post here"
+                  style={{ width: "75%", height: 100 }}
+                  defaultValue={""}
+                />
+              </div>
+              <div className=" col-4 text-right">
+                <button className="btn btn-dark">Post</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

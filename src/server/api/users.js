@@ -14,7 +14,7 @@ router.use((req, res, next) => {
 });
 
 // Get user profile information
-router.get('/profile/:id', async (req, res, next) => {
+router.get("/profile/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
     // Fetch user data including posts and followers
@@ -50,7 +50,7 @@ router.get('/profile/:id', async (req, res, next) => {
 });
 
 // Get user posts
-router.get('/profile/:id/posts', async (req, res, next) => {
+router.get("/profile/:id/posts", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
     // Fetch user posts
@@ -58,14 +58,19 @@ router.get('/profile/:id/posts', async (req, res, next) => {
       where: { id: userId },
       include: {
         posts: {
-          select: { id: true, content: true, createdAt: true, author: { select: { profilePhoto: true } } },
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            author: { select: { profilePhoto: true } },
+          },
         },
       },
     });
     if (!userData) {
       throw new ServerError(404, "User not found.");
     }
-    const posts = userData.posts.map(post => ({
+    const posts = userData.posts.map((post) => ({
       id: post.id,
       content: post.content,
       createdAt: post.createdAt,
@@ -78,39 +83,34 @@ router.get('/profile/:id/posts', async (req, res, next) => {
   }
 });
 
-// Get users that a specific user is following
-router.get('/following/:id', async (req, res, next) => {
+router.get("/following/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
-    // Fetch users followed by the specified user
+
+    // Fetch basic user information
     const userData = await prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        following: {
-          select: {
-            userId: true,
-            followingId: true,
-            createdAt: true,
-            user: { select: { id: true, username: true, profilePhoto: true } },
-            following: { select: { id: true, username: true, profilePhoto: true } },
-          },
-        },
-      },
+      select: { id: true, username: true, profilePhoto: true },
     });
 
     if (!userData) {
       throw new ServerError(404, "User not found.");
     }
 
-    const following = userData.following.map(follower => ({
-      userId: follower.userId,
-      followingId: follower.followingId,
-      createdAt: follower.createdAt,
-      user: {
-        id: follower.user.id,
-        username: follower.user.username,
-        profilePhoto: follower.user.profilePhoto,
+    // Fetch users followed by the specified user
+    const followingData = await prisma.following.findMany({
+      where: { userId: userId },
+      include: {
+        user: { select: { id: true, username: true, profilePhoto: true } },
+        following: { select: { id: true, username: true, profilePhoto: true } },
       },
+    });
+
+    const following = followingData.map((follower) => ({
+      userId: userId,
+      followingId: follower.following.id,
+      createdAt: follower.createdAt,
+      user: userData,
       following: {
         id: follower.following.id,
         username: follower.following.username,
@@ -126,7 +126,7 @@ router.get('/following/:id', async (req, res, next) => {
 });
 
 // Get followers of a specific user
-router.get('/followers/:id', async (req, res, next) => {
+router.get("/followers/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
     // Fetch users who are following the specified user
@@ -139,7 +139,9 @@ router.get('/followers/:id', async (req, res, next) => {
             followerId: true,
             createdAt: true,
             user: { select: { id: true, username: true, profilePhoto: true } },
-            follower: { select: { id: true, username: true, profilePhoto: true } },
+            follower: {
+              select: { id: true, username: true, profilePhoto: true },
+            },
           },
         },
       },
@@ -149,7 +151,7 @@ router.get('/followers/:id', async (req, res, next) => {
       throw new ServerError(404, "User not found.");
     }
 
-    const followers = userData.followers.map(follower => ({
+    const followers = userData.followers.map((follower) => ({
       userId: follower.userId,
       followerId: follower.followerId,
       createdAt: follower.createdAt,
@@ -173,7 +175,7 @@ router.get('/followers/:id', async (req, res, next) => {
 });
 
 // Get users by location
-router.get('/location/:location', async (req, res, next) => {
+router.get("/location/:location", async (req, res, next) => {
   try {
     const location = req.params.location;
     // Fetch users from the specific location with additional details
@@ -195,7 +197,7 @@ router.get('/location/:location', async (req, res, next) => {
 });
 
 // Get posts from a specific location
-router.get('/posts/location/:location', async (req, res, next) => {
+router.get("/posts/location/:location", async (req, res, next) => {
   try {
     const location = req.params.location;
     // Fetch posts from the specific location with additional details
@@ -228,7 +230,7 @@ router.get('/posts/location/:location', async (req, res, next) => {
 });
 
 // Create a new post
-router.post('/posts', async (req, res, next) => {
+router.post("/posts", async (req, res, next) => {
   try {
     const { content } = req.body;
     const userId = res.locals.user.id;
@@ -256,13 +258,13 @@ router.post('/posts', async (req, res, next) => {
 
     res.status(201).json(newPost);
   } catch (error) {
-    console.error('Error creating a new post:', error);
+    console.error("Error creating a new post:", error);
     next(error);
   }
 });
 
 // Get details of a specific post
-router.get('/posts/:postId', async (req, res, next) => {
+router.get("/posts/:postId", async (req, res, next) => {
   try {
     const postId = parseInt(req.params.postId);
     // Fetch post details
@@ -295,7 +297,7 @@ router.get('/posts/:postId', async (req, res, next) => {
 });
 
 // Get feed of posts from users you follow
-router.get('/feed', async (req, res, next) => {
+router.get("/feed", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
 
@@ -310,7 +312,7 @@ router.get('/feed', async (req, res, next) => {
     });
 
     // Extract the list of following user IDs
-    const followingUserIds = followingUsers.map(user => user.followingId);
+    const followingUserIds = followingUsers.map((user) => user.followingId);
 
     // Fetch posts from the followed users
     const feedPosts = await prisma.post.findMany({
@@ -320,7 +322,7 @@ router.get('/feed', async (req, res, next) => {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       select: {
         id: true,
@@ -339,13 +341,13 @@ router.get('/feed', async (req, res, next) => {
 
     res.json(feedPosts);
   } catch (error) {
-    console.error('Error fetching feed:', error);
+    console.error("Error fetching feed:", error);
     next(error);
   }
 });
 
 // Follow a user
-router.post('/follow/:id', async (req, res, next) => {
+router.post("/follow/:id", async (req, res, next) => {
   try {
     const followerId = res.locals.user.id;
     const userIdToFollow = parseInt(req.params.id);
@@ -372,13 +374,13 @@ router.post('/follow/:id', async (req, res, next) => {
 
     res.status(201).json({ message: "Successfully followed the user." });
   } catch (error) {
-    console.error('Error following a user:', error);
+    console.error("Error following a user:", error);
     next(error);
   }
 });
 
 // Unfollow a user
-router.post('/unfollow/:id', async (req, res, next) => {
+router.post("/unfollow/:id", async (req, res, next) => {
   try {
     const followerId = res.locals.user.id;
     const userIdToUnfollow = parseInt(req.params.id);
@@ -408,16 +410,24 @@ router.post('/unfollow/:id', async (req, res, next) => {
 
     res.status(200).json({ message: "Successfully unfollowed the user." });
   } catch (error) {
-    console.error('Error unfollowing a user:', error);
+    console.error("Error unfollowing a user:", error);
     next(error);
   }
 });
 
 // Update user profile information
-router.put('/update-profile', async (req, res, next) => {
+router.put("/update-profile", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
-    const { username, email, birthDate, location, newPassword, oldPassword, profilePhoto } = req.body;
+    const {
+      username,
+      email,
+      birthDate,
+      location,
+      newPassword,
+      oldPassword,
+      profilePhoto,
+    } = req.body;
 
     // Fetch the user from the database
     const user = await prisma.user.findUnique({
@@ -447,7 +457,9 @@ router.put('/update-profile', async (req, res, next) => {
         location: location || user.location,
         profilePhoto: profilePhoto || user.profilePhoto, // Include the profile photo update
         // Hash the new password before storing it
-        password: newPassword ? await bcrypt.hash(newPassword, 10) : user.password,
+        password: newPassword
+          ? await bcrypt.hash(newPassword, 10)
+          : user.password,
       },
     });
 
