@@ -16,9 +16,10 @@ model User {
     location      String
     profilePhoto  String?          @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
     posts         Post[]           @relation("userPosts")
-    followers     UserFollowers[]  @relation("followedBy")
-    following     UsersFollowing[] @relation("following")
     isAdmin       Boolean
+    followers     Follow[]         @relation("userIsFollowedByTheseUsers")
+    usersFollowed Follow[]         @relation("userFollowsTheseUsers")
+    likes         Like[]           @relation("userLikesPost")
     userBookmarks UserBookmarks[]  @relation("BookmarkRelation")
 }
 
@@ -28,30 +29,33 @@ model Post {
     createdAt     DateTime        @default(now())
     author        User            @relation("userPosts", fields: [authorId], references: [id])
     authorId      Int
+    likes         Like[]          @relation("postLikedByUser")
     userBookmarks UserBookmarks[]
 }
 
-model UserFollowers {
-    id         Int      @id @default(autoincrement())
-    userId     Int
-    followerId Int
-    createdAt  DateTime @default(now())
-    follower   User     @relation("followedBy", fields: [followerId], references: [id])
+model Follow {
+    followerId      Int        
+    follower        User       @relation("userFollowsTheseUsers", fields: [followerId], references: [id])
+    userFollowedId  Int        
+    userFollowed    User       @relation("userIsFollowedByTheseUsers", fields: [userFollowedId], references: [id])
+
+    @@id([followerId, userFollowedId])
 }
 
-model UsersFollowing {
-    id          Int      @id @default(autoincrement())
-    userId      Int
-    followingId Int
-    createdAt   DateTime @default(now())
-    user        User     @relation("following", fields: [userId], references: [id])
+model Like {
+    likerId      Int
+    postLikedId  Int
+    liker        User  @relation("userLikesPost", fields: [likerId], references: [id])
+    postLiked    Post  @relation("postLikedByUser", fields: [postLikedId], references: [id])
+
+    @@id([likerId, postLikedId])
 }
 
 model UserBookmarks {
-    id       Int      @id @default(autoincrement())
-    userId   Int
-    postId   Int
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    postId    Int
     createdAt DateTime @default(now())
-    user     User     @relation("BookmarkRelation", fields: [userId], references: [id])
-    post     Post     @relation(fields: [postId], references: [id])
+    user      User     @relation("BookmarkRelation", fields: [userId], references: [id])
+    post      Post     @relation(fields: [postId], references: [id])
 }

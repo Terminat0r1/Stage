@@ -20,21 +20,23 @@ CREATE TABLE "Post" (
 );
 
 -- CreateTable
-CREATE TABLE "UserFollowers" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userId" INTEGER NOT NULL,
+CREATE TABLE "Follow" (
     "followerId" INTEGER NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "UserFollowers_followerId_fkey" FOREIGN KEY ("followerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "userFollowedId" INTEGER NOT NULL,
+
+    PRIMARY KEY ("followerId", "userFollowedId"),
+    CONSTRAINT "Follow_followerId_fkey" FOREIGN KEY ("followerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Follow_userFollowedId_fkey" FOREIGN KEY ("userFollowedId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
-CREATE TABLE "UsersFollowing" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userId" INTEGER NOT NULL,
-    "followingId" INTEGER NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "UsersFollowing_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+CREATE TABLE "Like" (
+    "likerId" INTEGER NOT NULL,
+    "postLikedId" INTEGER NOT NULL,
+
+    PRIMARY KEY ("likerId", "postLikedId"),
+    CONSTRAINT "Like_likerId_fkey" FOREIGN KEY ("likerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Like_postLikedId_fkey" FOREIGN KEY ("postLikedId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

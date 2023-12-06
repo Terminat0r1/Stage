@@ -10,7 +10,7 @@ async function seed() {
     // Create twenty users
     for (let i = 0; i < 20; i++) {
       const username = generateRandomUsername();
-      const email = `user${i}@example.com`;
+      const email = `${username}@example.com`;
 
       // Create user and capture the returned user object
       const user = await prisma.user.create({
