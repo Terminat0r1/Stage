@@ -24,7 +24,7 @@ const StageUnit = ({ post }) => {
       </div>
 
       <div className="d-flex card-body align-items-center text-center">
-        <Link to={`/profile`}>
+        <Link to={`/profile/${post.author.id}`}>
           <div className="d-flex align-items-center justify-content-center">
             <img
               className="card-img-top userImg p-2"
