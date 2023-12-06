@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import userImg from "../ima/user.jpg";
-const StageUnit = ({ user }) => {
+const StageUnit = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
 
@@ -14,32 +14,27 @@ const StageUnit = ({ user }) => {
     setLiked(!liked);
   };
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
   return (
     <div
       className="stagecard card border border-dark rounded w-100 p-3 m-3"
-      key={user.id}
+      key={post.id}
     >
-      <div className="card-header">{user.location}</div>
+      <div className="card-header">
+        <h4>{post.author.location}</h4>
+      </div>
 
       <div className="d-flex card-body align-items-center text-center">
         <Link to={`/profile`}>
           <div className="d-flex align-items-center justify-content-center">
             <img
               className="card-img-top userImg p-2"
-              src={userImg}
+              src={post.author.profilephoto}
               alt="Card image cap"
             />
-            <h5 className="card-title p-2">
-              {capitalizeFirstLetter(user.username)}
-            </h5>
+            <h5 className="card-title p-2">{post.author.username}</h5>
           </div>
         </Link>
-        <p className="card-text m-3">
-          Post: {user.post} , Bookmark: {user.bookmark}
-        </p>
+
         <button
           className={`d-flex align-items-center justify-content-center ${
             liked ? "btn btn-danger" : "btn btn-outline-danger"
@@ -79,7 +74,7 @@ const StageUnit = ({ user }) => {
           {follow ? "Following" : "Follow"}
         </button>
       </div>
-      <div>{user.embed}</div>
+      <h2>{post.content}</h2>
     </div>
   );
 };

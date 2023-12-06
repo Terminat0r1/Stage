@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import VibeUnit from "./StageUnit";
 import "./vibe.css";
+import { useGetPostPittsQuery, useGetPostByLocationQuery } from "./stageSlice";
 
 const userMockData = [
   {
@@ -234,9 +235,11 @@ const Stage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const handleCityButtonClick = (location) => {
-    setSelectedLocation(location);
-  };
+  const { data, error, isLoading } = useGetPostPittsQuery();
+
+  // const handleCityButtonClick = (location) => {
+  //   setSelectedLocation(location);
+  // };
 
   const handleSearchInputChange = (event) => {
     setSelectedLocation(null);
@@ -247,13 +250,23 @@ const Stage = () => {
     event.preventDefault();
 
     // Perform search logic here (for simplicity, using filter in this example)
-    const result = userMockData.filter((user) =>
-      user.username.includes(searchTerm)
+    const result = data.filter((post) =>
+      post.author.location.includes(searchTerm)
     );
 
     setSearchResult(result);
   };
-  console.log(searchResult);
+
+  console.log(data);
+  if (isLoading) {
+    return <div className="loading-message">Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">Error fetching data: {error.message}</div>
+    );
+  }
   return (
     <>
       <div className="container  py-4 px-3 mx-auto">
@@ -266,14 +279,14 @@ const Stage = () => {
             <form className="form-inline">
               <div className="form-group mb-2">
                 <label htmlFor="staticEmail2" className="sr-only">
-                  Find user by Username
+                  Find user by Location
                 </label>
                 <br />
                 <input
                   type="text"
                   className="form-control-plaintext"
                   id="citysearch"
-                  placeholder="Search by Username"
+                  placeholder="Search by Location"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
                 />
@@ -285,66 +298,25 @@ const Stage = () => {
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-around">
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => handleCityButtonClick("New york")}
-        >
-          New York City
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => handleCityButtonClick("Los Angeles")}
-        >
-          Los Angeles
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => handleCityButtonClick("Chicago")}
-        >
-          Chicago
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => handleCityButtonClick("Houston")}
-        >
-          Houston
-        </button>
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => handleCityButtonClick("Phoenix")}
-        >
-          Phoenix
-        </button>
-      </div>
 
       <div className="container py-5 px-3 w-100">
         {searchResult ? (
           <div className="container py-5 px-3 w-100">
-            {userMockData
-              .filter((user) => {
-                const matchesLocation =
-                  !selectedLocation || user.location === selectedLocation;
+            {data
+              .filter((post) => {
                 const matchesSearch =
-                  !searchTerm || user.username.includes(searchTerm);
-                return matchesLocation && matchesSearch;
+                  !searchTerm || post.author.location.includes(searchTerm);
+                return matchesSearch;
               })
-              .map((user) => (
-                <VibeUnit user={user} key={user.id} />
+              .map((post) => (
+                <VibeUnit post={post} key={post.id} />
               ))}
           </div>
         ) : (
           <div className="container py-5 px-3 w-100">
-            {searchResult.length > 0 ? (
-              searchResult.map((user) => <VibeUnit user={user} key={user.id} />)
-            ) : (
-              <p>User not found in the system</p>
-            )}
+            {searchResult.map((post) => (
+              <VibeUnit post={post} key={post.id} />
+            ))}
           </div>
         )}
       </div>
