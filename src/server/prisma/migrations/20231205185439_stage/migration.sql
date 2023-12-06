@@ -30,6 +30,16 @@ CREATE TABLE "Follow" (
 );
 
 -- CreateTable
+CREATE TABLE "Like" (
+    "likerId" INTEGER NOT NULL,
+    "postLikedId" INTEGER NOT NULL,
+
+    PRIMARY KEY ("likerId", "postLikedId"),
+    CONSTRAINT "Like_likerId_fkey" FOREIGN KEY ("likerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Like_postLikedId_fkey" FOREIGN KEY ("postLikedId") REFERENCES "Post" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "UserBookmarks" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "userId" INTEGER NOT NULL,
