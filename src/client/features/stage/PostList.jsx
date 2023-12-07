@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
 import { useCreatePostMutation, useGetFollowingPostsQuery } from "./postSlice";
 import { useState } from "react";
+
 const mockData = [
   {
     id: 45,

@@ -16,7 +16,42 @@ const postApi = api.injectEndpoints({
       query: () => "/users/vibe",
       // providesTags: ["Students"],
     }),
+
+    unfollowUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/unfollow/${id}`,
+        method: "POST",
+      }),
+    }),
+
+    followUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/follow/${id}`,
+        method: "POST",
+      }),
+    }),
+
+    like: builder.mutation({
+      query: (id) => ({
+        url: `/users/posts/${id}/like`,
+        method: "POST",
+      }),
+    }),
+
+    unlike: builder.mutation({
+      query: (id) => ({
+        url: `/users/posts/${id}/unlike`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useCreatePostMutation, useGetFollowingPostsQuery } = postApi;
+export const {
+  useCreatePostMutation,
+  useGetFollowingPostsQuery,
+  useUnfollowUserMutation,
+  useFollowUserMutation,
+  useLikeMutation,
+  useUnlikeMutation,
+} = postApi;

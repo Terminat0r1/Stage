@@ -1,16 +1,60 @@
 import React, { useState } from "react";
+import {
+  useUnfollowUserMutation,
+  useFollowUserMutation,
+  useLikeMutation,
+  useUnlikeMutation,
+} from "./postSlice";
 
 const Post = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(true);
 
-  const handleFollowClick = () => {
-    // Toggle the liked state when the button is clicked
-    setFollow(!follow);
+  const [unfollowUser] = useUnfollowUserMutation();
+  const [followUser] = useFollowUserMutation();
+  const [like] = useLikeMutation();
+  const [unlike] = useUnlikeMutation();
+
+  const handleFollowClick = async () => {
+    try {
+      // Toggle the follow state when the button is clicked
+      setFollow(!follow);
+
+      // If follow is true, unfollow the user using the mutation
+      if (follow) {
+        await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+      } else if (!follow) {
+        await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+      // Handle error as needed
+    }
   };
-  const handleLikeClick = () => {
-    // Toggle the liked state when the button is clicked
-    setLiked(!liked);
+  const handleLikeClick = async () => {
+    try {
+      // Toggle the liked state when the button is clicked
+      setLiked(!liked);
+
+      // If liked is true, unlike the post using the mutation
+      if (liked) {
+        console.log(post.id);
+        await unlike(post.id).unwrap(); // Assuming post.id is the post's ID
+      } else {
+        await like(post.id).unwrap(); // Assuming post.id is the post's ID
+      }
+    } catch (error) {
+      console.error("Error liking/unliking post:", error);
+      // Handle error as needed
+    }
+  };
+
+  // Function to update likes in your state or Redux store
+  const updatePostLikes = (postId, updatedLikes) => {
+    // Implement the logic to update the likes in your state or Redux store
+    // This depends on how you are managing your state or Redux store
+    // Example Redux dispatch action:
+    // dispatch(updatePostLikesAction(postId, updatedLikes));
   };
 
   return (
