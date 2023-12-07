@@ -4,33 +4,35 @@ const prisma = new PrismaClient();
 function generateRandomUsername() {
   return `user_${Math.floor(Math.random() * 10000)}`;
 }
+
 async function seed() {
   try {
     // Create twenty users
     for (let i = 0; i < 20; i++) {
       const username = generateRandomUsername();
-      const email = `user${i}@example.com`;
+      const email = `${username}@example.com`;
 
+      // Create user and capture the returned user object
       const user = await prisma.user.create({
         data: {
           username,
           email,
           password: 'password123',
           birthDate: new Date(`1990-01-01`),
-          location: 'Random City',
+          location: 'Pittsburgh',
+          profilePhoto: 'https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg',
           isAdmin: false,
         },
       });
 
-      console.log(`User ${username} created`)
+      console.log(`User ${username} created with ID: ${user.id}`);
 
-      // Create three posts for each user
-
+      // Create three posts for each user using the stored user object
       for (let j = 0; j < 3; j++) {
         await prisma.post.create({
           data: {
             content: `Post ${j + 1} by ${username}`,
-            createAt: new Date(),
+            createdAt: new Date(),
             authorId: user.id,
           },
         });
@@ -45,4 +47,5 @@ async function seed() {
     await prisma.$disconnect();
   }
 }
+
 seed();
