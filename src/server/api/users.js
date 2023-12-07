@@ -5,8 +5,6 @@ const bcrypt = require("bcrypt");
 const router = require("express").Router();
 module.exports = router;
 
-
-
 // User must be logged in to access features
 router.use((req, res, next) => {
   if (!res.locals.user) {
@@ -15,10 +13,8 @@ router.use((req, res, next) => {
   next();
 });
 
-
-
 // Get user profile information
-router.get('/profile/:id', async (req, res, next) => {
+router.get("/profile/:id", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
 
@@ -65,15 +61,13 @@ router.get('/profile/:id', async (req, res, next) => {
 
     res.json(profileInfo);
   } catch (err) {
-    console.error('Error in /profile/:id route:', err);
+    console.error("Error in /profile/:id route:", err);
     next(err);
   }
 });
 
-
-
 // Get user posts
-router.get('/profile/:id/posts', async (req, res, next) => {
+router.get("/profile/:id/posts", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
 
@@ -103,12 +97,12 @@ router.get('/profile/:id/posts', async (req, res, next) => {
     }
 
     // Transform the data for response
-    const posts = userData.posts.map(post => ({
+    const posts = userData.posts.map((post) => ({
       id: post.id,
       content: post.content,
       createdAt: post.createdAt,
       authorProfilePhoto: post.author.profilePhoto,
-      likes: post.likes.map(like => ({
+      likes: post.likes.map((like) => ({
         likerId: like.likerId,
       })),
     }));
@@ -120,11 +114,8 @@ router.get('/profile/:id/posts', async (req, res, next) => {
   }
 });
 
-
-
-
 // Get users followed by a specific user
-router.get('/profile/:id/following', async (req, res, next) => {
+router.get("/profile/:id/following", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
 
@@ -153,10 +144,12 @@ router.get('/profile/:id/following', async (req, res, next) => {
     }
 
     if (userData.usersFollowed.length === 0) {
-      return res.status(200).json({ message: "This user is not following anyone." });
+      return res
+        .status(200)
+        .json({ message: "This user is not following anyone." });
     }
 
-    const followingInfo = userData.usersFollowed.map(followedUser => ({
+    const followingInfo = userData.usersFollowed.map((followedUser) => ({
       id: followedUser.userFollowed.id,
       username: followedUser.userFollowed.username,
       profilePhoto: followedUser.userFollowed.profilePhoto,
@@ -170,10 +163,8 @@ router.get('/profile/:id/following', async (req, res, next) => {
   }
 });
 
-
-
 // Get followers of a specific user
-router.get('/profile/:id/followers', async (req, res, next) => {
+router.get("/profile/:id/followers", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
 
@@ -201,7 +192,7 @@ router.get('/profile/:id/followers', async (req, res, next) => {
       throw new ServerError(404, "User not found.");
     }
 
-    const followersInfo = userData.followers.map(follower => ({
+    const followersInfo = userData.followers.map((follower) => ({
       id: follower.follower.id,
       username: follower.follower.username,
       profilePhoto: follower.follower.profilePhoto,
@@ -215,10 +206,8 @@ router.get('/profile/:id/followers', async (req, res, next) => {
   }
 });
 
-
-
 // Get users by location
-router.get('/location/:location', async (req, res, next) => {
+router.get("/location/:location", async (req, res, next) => {
   try {
     const location = req.params.location;
 
@@ -240,10 +229,8 @@ router.get('/location/:location', async (req, res, next) => {
   }
 });
 
-
-
 // Get user posts from a specific location
-router.get('/posts/location/:location', async (req, res, next) => {
+router.get("/posts/location/:location", async (req, res, next) => {
   try {
     const location = req.params.location;
 
@@ -278,10 +265,8 @@ router.get('/posts/location/:location', async (req, res, next) => {
   }
 });
 
-
-
 // Create a new post
-router.post('/posts', async (req, res, next) => {
+router.post("/posts", async (req, res, next) => {
   try {
     const { content } = req.body;
     const userId = res.locals.user.id;
@@ -309,15 +294,13 @@ router.post('/posts', async (req, res, next) => {
 
     res.status(201).json(newPost);
   } catch (error) {
-    console.error('Error creating a new post:', error);
+    console.error("Error creating a new post:", error);
     next(error);
   }
 });
 
-
-
 // Delete a post
-router.delete('/posts/:postId', async (req, res, next) => {
+router.delete("/posts/:postId", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const postId = parseInt(req.params.postId);
@@ -329,12 +312,15 @@ router.delete('/posts/:postId', async (req, res, next) => {
     });
 
     if (!existingPost) {
-      throw new ServerError(404, 'Post not found.');
+      throw new ServerError(404, "Post not found.");
     }
 
     // Check if the user owns the post (is the author)
     if (existingPost.authorId !== userId) {
-      throw new ServerError(403, 'You do not have permission to delete this post.');
+      throw new ServerError(
+        403,
+        "You do not have permission to delete this post."
+      );
     }
 
     // Delete the post
@@ -344,15 +330,13 @@ router.delete('/posts/:postId', async (req, res, next) => {
 
     res.status(204).end();
   } catch (error) {
-    console.error('Error deleting a post:', error);
+    console.error("Error deleting a post:", error);
     next(error);
   }
 });
 
-
-
 // Get details of a specific post
-router.get('/posts/:postId', async (req, res, next) => {
+router.get("/posts/:postId", async (req, res, next) => {
   try {
     const postId = parseInt(req.params.postId);
 
@@ -390,10 +374,8 @@ router.get('/posts/:postId', async (req, res, next) => {
   }
 });
 
-
-
 // Get feed of posts from users you are following
-router.get('/vibe', async (req, res, next) => {
+router.get("/vibe", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
 
@@ -410,7 +392,9 @@ router.get('/vibe', async (req, res, next) => {
     });
 
     // Extract the list of following user IDs
-    const followingUserIds = userData.usersFollowed.map(user => user.userFollowedId);
+    const followingUserIds = userData.usersFollowed.map(
+      (user) => user.userFollowedId
+    );
 
     // Fetch posts from the followed users with additional details including author and likes
     const feedPosts = await prisma.post.findMany({
@@ -420,7 +404,7 @@ router.get('/vibe', async (req, res, next) => {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       include: {
         author: {
@@ -441,15 +425,13 @@ router.get('/vibe', async (req, res, next) => {
 
     res.json(feedPosts);
   } catch (error) {
-    console.error('Error fetching feed:', error);
+    console.error("Error fetching feed:", error);
     next(error);
   }
 });
 
-
-
 // Get feed of posts from users not followed by the current user
-router.get('/stage', async (req, res, next) => {
+router.get("/stage", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
 
@@ -466,7 +448,9 @@ router.get('/stage', async (req, res, next) => {
     });
 
     // Extract the list of following user IDs
-    const followingUserIds = userData.usersFollowed.map(user => user.userFollowedId);
+    const followingUserIds = userData.usersFollowed.map(
+      (user) => user.userFollowedId
+    );
 
     // Fetch posts from users not followed by the current user with additional details including author and likes
     const feedPostsNotFollowing = await prisma.post.findMany({
@@ -476,7 +460,7 @@ router.get('/stage', async (req, res, next) => {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
       include: {
         author: {
@@ -497,15 +481,13 @@ router.get('/stage', async (req, res, next) => {
 
     res.json(feedPostsNotFollowing);
   } catch (error) {
-    console.error('Error fetching feed of posts not followed:', error);
+    console.error("Error fetching feed of posts not followed:", error);
     next(error);
   }
 });
 
-
-
 // Follow a user
-router.post('/follow/:id', async (req, res, next) => {
+router.post("/follow/:id", async (req, res, next) => {
   try {
     const followerId = res.locals.user.id;
     const userIdToFollow = parseInt(req.params.id);
@@ -540,15 +522,13 @@ router.post('/follow/:id', async (req, res, next) => {
 
     res.status(201).json({ message: "Successfully followed the user." });
   } catch (error) {
-    console.error('Error following a user:', error);
+    console.error("Error following a user:", error);
     next(error);
   }
 });
 
-
-
 // Unfollow a user
-router.post('/unfollow/:id', async (req, res, next) => {
+router.post("/unfollow/:id", async (req, res, next) => {
   try {
     const followerId = res.locals.user.id;
     const userIdToUnfollow = parseInt(req.params.id);
@@ -583,15 +563,13 @@ router.post('/unfollow/:id', async (req, res, next) => {
 
     res.status(200).json({ message: "Successfully unfollowed the user." });
   } catch (error) {
-    console.error('Error unfollowing a user:', error);
+    console.error("Error unfollowing a user:", error);
     next(error);
   }
 });
 
-
-
 // Like a post
-router.post('/posts/:postId/like', async (req, res, next) => {
+router.post("/posts/:postId/like", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const postId = parseInt(req.params.postId);
@@ -603,7 +581,7 @@ router.post('/posts/:postId/like', async (req, res, next) => {
     });
 
     if (!existingPost) {
-      throw new ServerError(404, 'Post not found.');
+      throw new ServerError(404, "Post not found.");
     }
 
     // Check if the user has already liked the post
@@ -612,7 +590,7 @@ router.post('/posts/:postId/like', async (req, res, next) => {
     });
 
     if (existingLike) {
-      throw new ServerError(400, 'You have already liked this post.');
+      throw new ServerError(400, "You have already liked this post.");
     }
 
     // Create a new Like record
@@ -650,15 +628,13 @@ router.post('/posts/:postId/like', async (req, res, next) => {
 
     res.status(201).json(newLike);
   } catch (error) {
-    console.error('Error liking a post:', error);
+    console.error("Error liking a post:", error);
     next(error);
   }
 });
 
-
-
 // Unlike a post
-router.delete('/posts/:postId/unlike', async (req, res, next) => {
+router.delete("/posts/:postId/unlike", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const postId = parseInt(req.params.postId);
@@ -670,25 +646,28 @@ router.delete('/posts/:postId/unlike', async (req, res, next) => {
     });
 
     if (!existingLike) {
-      throw new ServerError(400, 'You have not liked this post.');
+      throw new ServerError(400, "You have not liked this post.");
     }
 
     // Delete the like relationship using the retrieved id
     await prisma.like.delete({
-      where: { likerId_postLikedId: { likerId: existingLike.likerId, postLikedId: existingLike.postLikedId } },
+      where: {
+        likerId_postLikedId: {
+          likerId: existingLike.likerId,
+          postLikedId: existingLike.postLikedId,
+        },
+      },
     });
 
-    res.status(200).json({ message: 'Successfully unliked the post.' });
+    res.status(200).json({ message: "Successfully unliked the post." });
   } catch (error) {
-    console.error('Error unliking a post:', error);
+    console.error("Error unliking a post:", error);
     next(error);
   }
 });
 
-
-
 // Update username
-router.put('/update-username', async (req, res, next) => {
+router.put("/update-username", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { username } = req.body;
@@ -706,10 +685,8 @@ router.put('/update-username', async (req, res, next) => {
   }
 });
 
-
-
 // Update email
-router.put('/update-email', async (req, res, next) => {
+router.put("/update-email", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { email } = req.body;
@@ -736,10 +713,8 @@ router.put('/update-email', async (req, res, next) => {
   }
 });
 
-
-
 // Update birthdate
-router.put('/update-birthdate', async (req, res, next) => {
+router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { birthDate } = req.body;
@@ -757,9 +732,8 @@ router.put('/update-birthdate', async (req, res, next) => {
   }
 });
 
-
 // Update location
-router.put('/update-location', async (req, res, next) => {
+router.put("/update-location", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { location } = req.body;
@@ -777,11 +751,8 @@ router.put('/update-location', async (req, res, next) => {
   }
 });
 
-
-
-
 // Update profile photo
-router.put('/update-profile-photo', async (req, res, next) => {
+router.put("/update-profile-photo", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { profilePhoto } = req.body;
@@ -799,11 +770,8 @@ router.put('/update-profile-photo', async (req, res, next) => {
   }
 });
 
-
-
-
 // Update password
-router.put('/update-password', async (req, res, next) => {
+router.put("/update-password", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { newPassword, oldPassword } = req.body;
@@ -839,11 +807,8 @@ router.put('/update-password', async (req, res, next) => {
   }
 });
 
-
-
-
 // Delete user profile
-router.delete('/profile', async (req, res, next) => {
+router.delete("/profile", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { password } = req.body;
@@ -855,14 +820,14 @@ router.delete('/profile', async (req, res, next) => {
     });
 
     if (!user) {
-      throw new ServerError(404, 'User not found.');
+      throw new ServerError(404, "User not found.");
     }
 
     // Check if the provided password is correct
     const passwordValid = await bcrypt.compare(password, user.password);
 
     if (!passwordValid) {
-      throw new ServerError(401, 'Incorrect password.');
+      throw new ServerError(401, "Incorrect password.");
     }
 
     // Delete the user
@@ -870,7 +835,7 @@ router.delete('/profile', async (req, res, next) => {
 
     res.status(204).end();
   } catch (error) {
-    console.error('Error deleting user profile:', error);
+    console.error("Error deleting user profile:", error);
     next(error);
   }
 });

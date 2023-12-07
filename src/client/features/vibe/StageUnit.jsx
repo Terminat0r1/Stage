@@ -1,45 +1,77 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import userImg from "../ima/user.jpg";
-const StageUnit = ({ user }) => {
+import {
+  useUnfollowUserMutation,
+  useFollowUserMutation,
+  useLikeMutation,
+  useUnlikeMutation,
+} from "../stage/postSlice";
+
+const StageUnit = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
 
-  const handleFollowClick = () => {
-    // Toggle the liked state when the button is clicked
-    setFollow(!follow);
+  const [unfollowUser] = useUnfollowUserMutation();
+  const [followUser] = useFollowUserMutation();
+  const [like] = useLikeMutation();
+  const [unlike] = useUnlikeMutation();
+
+  const handleFollowClick = async () => {
+    try {
+      // Toggle the follow state when the button is clicked
+      setFollow(!follow);
+
+      // If follow is true, unfollow the user using the mutation
+      if (follow) {
+        await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+      } else if (!follow) {
+        await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+      }
+    } catch (error) {
+      console.error("Error unfollowing user:", error);
+      // Handle error as needed
+    }
   };
-  const handleLikeClick = () => {
-    // Toggle the liked state when the button is clicked
-    setLiked(!liked);
+  const handleLikeClick = async () => {
+    try {
+      // Toggle the liked state when the button is clicked
+      setLiked(!liked);
+
+      // If liked is true, unlike the post using the mutation
+      if (liked) {
+        console.log(post.id);
+        await unlike(post.id).unwrap(); // Assuming post.id is the post's ID
+      } else {
+        await like(post.id).unwrap(); // Assuming post.id is the post's ID
+      }
+    } catch (error) {
+      console.error("Error liking/unliking post:", error);
+      // Handle error as needed
+    }
   };
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
   return (
     <div
       className="stagecard card border border-dark rounded w-100 p-3 m-3"
-      key={user.id}
+      key={post.id}
     >
-      <div className="card-header">{user.location}</div>
+      <div className="card-header">
+        <h4>{post.author.location}</h4>
+      </div>
 
       <div className="d-flex card-body align-items-center text-center">
-        <Link to={`/profile`}>
+        <Link to={`/profile/${post.author.id}`}>
           <div className="d-flex align-items-center justify-content-center">
             <img
               className="card-img-top userImg p-2"
-              src={userImg}
+              src={post.author.profilephoto}
               alt="Card image cap"
             />
-            <h5 className="card-title p-2">
-              {capitalizeFirstLetter(user.username)}
-            </h5>
+            <h5 className="card-title p-2">{post.author.username}</h5>
           </div>
         </Link>
-        <p className="card-text m-3">
-          Post: {user.post} , Bookmark: {user.bookmark}
-        </p>
+
         <button
           className={`d-flex align-items-center justify-content-center ${
             liked ? "btn btn-danger" : "btn btn-outline-danger"
@@ -79,7 +111,16 @@ const StageUnit = ({ user }) => {
           {follow ? "Following" : "Follow"}
         </button>
       </div>
-      <div>{user.embed}</div>
+      <h2>{post.content}</h2>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/X1EJjaoJtIY?si=QzF3BuM2-rsGupiV"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
     </div>
   );
 };
