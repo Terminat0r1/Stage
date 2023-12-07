@@ -1,13 +1,65 @@
 import React, { useState } from "react";
 import ProfileNavTabs from "./ProfileNavbar";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
 import { useGetUserQuery } from "./profileSlice";
 
 const ProfilePage = () => {
+  const token = useSelector(selectToken);
+  const { id } = useParams();
+  const { data, error, isLoading } = useGetUserQuery(id);
+  if (!token) {
+    return <p>You must be logged in.</p>;
+  }
+  if (isLoading) {
+    return <div className="loading-message">Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">Error fetching data: {error.message}</div>
+    );
+  }
+  const numPosts = data.posts.length;
+  let numFollowing = 0;
+  if (data.following) {
+    numFollowing = data.following.length;
+  }
+  console.log(data.posts);
+
   return (
     <div className="profile-page">
       <h1>Profile</h1>
+      <div className="card border border-dark rounded p-3 m-3 w-100">
+        <div className="card-header m-3">
+          <h4>{data.location}</h4>
+        </div>
+
+        <div className="card-body d-flex flex-column">
+          <img
+            className="card-img"
+            src={data.profilePhoto}
+            alt="User Profile"
+          />
+          <h5 className="card-title m-3">{data.username}</h5>
+          <p className="card-text m-3">
+            {`Post:  ${numPosts}          Followers:     ${numFollowing}`}
+          </p>
+        </div>
+      </div>
+      <div className="card border border-dark rounded p-3 m-3 w-100">
+        <div className="card-header m-3">
+          <h4>Posts</h4>
+        </div>
+        {data.posts.map((post) => (
+          <div className="card-body d-flex flex-column border border-dark rounded p-3 m-3">
+            {post.content}
+            {post.createdAt}
+          </div>
+        ))}
+        <div className="card-body d-flex flex-column"></div>
+      </div>
     </div>
   );
 };
