@@ -9,9 +9,13 @@ import {
 } from "../stage/postSlice";
 
 const StageUnit = ({ post }) => {
-  const [liked, setLiked] = useState(false);
+  let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
+  console.log(post.likes);
 
+  if (post.likes.length > 0) {
+    liked = true;
+  }
   const [unfollowUser] = useUnfollowUserMutation();
   const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
@@ -19,15 +23,14 @@ const StageUnit = ({ post }) => {
 
   const handleFollowClick = async () => {
     try {
-      // Toggle the follow state when the button is clicked
-      setFollow(!follow);
-
       // If follow is true, unfollow the user using the mutation
       if (follow) {
         await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       } else if (!follow) {
         await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       }
+      // Toggle the follow state when the button is clicked
+      setFollow(!follow);
     } catch (error) {
       console.error("Error unfollowing user:", error);
       // Handle error as needed

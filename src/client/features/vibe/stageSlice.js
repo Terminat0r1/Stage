@@ -3,8 +3,9 @@ import api from "../../store/api";
 /** Authentication endpoints */
 const stageApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getPostPitts: builder.query({
+    getPostStage: builder.query({
       query: () => `/users/stage`,
+      providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
     }),
 
     getPostByLocation: builder.query({
@@ -15,4 +16,4 @@ const stageApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetPostPittsQuery, useGetPostByLocationQuery } = stageApi;
+export const { useGetPostStageQuery, useGetPostByLocationQuery } = stageApi;

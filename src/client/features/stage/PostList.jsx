@@ -156,6 +156,7 @@ function PostList() {
       console.error(err);
     }
   };
+  console.log(token);
 
   if (!token) {
     return (

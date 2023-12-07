@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import VibeUnit from "./StageUnit";
+import StageUnit from "./StageUnit";
 import "./vibe.css";
-import { useGetPostPittsQuery, useGetPostByLocationQuery } from "./stageSlice";
+import { useGetPostStageQuery, useGetPostByLocationQuery } from "./stageSlice";
 
 const Stage = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const { data, error, isLoading } = useGetPostPittsQuery();
+  const { data, error, isLoading } = useGetPostStageQuery();
 
   // const handleCityButtonClick = (location) => {
   //   setSelectedLocation(location);
@@ -82,13 +82,13 @@ const Stage = () => {
                 return matchesSearch;
               })
               .map((post) => (
-                <VibeUnit post={post} key={post.id} />
+                <StageUnit post={post} key={post.id} />
               ))}
           </div>
         ) : (
           <div className="container py-5 px-3 w-100">
             {searchResult.map((post) => (
-              <VibeUnit post={post} key={post.id} />
+              <StageUnit post={post} key={post.id} />
             ))}
           </div>
         )}

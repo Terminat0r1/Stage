@@ -9,18 +9,20 @@ const postApi = api.injectEndpoints({
         url: "/users/posts",
         method: "POST",
         body: credentials,
+        invalidatesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
       }),
       transformErrorResponse: (response) => response.data,
     }),
     getFollowingPosts: builder.query({
       query: () => "/users/vibe",
-      // providesTags: ["Students"],
+      providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
     }),
 
     unfollowUser: builder.mutation({
       query: (id) => ({
         url: `/users/unfollow/${id}`,
         method: "POST",
+        invalidatesTags: ["Unfollowing", "Following"],
       }),
     }),
 
@@ -28,6 +30,7 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/follow/${id}`,
         method: "POST",
+        invalidatesTags: ["Unfollowing", "Following"],
       }),
     }),
 
@@ -35,13 +38,15 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/posts/${id}/like`,
         method: "POST",
+        invalidatesTags: ["likes"],
       }),
     }),
 
     unlike: builder.mutation({
       query: (id) => ({
         url: `/users/posts/${id}/unlike`,
-        method: "POST",
+        method: "DELETE",
+        invalidatesTags: ["Unlikes"],
       }),
     }),
   }),

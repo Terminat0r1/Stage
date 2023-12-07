@@ -7,13 +7,18 @@ import {
 } from "./postSlice";
 
 const Post = ({ post }) => {
-  const [liked, setLiked] = useState(false);
+  let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(true);
 
   const [unfollowUser] = useUnfollowUserMutation();
   const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
   const [unlike] = useUnlikeMutation();
+  console.log(post);
+
+  if (post.likes.length > 0) {
+    liked = true;
+  }
 
   const handleFollowClick = async () => {
     try {
