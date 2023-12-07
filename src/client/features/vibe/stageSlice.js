@@ -4,7 +4,7 @@ import api from "../../store/api";
 const stageApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getPostPitts: builder.query({
-      query: () => `/users/posts/location/Pittsburgh`,
+      query: () => `/users/stage`,
     }),
 
     getPostByLocation: builder.query({

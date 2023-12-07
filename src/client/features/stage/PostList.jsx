@@ -1,26 +1,134 @@
 import Post from "./Post";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
-import { useCreatePostMutation } from "./postSlice";
+import { useCreatePostMutation, useGetFollowingPostsQuery } from "./postSlice";
 import { useState } from "react";
 const mockData = [
   {
-    id: 1,
-    username: "Noah",
-    post: "You only live once, but if you do it right, once is enough.",
-    like: true,
+    id: 45,
+    content: "Post 3 by user_4893",
+    createdAt: "2023-12-06T19:23:53.235Z",
+    authorId: 15,
+    author: {
+      id: 15,
+      username: "user_4893",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
   },
   {
-    id: 2,
-    username: "Emma",
-    post: "So many books, so little time.",
-    like: false,
+    id: 44,
+    content: "Post 2 by user_4893",
+    createdAt: "2023-12-06T19:23:52.170Z",
+    authorId: 15,
+    author: {
+      id: 15,
+      username: "user_4893",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
   },
   {
-    id: 3,
-    username: "Hannah",
-    post: "A room without books is like a body without a soul.",
-    like: false,
+    id: 43,
+    content: "Post 1 by user_4893",
+    createdAt: "2023-12-06T19:23:50.692Z",
+    authorId: 15,
+    author: {
+      id: 15,
+      username: "user_4893",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 24,
+    content: "Post 3 by user_8705",
+    createdAt: "2023-12-06T19:23:18.008Z",
+    authorId: 8,
+    author: {
+      id: 8,
+      username: "user_8705",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 23,
+    content: "Post 2 by user_8705",
+    createdAt: "2023-12-06T19:23:17.924Z",
+    authorId: 8,
+    author: {
+      id: 8,
+      username: "user_8705",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 22,
+    content: "Post 1 by user_8705",
+    createdAt: "2023-12-06T19:23:17.842Z",
+    authorId: 8,
+    author: {
+      id: 8,
+      username: "user_8705",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 18,
+    content: "Post 3 by user_9404",
+    createdAt: "2023-12-06T19:23:17.307Z",
+    authorId: 6,
+    author: {
+      id: 6,
+      username: "user_9404",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 17,
+    content: "Post 2 by user_9404",
+    createdAt: "2023-12-06T19:23:17.215Z",
+    authorId: 6,
+    author: {
+      id: 6,
+      username: "user_9404",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
+  },
+  {
+    id: 16,
+    content: "Post 1 by user_9404",
+    createdAt: "2023-12-06T19:23:17.125Z",
+    authorId: 6,
+    author: {
+      id: 6,
+      username: "user_9404",
+      profilePhoto:
+        "https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg",
+      location: "Pittsburgh",
+    },
+    likes: [],
   },
 ];
 
@@ -28,6 +136,11 @@ function PostList() {
   const token = useSelector(selectToken);
   const [newPost, setNewPost] = useState("");
   const [createPost] = useCreatePostMutation();
+  const { data: posts } = useGetFollowingPostsQuery();
+
+  let followingposts = posts || mockData;
+
+  console.log(posts);
 
   const create = async (evt) => {
     evt.preventDefault();
@@ -46,7 +159,7 @@ function PostList() {
   if (!token) {
     return (
       <div className="container  py-5 px-3 mx-auto">
-        {mockData.map((post) => (
+        {followingposts.map((post) => (
           <Post post={post} key={post.id} />
         ))}
       </div>
@@ -81,7 +194,7 @@ function PostList() {
         </div>
       </div>
       <div className="container  py-5 px-3 w-100">
-        {mockData.map((post) => (
+        {followingposts.map((post) => (
           <Post post={post} key={post.id} />
         ))}
       </div>

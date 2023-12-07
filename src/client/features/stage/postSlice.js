@@ -12,7 +12,11 @@ const postApi = api.injectEndpoints({
       }),
       transformErrorResponse: (response) => response.data,
     }),
+    getFollowingPosts: builder.query({
+      query: () => "/users/vibe",
+      // providesTags: ["Students"],
+    }),
   }),
 });
 
-export const { useCreatePostMutation } = postApi;
+export const { useCreatePostMutation, useGetFollowingPostsQuery } = postApi;

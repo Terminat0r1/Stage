@@ -20,8 +20,10 @@ const Post = ({ post }) => {
     >
       <div className="col-md-5 w-100 m-3">
         <div className="h-100 p-5 bg-body-tertiary border rounded-3">
-          <h2>{post.username}</h2>
-          <p>{post.post}</p>
+          <p>{post.author.location} </p>
+          <h2>{post.author.username}</h2>
+          <h4>{post.content}</h4>
+          <p>{post.createdAt}</p>
           <div>
             <iframe
               width="100%"
