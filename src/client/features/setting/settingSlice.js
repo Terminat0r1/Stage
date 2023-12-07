@@ -58,7 +58,7 @@ const postApi = api.injectEndpoints({
       transformErrorResponse: (response) => response.data,
     }),
 
-    //---------------------
+    //--------------------------
     deleteUser: builder.mutation({
       query: () => ({
         url: "/users/profile",
