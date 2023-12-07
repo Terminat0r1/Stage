@@ -15,6 +15,7 @@ model User {
     birthDate     DateTime
     location      String
     profilePhoto  String?          @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
+    aboutMe       String?          @default("Welcome to my page!")
     posts         Post[]           @relation("userPosts")
     isAdmin       Boolean
     followers     Follow[]         @relation("userIsFollowedByTheseUsers")
@@ -34,11 +35,10 @@ model Post {
 }
 
 model Follow {
-    followerId      Int        
+    followerId      Int
     follower        User       @relation("userFollowsTheseUsers", fields: [followerId], references: [id])
-    userFollowedId  Int        
+    userFollowedId  Int
     userFollowed    User       @relation("userIsFollowedByTheseUsers", fields: [userFollowedId], references: [id])
-
     @@id([followerId, userFollowedId])
 }
 
@@ -47,7 +47,6 @@ model Like {
     postLikedId  Int
     liker        User  @relation("userLikesPost", fields: [likerId], references: [id])
     postLiked    Post  @relation("postLikedByUser", fields: [postLikedId], references: [id])
-
     @@id([likerId, postLikedId])
 }
 
