@@ -77,6 +77,22 @@ router.get("/profile/:id", async (req, res, next) => {
 
 
 
+// Define the route to get the user ID
+router.get('/user-id', (req, res, next) => {
+  try {
+    const userId = res.locals.user.id;
+
+    // Respond with the user ID
+    res.json({ userId });
+  } catch (err) {
+    console.error('Error in /user-id route:', err);
+    next(err);
+  }
+});
+
+
+
+
 
 // Get user posts
 router.get("/profile/:id/posts", async (req, res, next) => {
