@@ -20,7 +20,6 @@ export default function AuthForm() {
   const [birthDate, setBirthDate] = useState("");
   const [location, setLocation] = useState("");
 
-
   // Form submission
   const [login, { isLoading: loginLoading, error: loginError }] =
     useLoginMutation();
@@ -42,12 +41,7 @@ export default function AuthForm() {
           location,
           isAdmin: false,
         };
-        console.log(credentials);
-
-
-    // We don't want to navigate if there's an error.
-    // `unwrap` will throw an error if there is one
-    // so we can use a try/catch to handle it.
+    console.log(credentials);
     try {
       await authMethod(credentials).unwrap();
       navigate("/");

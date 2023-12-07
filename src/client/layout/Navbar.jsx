@@ -37,26 +37,12 @@ export default function Navbar() {
         </button>{" "}
         {token ? (
           <>
-           <button type="button" class="btn btn-outline-dark m-2">
-              <NavLink to="/bkmark">Bookmark</NavLink>
-            </button>{" "}
             <button type="button" class="btn btn-outline-dark m-2">
-              <NavLink to="/settings">Account Settings</NavLink>
+              <NavLink to="/bkmark">Bookmark</NavLink>
             </button>{" "}
             <button type="button" class="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>
             </button>
-            <button type="button" class="btn btn-outline-dark m-2">
-              <NavLink to="/profile">profile</NavLink>
-            </button>{" "}
-           
-
-
-
-
-
-
-           
           </>
         ) : (
           <button type="button" class="btn btn-outline-dark m-2">

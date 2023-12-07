@@ -19,6 +19,7 @@ model User {
     isAdmin       Boolean
     followers     Follow[]         @relation("userIsFollowedByTheseUsers")
     usersFollowed Follow[]         @relation("userFollowsTheseUsers")
+    likes         Like[]           @relation("userLikesPost")
     userBookmarks UserBookmarks[]  @relation("BookmarkRelation")
 }
 
@@ -28,6 +29,7 @@ model Post {
     createdAt     DateTime        @default(now())
     author        User            @relation("userPosts", fields: [authorId], references: [id])
     authorId      Int
+    likes         Like[]          @relation("postLikedByUser")
     userBookmarks UserBookmarks[]
 }
 
@@ -38,6 +40,15 @@ model Follow {
     userFollowed    User       @relation("userIsFollowedByTheseUsers", fields: [userFollowedId], references: [id])
 
     @@id([followerId, userFollowedId])
+}
+
+model Like {
+    likerId      Int
+    postLikedId  Int
+    liker        User  @relation("userLikesPost", fields: [likerId], references: [id])
+    postLiked    Post  @relation("postLikedByUser", fields: [postLikedId], references: [id])
+
+    @@id([likerId, postLikedId])
 }
 
 model UserBookmarks {
