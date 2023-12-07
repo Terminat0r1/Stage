@@ -8,7 +8,6 @@ module.exports = router;
 
 
 
-
 // User must be logged in to access features
 router.use((req, res, next) => {
   if (!res.locals.user) {
@@ -956,4 +955,8 @@ router.delete("/profile", async (req, res, next) => {
   }
 });
 
-module.exports = router; 
+
+
+
+
+module.exports = router;
