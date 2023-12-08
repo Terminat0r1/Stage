@@ -141,7 +141,7 @@ function PostList() {
 
   let followingposts = posts || mockData;
 
-  console.log(posts);
+  // console.log(posts);
 
   const create = async (evt) => {
     evt.preventDefault();
@@ -156,7 +156,7 @@ function PostList() {
       console.error(err);
     }
   };
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     return (

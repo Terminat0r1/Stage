@@ -3,12 +3,25 @@ import ProfileNavTabs from "./ProfileNavbar";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
-import { useGetUserQuery } from "./profileSlice";
+import { useGetUserQuery } from "../stage/postSlice";
+import { useDeletePostMutation } from "../stage/postSlice";
 
 const ProfilePage = () => {
   const token = useSelector(selectToken);
   const { id } = useParams();
   const { data, error, isLoading } = useGetUserQuery(id);
+  const [deletePostMutation] = useDeletePostMutation();
+
+  // Function to handle post deletion
+  const handleDeletePost = async (postId) => {
+    try {
+      await deletePostMutation(postId).unwrap();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      // Handle error as needed
+    }
+  };
+
   if (!token) {
     return <p>You must be logged in.</p>;
   }
@@ -26,7 +39,7 @@ const ProfilePage = () => {
   if (data.following) {
     numFollowing = data.following.length;
   }
-  console.log(data.posts);
+  // console.log(data);
 
   return (
     <div className="profile-page">
@@ -53,9 +66,20 @@ const ProfilePage = () => {
           <h4>Posts</h4>
         </div>
         {data.posts.map((post) => (
-          <div className="card-body d-flex flex-column border border-dark rounded p-3 m-3">
-            {post.content}
-            {post.createdAt}
+          <div
+            className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
+            key={post.id}
+          >
+            <div className="card-title m-3 d-flex flex-column">
+              <h4>{post.content}</h4>
+            </div>
+            <div className="card-text m-3">{post.createdAt}</div>
+            <button
+              className="btn btn-danger"
+              onClick={() => handleDeletePost(post.id)}
+            >
+              Delete Post
+            </button>
           </div>
         ))}
         <div className="card-body d-flex flex-column"></div>

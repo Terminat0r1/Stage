@@ -4,57 +4,87 @@ import api from "../../store/api";
 /** Authentication endpoints */
 const postApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    createPost: builder.mutation({
-      query: (credentials) => ({
-        url: "/users/posts",
-        method: "POST",
-        body: credentials,
-        invalidatesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
-      }),
-      transformErrorResponse: (response) => response.data,
-    }),
+    // home page posts
+
     getFollowingPosts: builder.query({
       query: () => "/users/vibe",
-      providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
+      providesTags: ["Post", "DeletePost", "Following", "Like", "Unlike"],
     }),
+
+    //explore page posts
+
+    getPostStage: builder.query({
+      query: () => `/users/stage`,
+      providesTags: ["Post", "DeletePost", "Unfollowing", "Like", "Unlike"],
+    }),
+
+    //get current user id
 
     getCurrentUser: builder.query({
       query: () => "/users/user-id",
       // providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
     }),
 
-    unfollowUser: builder.mutation({
-      query: (id) => ({
-        url: `/users/unfollow/${id}`,
+    // get user profile
+
+    getUser: builder.query({
+      query: (id) => `/users/profile/${id}`,
+      providesTags: ["DeletePost", "Post"],
+    }),
+    // create post
+    createPost: builder.mutation({
+      query: (credentials) => ({
+        url: "/users/posts",
         method: "POST",
-        invalidatesTags: ["Unfollowing", "Following"],
+        body: credentials,
+        invalidatesTags: ["Post"],
       }),
+      transformErrorResponse: (response) => response.data,
     }),
 
+    // delete post
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `/users/posts/${postId}`,
+        method: "DELETE",
+        invalidatesTags: ["DeletePost"],
+      }),
+      transformErrorResponse: (response) => response.data,
+    }),
+    //follow user
     followUser: builder.mutation({
       query: (id) => ({
         url: `/users/follow/${id}`,
         method: "POST",
-        invalidatesTags: ["Unfollowing", "Following"],
+        invalidatesTags: ["Following"],
         providesTags: ["Following"],
       }),
     }),
 
+    //unfollow user
+    unfollowUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/unfollow/${id}`,
+        method: "POST",
+        invalidatesTags: ["Unfollowing"],
+        providesTags: ["Unfollowing"],
+      }),
+    }),
+
+    //like function
     like: builder.mutation({
       query: (id) => ({
         url: `/users/posts/${id}/like`,
         method: "POST",
-        invalidatesTags: ["likes", "Unlikes"],
-        providesTags: ["likes", "Unlikes"],
+        invalidatesTags: ["Like"],
       }),
     }),
-
+    //unlike function
     unlike: builder.mutation({
       query: (id) => ({
         url: `/users/posts/${id}/unlike`,
         method: "DELETE",
-        invalidatesTags: ["Unlikes", "likes"],
-        providesTags: ["Unlikes", "likes"],
+        invalidatesTags: ["Unlike"],
       }),
     }),
   }),
@@ -68,4 +98,7 @@ export const {
   useFollowUserMutation,
   useLikeMutation,
   useUnlikeMutation,
+  useDeletePostMutation,
+  useGetPostStageQuery,
+  useGetUserQuery,
 } = postApi;

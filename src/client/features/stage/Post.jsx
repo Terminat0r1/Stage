@@ -19,8 +19,8 @@ const Post = ({ post }) => {
 
   const currentId = currentUser?.userId;
 
-  console.log(currentId);
-  console.log(post.likes);
+  // console.log(currentId);
+  // console.log(post.likes);
 
   if (post.likes.some((obj) => obj.likerId === currentId)) {
     liked = true;
@@ -74,8 +74,13 @@ const Post = ({ post }) => {
     >
       <div className="col-md-5 w-100 m-3">
         <div className="h-100 p-5 bg-body-tertiary border rounded-3">
-          <p>{post.author.location} </p>
-          <h2>{post.author.username}</h2>
+          <p>{post.author.location}</p>
+          <h2>
+            {" "}
+            {post.author.username.charAt(0).toUpperCase() +
+              post.author.username.slice(1)}
+          </h2>
+
           <h4>{post.content}</h4>
           <p>{post.createdAt}</p>
           <div>
@@ -151,7 +156,7 @@ const Post = ({ post }) => {
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-plus-circle-fill me-2 "
+                className="bi bi-plus-circle-fill me-2 "
                 viewBox="0 0 16 16"
               >
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />

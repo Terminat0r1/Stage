@@ -26,29 +26,29 @@ export default function Navbar() {
     <nav className="top">
       <h1>Music App</h1>
       <menu>
-        <button type="button" class="btn btn-outline-dark m-2">
+        <button type="button" className="btn btn-outline-dark m-2">
           <NavLink to="/">The Vibe</NavLink>
         </button>
-        <button type="button" class="btn btn-outline-dark m-2">
+        <button type="button" className="btn btn-outline-dark m-2">
           <NavLink to="/stage">The Stage</NavLink>
         </button>
-        <button type="button" class="btn btn-outline-dark m-2">
+        <button type="button" className="btn btn-outline-dark m-2">
           <NavLink to={`/profile/${currId}`}>profile</NavLink>
         </button>{" "}
-        <button type="button" class="btn btn-outline-dark m-2">
+        <button type="button" className="btn btn-outline-dark m-2">
           <NavLink to="/settings">Account Settings</NavLink>
         </button>{" "}
         {token ? (
           <>
-            <button type="button" class="btn btn-outline-dark m-2">
+            <button type="button" className="btn btn-outline-dark m-2">
               <NavLink to="/bkmark">Bookmark</NavLink>
             </button>{" "}
-            <button type="button" class="btn btn-outline-dark m-2">
+            <button type="button" className="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>
             </button>
           </>
         ) : (
-          <button type="button" class="btn btn-outline-dark m-2">
+          <button type="button" className="btn btn-outline-dark m-2">
             <NavLink to="/login">Log In</NavLink>
           </button>
         )}
