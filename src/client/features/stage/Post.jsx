@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   useUnfollowUserMutation,
+  useGetCurrentUserQuery,
   useFollowUserMutation,
   useLikeMutation,
   useUnlikeMutation,
@@ -10,13 +11,18 @@ const Post = ({ post }) => {
   let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(true);
 
+  const { data: currentUser } = useGetCurrentUserQuery();
   const [unfollowUser] = useUnfollowUserMutation();
   const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
   const [unlike] = useUnlikeMutation();
-  console.log(post);
 
-  if (post.likes.length > 0) {
+  const currentId = currentUser?.userId;
+
+  console.log(currentId);
+  console.log(post.likes);
+
+  if (post.likes.some((obj) => obj.likerId === currentId)) {
     liked = true;
   }
 
@@ -38,9 +44,6 @@ const Post = ({ post }) => {
   };
   const handleLikeClick = async () => {
     try {
-      // Toggle the liked state when the button is clicked
-      setLiked(!liked);
-
       // If liked is true, unlike the post using the mutation
       if (liked) {
         console.log(post.id);
@@ -48,6 +51,8 @@ const Post = ({ post }) => {
       } else {
         await like(post.id).unwrap(); // Assuming post.id is the post's ID
       }
+      // Toggle the liked state when the button is clicked
+      setLiked(!liked);
     } catch (error) {
       console.error("Error liking/unliking post:", error);
       // Handle error as needed

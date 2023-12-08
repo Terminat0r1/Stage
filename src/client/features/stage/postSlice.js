@@ -18,6 +18,11 @@ const postApi = api.injectEndpoints({
       providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
     }),
 
+    getCurrentUser: builder.query({
+      query: () => "/users/user-id",
+      // providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
+    }),
+
     unfollowUser: builder.mutation({
       query: (id) => ({
         url: `/users/unfollow/${id}`,
@@ -31,6 +36,7 @@ const postApi = api.injectEndpoints({
         url: `/users/follow/${id}`,
         method: "POST",
         invalidatesTags: ["Unfollowing", "Following"],
+        providesTags: ["Following"],
       }),
     }),
 
@@ -38,7 +44,8 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/posts/${id}/like`,
         method: "POST",
-        invalidatesTags: ["likes"],
+        invalidatesTags: ["likes", "Unlikes"],
+        providesTags: ["likes", "Unlikes"],
       }),
     }),
 
@@ -46,7 +53,8 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/posts/${id}/unlike`,
         method: "DELETE",
-        invalidatesTags: ["Unlikes"],
+        invalidatesTags: ["Unlikes", "likes"],
+        providesTags: ["Unlikes", "likes"],
       }),
     }),
   }),
@@ -55,6 +63,7 @@ const postApi = api.injectEndpoints({
 export const {
   useCreatePostMutation,
   useGetFollowingPostsQuery,
+  useGetCurrentUserQuery,
   useUnfollowUserMutation,
   useFollowUserMutation,
   useLikeMutation,

@@ -11,7 +11,7 @@ import {
 const StageUnit = ({ post }) => {
   let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
-  console.log(post.likes);
+  // console.log(post.likes);
 
   if (post.likes.length > 0) {
     liked = true;
@@ -60,7 +60,11 @@ const StageUnit = ({ post }) => {
       key={post.id}
     >
       <div className="card-header">
-        <h4>{post.author.location}</h4>
+        <h4>
+          {" "}
+          {post.author.location.charAt(0).toUpperCase() +
+            post.author.location.slice(1)}
+        </h4>
       </div>
 
       <div className="d-flex card-body align-items-center text-center">
@@ -71,7 +75,11 @@ const StageUnit = ({ post }) => {
               src={post.author.profilephoto}
               alt="Card image cap"
             />
-            <h5 className="card-title p-2">{post.author.username}</h5>
+            <h5 className="card-title p-2">
+              {" "}
+              {post.author.username.charAt(0).toUpperCase() +
+                post.author.username.slice(1)}
+            </h5>
           </div>
         </Link>
 

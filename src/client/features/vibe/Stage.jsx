@@ -5,6 +5,7 @@ import { useGetPostStageQuery, useGetPostByLocationQuery } from "./stageSlice";
 
 const Stage = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [searchUsername, setSearchUsername] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
@@ -22,15 +23,19 @@ const Stage = () => {
   const handleSearchSubmit = (event) => {
     event.preventDefault();
 
-    // Perform search logic here (for simplicity, using filter in this example)
-    const result = data.filter((post) =>
-      post.author.location.includes(searchTerm)
-    );
+    // Perform search logic here
+    const result = data.filter((post) => {
+      const matchesLocation = post.author.location.includes(searchTerm);
+      const matchesUsername = post.author.username.includes(searchTerm);
+
+      // Include a post in the result if it matches either location or username
+      return matchesLocation || matchesUsername;
+    });
 
     setSearchResult(result);
   };
 
-  console.log(data);
+  console.log(searchTerm);
   if (isLoading) {
     return <div className="loading-message">Loading...</div>;
   }
@@ -52,14 +57,14 @@ const Stage = () => {
             <form className="form-inline">
               <div className="form-group mb-2">
                 <label htmlFor="staticEmail2" className="sr-only">
-                  Find user by Location
+                  Find user by Location or Username
                 </label>
                 <br />
                 <input
                   type="text"
                   className="form-control-plaintext"
                   id="citysearch"
-                  placeholder="Search by Location"
+                  placeholder="Search by Location or Username"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
                 />
@@ -73,25 +78,19 @@ const Stage = () => {
       </div>
 
       <div className="container py-5 px-3 w-100">
-        {searchResult ? (
-          <div className="container py-5 px-3 w-100">
-            {data
-              .filter((post) => {
-                const matchesSearch =
-                  !searchTerm || post.author.location.includes(searchTerm);
-                return matchesSearch;
-              })
-              .map((post) => (
-                <StageUnit post={post} key={post.id} />
-              ))}
-          </div>
-        ) : (
-          <div className="container py-5 px-3 w-100">
-            {searchResult.map((post) => (
+        <div className="container py-5 px-3 w-100">
+          {data
+            .filter((post) => {
+              const matchesSearch =
+                !searchTerm ||
+                post.author.location.includes(searchTerm) ||
+                post.author.username.includes(searchTerm);
+              return matchesSearch;
+            })
+            .map((post) => (
               <StageUnit post={post} key={post.id} />
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </>
   );
