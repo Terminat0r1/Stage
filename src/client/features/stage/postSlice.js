@@ -8,14 +8,14 @@ const postApi = api.injectEndpoints({
 
     getFollowingPosts: builder.query({
       query: () => "/users/vibe",
-      providesTags: ["Post", "DeletePost", "Following", "Like", "Unlike"],
+      // providesTags: ["Post", "DeletePost", "Following", "Like", "Unlike"],
     }),
 
     //explore page posts
 
     getPostStage: builder.query({
       query: () => `/users/stage`,
-      providesTags: ["Post", "DeletePost", "Unfollowing", "Like", "Unlike"],
+      // providesTags: ["Post", "DeletePost", "Unfollowing", "Like", "Unlike"],
     }),
 
     //get current user id
@@ -29,7 +29,7 @@ const postApi = api.injectEndpoints({
 
     getUser: builder.query({
       query: (id) => `/users/profile/${id}`,
-      providesTags: ["DeletePost", "Post"],
+      // providesTags: ["DeletePost", "Post"],
     }),
     // create post
     createPost: builder.mutation({
@@ -37,7 +37,7 @@ const postApi = api.injectEndpoints({
         url: "/users/posts",
         method: "POST",
         body: credentials,
-        invalidatesTags: ["Post"],
+        // invalidatesTags: ["Post"],
       }),
       transformErrorResponse: (response) => response.data,
     }),
@@ -47,7 +47,7 @@ const postApi = api.injectEndpoints({
       query: (postId) => ({
         url: `/users/posts/${postId}`,
         method: "DELETE",
-        invalidatesTags: ["DeletePost"],
+        // invalidatesTags: ["DeletePost"],
       }),
       transformErrorResponse: (response) => response.data,
     }),
@@ -56,8 +56,8 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/follow/${id}`,
         method: "POST",
-        invalidatesTags: ["Following"],
-        providesTags: ["Following"],
+        // invalidatesTags: ["Following"],
+        // providesTags: ["Following"],
       }),
     }),
 
@@ -66,8 +66,8 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/unfollow/${id}`,
         method: "POST",
-        invalidatesTags: ["Unfollowing"],
-        providesTags: ["Unfollowing"],
+        // invalidatesTags: ["Unfollowing"],
+        // providesTags: ["Unfollowing"],
       }),
     }),
 
@@ -76,7 +76,7 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/posts/${id}/like`,
         method: "POST",
-        invalidatesTags: ["Like"],
+        // invalidatesTags: ["Like"],
       }),
     }),
     //unlike function
@@ -84,23 +84,7 @@ const postApi = api.injectEndpoints({
       query: (id) => ({
         url: `/users/posts/${id}/unlike`,
         method: "DELETE",
-        invalidatesTags: ["Unlike"],
-      }),
-    }),
-    // settings
-    updateUsername: builder.mutation({
-      query: (username) => ({
-        url: "/users/update-username",
-        method: "PUT",
-        body: username,
-      }),
-    }),
-    //-----
-    updateEmail: builder.mutation({
-      query: (email) => ({
-        url: "/users/update-email",
-        method: "PUT",
-        body: email,
+        // invalidatesTags: ["Unlike"],
       }),
     }),
   }),
@@ -117,6 +101,4 @@ export const {
   useDeletePostMutation,
   useGetPostStageQuery,
   useGetUserQuery,
-  useUpdateUsernameMutation,
-  useUpdateEmailMutation,
 } = postApi;

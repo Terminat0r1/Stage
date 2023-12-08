@@ -2,32 +2,49 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../store/api";
 
 /** Authentication endpoints */
-const settingApi = api.injectEndpoints({
+const postApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    updateUsername: builder.mutation({
+      query: (credentials) => ({
+        url: "/users/update-username",
+        method: "PUT",
+        body: credentials,
+      }),
+      transformErrorResponse: (response) => response.data,
+    }),
+    //-----
+    updateEmail: builder.mutation({
+      query: (credentials) => ({
+        url: "/users/update-email",
+        method: "PUT",
+        body: credentials,
+      }),
+      transformErrorResponse: (response) => response.data,
+    }),
     //-----------
     updatebirthDate: builder.mutation({
-      query: (birthdate) => ({
+      query: (credentials) => ({
         url: "/users/update-birthdate",
         method: "PUT",
-        body: birthdate,
+        body: credentials,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //---------------------
     updatelocation: builder.mutation({
-      query: (location) => ({
+      query: (credentials) => ({
         url: "/users/update-location",
         method: "PUT",
-        body: location,
+        body: credentials,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //---------------------
     updatephoto: builder.mutation({
-      query: (photo) => ({
+      query: (credentials) => ({
         url: "/users/update-profile-photo",
         method: "PUT",
-        body: photo,
+        body: credentials,
       }),
       transformErrorResponse: (response) => response.data,
     }),
@@ -43,9 +60,10 @@ const settingApi = api.injectEndpoints({
 
     //--------------------------
     deleteUser: builder.mutation({
-      query: () => ({
+      query: (credentials) => ({
         url: "/users/profile",
         method: "DELETE",
+        body: credentials,
       }),
       transformErrorResponse: (response) => response.data,
     }),
@@ -53,9 +71,11 @@ const settingApi = api.injectEndpoints({
 });
 
 export const {
+  useUpdateUsernameMutation,
+  useUpdateEmailMutation,
   useUpdatebirthDateMutation,
   useUpdatelocationMutation,
   useUpdatephotoMutation,
   useUpdatePasswordMutation,
   useDeleteUserMutation,
-} = settingApi;
+} = postApi;
