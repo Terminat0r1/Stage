@@ -122,7 +122,6 @@ export default function AuthForm() {
           <a onClick={() => setIsLogin(!isLogin)} className="mt-3 d-block">
             {altCopy}
           </a>
-
           {(loginLoading || registerLoading) && <p>Please wait...</p>}
           {loginError && <p role="alert">{loginError}</p>}
           {registerError && <p role="alert">{registerError}</p>}
