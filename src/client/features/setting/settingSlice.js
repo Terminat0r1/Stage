@@ -4,23 +4,6 @@ import api from "../../store/api";
 /** Authentication endpoints */
 const settingApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    updateUsername: builder.mutation({
-      query: (username) => ({
-        url: "/users/update-username",
-        method: "PUT",
-        body: username,
-      }),
-      transformErrorResponse: (response) => response.data,
-    }),
-    //-----
-    updateEmail: builder.mutation({
-      query: (email) => ({
-        url: "/users/update-email",
-        method: "PUT",
-        body: email,
-      }),
-      transformErrorResponse: (response) => response.data,
-    }),
     //-----------
     updatebirthDate: builder.mutation({
       query: (birthdate) => ({
@@ -70,8 +53,6 @@ const settingApi = api.injectEndpoints({
 });
 
 export const {
-  useUpdateUsernameMutation,
-  useUpdateEmailMutation,
   useUpdatebirthDateMutation,
   useUpdatelocationMutation,
   useUpdatephotoMutation,

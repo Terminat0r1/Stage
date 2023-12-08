@@ -87,6 +87,22 @@ const postApi = api.injectEndpoints({
         invalidatesTags: ["Unlike"],
       }),
     }),
+    // settings
+    updateUsername: builder.mutation({
+      query: (username) => ({
+        url: "/users/update-username",
+        method: "PUT",
+        body: username,
+      }),
+    }),
+    //-----
+    updateEmail: builder.mutation({
+      query: (email) => ({
+        url: "/users/update-email",
+        method: "PUT",
+        body: email,
+      }),
+    }),
   }),
 });
 
@@ -101,4 +117,6 @@ export const {
   useDeletePostMutation,
   useGetPostStageQuery,
   useGetUserQuery,
+  useUpdateUsernameMutation,
+  useUpdateEmailMutation,
 } = postApi;
