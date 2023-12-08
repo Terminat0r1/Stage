@@ -78,7 +78,7 @@ router.get("/profile/:id", async (req, res, next) => {
 
 
 
-// Define the route to get the user ID
+// Get signed in user's ID
 router.get('/user-id', (req, res, next) => {
   try {
     const userId = res.locals.user.id;
@@ -835,14 +835,26 @@ router.put("/update-email", async (req, res, next) => {
 
 
 
-// Update birthdate
+// Update birth date
 router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     let { birthDate } = req.body;
 
     // Parse birthDate to ensure it's in the correct format
-    birthDate = parseISO(birthDate);
+    const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (!birthDateRegex.test(birthDate)) {
+      throw new ServerError(400, "Invalid birth date format. Please use the format 'YYYY-MM-DD'.");
+    }
+
+    // Convert the string to a Date object
+    birthDate = new Date(birthDate);
+
+    // Check if the Date object is valid
+    if (isNaN(birthDate.getTime())) {
+      throw new ServerError(400, "Invalid birth date. Please provide a valid date.");
+    }
 
     // Update birthDate
     const updatedUser = await prisma.user.update({
@@ -866,6 +878,11 @@ router.put("/update-location", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { location } = req.body;
+
+    // Check if location is a number
+    if (!isNaN(location)) {
+      throw new ServerError(400, "Invalid location. Location cannot be a number.");
+    }
 
     // Update location
     const updatedUser = await prisma.user.update({
