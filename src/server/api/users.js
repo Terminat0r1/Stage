@@ -327,6 +327,11 @@ router.post("/posts", async (req, res, next) => {
     const { content } = req.body;
     const userId = res.locals.user.id;
 
+    // Check if the content is an empty string
+    if (!content.trim()) {
+      throw new ServerError(400, "Post content cannot be empty.");
+    }
+
     const newPost = await prisma.post.create({
       data: {
         content,
