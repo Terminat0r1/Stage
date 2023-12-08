@@ -1,6 +1,7 @@
 const { ServerError } = require("../errors");
 const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
+const { parseISO } = require('date-fns');
 
 const router = require("express").Router();
 module.exports = router;
@@ -57,7 +58,7 @@ router.get("/profile/:id", async (req, res, next) => {
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
-      aboutMe: userData.aboutMe,  // Include the aboutMe field
+      aboutMe: userData.aboutMe,
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
@@ -70,6 +71,22 @@ router.get("/profile/:id", async (req, res, next) => {
     res.json(profileInfo);
   } catch (err) {
     console.error("Error in /profile/:id route:", err);
+    next(err);
+  }
+});
+
+
+
+
+// Define the route to get the user ID
+router.get('/user-id', (req, res, next) => {
+  try {
+    const userId = res.locals.user.id;
+
+    // Respond with the user ID
+    res.json({ userId });
+  } catch (err) {
+    console.error('Error in /user-id route:', err);
     next(err);
   }
 });
@@ -246,6 +263,10 @@ router.get("/location/:location", async (req, res, next) => {
       },
     });
 
+    if (usersInLocation.length === 0) {
+      throw new ServerError(404, `No users found for the location "${location}".`);
+    }
+
     res.json(usersInLocation);
   } catch (err) {
     console.error(err);
@@ -286,6 +307,10 @@ router.get("/posts/location/:location", async (req, res, next) => {
       },
     });
 
+    if (postsInLocation.length === 0) {
+      throw new ServerError(404, `No posts found for the location "${location}".`);
+    }
+
     res.json(postsInLocation);
   } catch (err) {
     console.error(err);
@@ -302,6 +327,11 @@ router.post("/posts", async (req, res, next) => {
   try {
     const { content } = req.body;
     const userId = res.locals.user.id;
+
+    // Check if the content is an empty string
+    if (!content.trim()) {
+      throw new ServerError(400, "Post content cannot be empty.");
+    }
 
     const newPost = await prisma.post.create({
       data: {
@@ -740,6 +770,15 @@ router.put("/update-username", async (req, res, next) => {
     const userId = res.locals.user.id;
     const { username } = req.body;
 
+    // Check if the new username already exists
+    const existingUserWithUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUserWithUsername) {
+      throw new ServerError(400, "Username is already in use.");
+    }
+
     // Update username
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -758,10 +797,17 @@ router.put("/update-username", async (req, res, next) => {
 
 
 // Update email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 router.put("/update-email", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { email } = req.body;
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      throw new ServerError(400, "Invalid email format.");
+    }
 
     // Check if the new email is already in use
     const existingUserWithEmail = await prisma.user.findUnique({
@@ -769,7 +815,7 @@ router.put("/update-email", async (req, res, next) => {
     });
 
     if (existingUserWithEmail) {
-      return res.status(400).json({ error: "Email is already in use." });
+      throw new ServerError(400, "Email is already in use.");
     }
 
     // Update email
@@ -793,7 +839,10 @@ router.put("/update-email", async (req, res, next) => {
 router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
-    const { birthDate } = req.body;
+    let { birthDate } = req.body;
+
+    // Parse birthDate to ensure it's in the correct format
+    birthDate = parseISO(birthDate);
 
     // Update birthDate
     const updatedUser = await prisma.user.update({
@@ -858,7 +907,7 @@ router.put("/update-profile-photo", async (req, res, next) => {
 
 
 
-// Update aboutMe
+// Update about me
 router.put('/update-about-me', async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
@@ -900,7 +949,7 @@ router.put("/update-password", async (req, res, next) => {
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid old password." });
+      return res.status(401).send("Invalid old password.");
     }
 
     // Update password

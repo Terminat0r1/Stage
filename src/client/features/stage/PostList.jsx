@@ -4,6 +4,9 @@ import { selectToken } from "../auth/authSlice";
 import { useCreatePostMutation, useGetFollowingPostsQuery } from "./postSlice";
 import { useState } from "react";
 
+import "./stage.less"
+
+
 const mockData = [
   {
     id: 45,
@@ -141,7 +144,7 @@ function PostList() {
 
   let followingposts = posts || mockData;
 
-  console.log(posts);
+  // console.log(posts);
 
   const create = async (evt) => {
     evt.preventDefault();
@@ -156,6 +159,7 @@ function PostList() {
       console.error(err);
     }
   };
+  // console.log(token);
 
   if (!token) {
     return (
@@ -170,7 +174,7 @@ function PostList() {
     <>
       <div className="container  py-4 px-3 mx-auto">
         <div>
-          <h1>The Vibe</h1>
+          <h1 className="title">The Vibe</h1>
         </div>
 
         <div className="row">
