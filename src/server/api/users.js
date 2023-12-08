@@ -57,7 +57,7 @@ router.get("/profile/:id", async (req, res, next) => {
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
-      aboutMe: userData.aboutMe,  // Include the aboutMe field
+      aboutMe: userData.aboutMe,
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
