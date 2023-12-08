@@ -24,6 +24,16 @@ const UpdateForm = () => {
   const updatePhotoMutation = useUpdatephotoMutation();
   const updatePasswordMutation = useUpdatePasswordMutation();
 
+  const handleUpdateUsername = async (e) => {
+    e.preventDefault();
+    try {
+      await updateUsernameMutation(username);
+      console.log("Username updated successfully!");
+    } catch (error) {
+      console.error("Error updating username:", error);
+    }
+  };
+
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     try {
@@ -34,36 +44,27 @@ const UpdateForm = () => {
     }
   };
 
-  const handleUpdateAll = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Call the respective mutation functions for updating other fields
-      await updateUsernameMutation.mutateAsync(username);
-      await updateEmailMutation.mutateAsync(email);
-      await updateBirthDateMutation.mutateAsync(birthDate);
-      await updateLocationMutation.mutateAsync(location);
-      await updatePhotoMutation.mutateAsync(imageUrl);
-
-      console.log("All fields updated successfully!");
-    } catch (error) {
-      console.error("Error updating fields:", error);
-    }
-  };
-
   return (
     <>
-      <form onSubmit={handleUpdateAll}>
+      <form>
         {/* Update Username */}
-        <label className=" p-2">
-          Username:
-          <input
+        <div>
+          <label className=" p-2">
+            Username:
+            <input
+              className="m-2 p-2"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <button
             className="m-2 p-2"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
+            onClick={() => updateUsernameMutation(username)}
+          >
+            Update Username
+          </button>
+        </div>
         <br />
         {/* Update Email */}
         <label className=" p-2">
