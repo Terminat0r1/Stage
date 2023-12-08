@@ -1,9 +1,13 @@
 const { ServerError } = require("../errors");
 const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
+const { parseISO } = require('date-fns');
 
 const router = require("express").Router();
 module.exports = router;
+
+
+
 
 // User must be logged in to access features
 router.use((req, res, next) => {
@@ -12,6 +16,10 @@ router.use((req, res, next) => {
   }
   next();
 });
+
+
+
+
 
 // Get user profile information
 router.get("/profile/:id", async (req, res, next) => {
@@ -50,6 +58,7 @@ router.get("/profile/:id", async (req, res, next) => {
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
+      aboutMe: userData.aboutMe,
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
@@ -65,6 +74,26 @@ router.get("/profile/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
+// Define the route to get the user ID
+router.get('/user-id', (req, res, next) => {
+  try {
+    const userId = res.locals.user.id;
+
+    // Respond with the user ID
+    res.json({ userId });
+  } catch (err) {
+    console.error('Error in /user-id route:', err);
+    next(err);
+  }
+});
+
+
+
+
 
 // Get user posts
 router.get("/profile/:id/posts", async (req, res, next) => {
@@ -113,6 +142,10 @@ router.get("/profile/:id/posts", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
 
 // Get users followed by a specific user
 router.get("/profile/:id/following", async (req, res, next) => {
@@ -163,6 +196,10 @@ router.get("/profile/:id/following", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Get followers of a specific user
 router.get("/profile/:id/followers", async (req, res, next) => {
   try {
@@ -206,6 +243,10 @@ router.get("/profile/:id/followers", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Get users by location
 router.get("/location/:location", async (req, res, next) => {
   try {
@@ -222,12 +263,20 @@ router.get("/location/:location", async (req, res, next) => {
       },
     });
 
+    if (usersInLocation.length === 0) {
+      throw new ServerError(404, `No users found for the location "${location}".`);
+    }
+
     res.json(usersInLocation);
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
+
+
+
+
 
 // Get user posts from a specific location
 router.get("/posts/location/:location", async (req, res, next) => {
@@ -258,6 +307,10 @@ router.get("/posts/location/:location", async (req, res, next) => {
       },
     });
 
+    if (postsInLocation.length === 0) {
+      throw new ServerError(404, `No posts found for the location "${location}".`);
+    }
+
     res.json(postsInLocation);
   } catch (err) {
     console.error(err);
@@ -265,11 +318,20 @@ router.get("/posts/location/:location", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Create a new post
 router.post("/posts", async (req, res, next) => {
   try {
     const { content } = req.body;
     const userId = res.locals.user.id;
+
+    // Check if the content is an empty string
+    if (!content.trim()) {
+      throw new ServerError(400, "Post content cannot be empty.");
+    }
 
     const newPost = await prisma.post.create({
       data: {
@@ -298,6 +360,10 @@ router.post("/posts", async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+
 
 // Delete a post
 router.delete("/posts/:postId", async (req, res, next) => {
@@ -334,6 +400,10 @@ router.delete("/posts/:postId", async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+
 
 // Get details of a specific post
 router.get("/posts/:postId", async (req, res, next) => {
@@ -373,6 +443,10 @@ router.get("/posts/:postId", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
 
 // Get feed of posts from users you are following
 router.get("/vibe", async (req, res, next) => {
@@ -430,6 +504,10 @@ router.get("/vibe", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Get feed of posts from users not followed by the current user
 router.get("/stage", async (req, res, next) => {
   try {
@@ -486,6 +564,10 @@ router.get("/stage", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Follow a user
 router.post("/follow/:id", async (req, res, next) => {
   try {
@@ -527,6 +609,10 @@ router.post("/follow/:id", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Unfollow a user
 router.post("/unfollow/:id", async (req, res, next) => {
   try {
@@ -567,6 +653,10 @@ router.post("/unfollow/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+
 
 // Like a post
 router.post("/posts/:postId/like", async (req, res, next) => {
@@ -633,6 +723,10 @@ router.post("/posts/:postId/like", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Unlike a post
 router.delete("/posts/:postId/unlike", async (req, res, next) => {
   try {
@@ -666,11 +760,24 @@ router.delete("/posts/:postId/unlike", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Update username
 router.put("/update-username", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { username } = req.body;
+
+    // Check if the new username already exists
+    const existingUserWithUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUserWithUsername) {
+      throw new ServerError(400, "Username is already in use.");
+    }
 
     // Update username
     const updatedUser = await prisma.user.update({
@@ -685,11 +792,22 @@ router.put("/update-username", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Update email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 router.put("/update-email", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { email } = req.body;
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      throw new ServerError(400, "Invalid email format.");
+    }
 
     // Check if the new email is already in use
     const existingUserWithEmail = await prisma.user.findUnique({
@@ -697,7 +815,7 @@ router.put("/update-email", async (req, res, next) => {
     });
 
     if (existingUserWithEmail) {
-      return res.status(400).json({ error: "Email is already in use." });
+      throw new ServerError(400, "Email is already in use.");
     }
 
     // Update email
@@ -713,11 +831,18 @@ router.put("/update-email", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Update birthdate
 router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
-    const { birthDate } = req.body;
+    let { birthDate } = req.body;
+
+    // Parse birthDate to ensure it's in the correct format
+    birthDate = parseISO(birthDate);
 
     // Update birthDate
     const updatedUser = await prisma.user.update({
@@ -731,6 +856,10 @@ router.put("/update-birthdate", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
 
 // Update location
 router.put("/update-location", async (req, res, next) => {
@@ -751,6 +880,10 @@ router.put("/update-location", async (req, res, next) => {
   }
 });
 
+
+
+
+
 // Update profile photo
 router.put("/update-profile-photo", async (req, res, next) => {
   try {
@@ -769,6 +902,33 @@ router.put("/update-profile-photo", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
+
+// Update about me
+router.put('/update-about-me', async (req, res, next) => {
+  try {
+    const userId = res.locals.user.id;
+    const { aboutMe } = req.body;
+
+    // Update aboutMe
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { aboutMe },
+    });
+
+    res.json(updatedUser);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+
+
+
 
 // Update password
 router.put("/update-password", async (req, res, next) => {
@@ -789,7 +949,7 @@ router.put("/update-password", async (req, res, next) => {
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid old password." });
+      return res.status(401).send("Invalid old password.");
     }
 
     // Update password
@@ -806,6 +966,10 @@ router.put("/update-password", async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+
 
 // Delete user profile
 router.delete("/profile", async (req, res, next) => {
@@ -839,5 +1003,9 @@ router.delete("/profile", async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+
 
 module.exports = router;

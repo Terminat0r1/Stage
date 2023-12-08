@@ -16,6 +16,14 @@ const api = createApi({
       return headers;
     },
   }),
+  tagTypes: [
+    "Following",
+    "Unfollowing",
+    "Like",
+    "Unlike",
+    "DeletePost,",
+    "Post",
+  ],
   endpoints: () => ({}),
 });
 
