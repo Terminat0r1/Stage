@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout, selectToken } from "../features/auth/authSlice";
-
+import { useGetCurrentUserQuery } from "../features/stage/postSlice";
 import "./Navbar.less";
 
 /**
@@ -13,6 +13,9 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const token = useSelector(selectToken);
+  const { data: currentUser } = useGetCurrentUserQuery();
+
+  const currId = currentUser?.userId;
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -30,7 +33,7 @@ export default function Navbar() {
           <NavLink to="/stage">The Stage</NavLink>
         </button>
         <button type="button" class="btn btn-outline-dark m-2">
-          <NavLink to="/profile">profile</NavLink>
+          <NavLink to={`/profile/${currId}`}>profile</NavLink>
         </button>{" "}
         <button type="button" class="btn btn-outline-dark m-2">
           <NavLink to="/settings">Account Settings</NavLink>
