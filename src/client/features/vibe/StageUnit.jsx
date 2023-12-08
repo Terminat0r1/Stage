@@ -9,9 +9,13 @@ import {
 } from "../stage/postSlice";
 
 const StageUnit = ({ post }) => {
-  const [liked, setLiked] = useState(false);
+  let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
+  // console.log(post.likes);
 
+  if (post.likes.length > 0) {
+    liked = true;
+  }
   const [unfollowUser] = useUnfollowUserMutation();
   const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
@@ -19,15 +23,14 @@ const StageUnit = ({ post }) => {
 
   const handleFollowClick = async () => {
     try {
-      // Toggle the follow state when the button is clicked
-      setFollow(!follow);
-
       // If follow is true, unfollow the user using the mutation
       if (follow) {
         await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       } else if (!follow) {
         await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       }
+      // Toggle the follow state when the button is clicked
+      setFollow(!follow);
     } catch (error) {
       console.error("Error unfollowing user:", error);
       // Handle error as needed
@@ -57,7 +60,11 @@ const StageUnit = ({ post }) => {
       key={post.id}
     >
       <div className="card-header">
-        <h4>{post.author.location}</h4>
+        <h4>
+          {" "}
+          {post.author.location.charAt(0).toUpperCase() +
+            post.author.location.slice(1)}
+        </h4>
       </div>
 
       <div className="d-flex card-body align-items-center text-center">
@@ -68,7 +75,11 @@ const StageUnit = ({ post }) => {
               src={post.author.profilephoto}
               alt="Card image cap"
             />
-            <h5 className="card-title p-2">{post.author.username}</h5>
+            <h5 className="card-title p-2">
+              {" "}
+              {post.author.username.charAt(0).toUpperCase() +
+                post.author.username.slice(1)}
+            </h5>
           </div>
         </Link>
 
@@ -119,7 +130,7 @@ const StageUnit = ({ post }) => {
         title="YouTube video player"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
     </div>
   );

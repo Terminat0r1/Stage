@@ -2,49 +2,49 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../store/api";
 
 /** Authentication endpoints */
-const postApi = api.injectEndpoints({
+const settingApi = api.injectEndpoints({
   endpoints: (builder) => ({
     updateUsername: builder.mutation({
-      query: (credentials) => ({
+      query: (username) => ({
         url: "/users/update-username",
         method: "PUT",
-        body: credentials,
+        body: username,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //-----
     updateEmail: builder.mutation({
-      query: (credentials) => ({
+      query: (email) => ({
         url: "/users/update-email",
         method: "PUT",
-        body: credentials,
+        body: email,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //-----------
     updatebirthDate: builder.mutation({
-      query: (credentials) => ({
+      query: (birthdate) => ({
         url: "/users/update-birthdate",
         method: "PUT",
-        body: credentials,
+        body: birthdate,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //---------------------
     updatelocation: builder.mutation({
-      query: (credentials) => ({
+      query: (location) => ({
         url: "/users/update-location",
         method: "PUT",
-        body: credentials,
+        body: location,
       }),
       transformErrorResponse: (response) => response.data,
     }),
     //---------------------
     updatephoto: builder.mutation({
-      query: (credentials) => ({
+      query: (photo) => ({
         url: "/users/update-profile-photo",
         method: "PUT",
-        body: credentials,
+        body: photo,
       }),
       transformErrorResponse: (response) => response.data,
     }),
@@ -77,4 +77,4 @@ export const {
   useUpdatephotoMutation,
   useUpdatePasswordMutation,
   useDeleteUserMutation,
-} = postApi;
+} = settingApi;
