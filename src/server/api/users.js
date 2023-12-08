@@ -900,7 +900,7 @@ router.put("/update-profile-photo", async (req, res, next) => {
 
 
 
-// Update aboutMe
+// Update about me
 router.put('/update-about-me', async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
@@ -942,7 +942,7 @@ router.put("/update-password", async (req, res, next) => {
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid old password." });
+      return res.status(401).send("Invalid old password.");
     }
 
     // Update password
