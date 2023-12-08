@@ -262,6 +262,10 @@ router.get("/location/:location", async (req, res, next) => {
       },
     });
 
+    if (usersInLocation.length === 0) {
+      throw new ServerError(404, `No users found for the location "${location}".`);
+    }
+
     res.json(usersInLocation);
   } catch (err) {
     console.error(err);
@@ -301,6 +305,10 @@ router.get("/posts/location/:location", async (req, res, next) => {
         },
       },
     });
+
+    if (postsInLocation.length === 0) {
+      throw new ServerError(404, `No posts found for the location "${location}".`);
+    }
 
     res.json(postsInLocation);
   } catch (err) {
