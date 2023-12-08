@@ -13,7 +13,7 @@ async function seed() {
       const email = `${username}@example.com`;
 
       // Create user and capture the returned user object
-      const user = await prisma.user.create({
+      const user = await prisma.user.upsert({
         data: {
           username,
           email,
@@ -29,7 +29,7 @@ async function seed() {
 
       // Create three posts for each user using the stored user object
       for (let j = 0; j < 3; j++) {
-        await prisma.post.create({
+        await prisma.post.upsert({
           data: {
             content: `Post ${j + 1} by ${username}`,
             createdAt: new Date(),
