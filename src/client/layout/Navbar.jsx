@@ -38,10 +38,10 @@ export default function Navbar() {
               <NavLink to={`/profile/${currId}`}>profile</NavLink>
             </button>{" "}
             <button type="button" className="btn btn-outline-dark m-2">
-              <NavLink to="/settings">Account Settings</NavLink>
+              <NavLink to="/bkmark">Bookmark</NavLink>
             </button>{" "}
             <button type="button" className="btn btn-outline-dark m-2">
-              <NavLink to="/bkmark">Bookmark</NavLink>
+              <NavLink to="/settings">Account Settings</NavLink>
             </button>{" "}
             <button type="button" className="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>

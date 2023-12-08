@@ -161,9 +161,7 @@ function PostList() {
   if (!token) {
     return (
       <div className="container  py-5 px-3 mx-auto">
-        {followingposts.map((post) => (
-          <Post post={post} key={post.id} />
-        ))}
+        <h4>Login to see posts</h4>
       </div>
     );
   }
