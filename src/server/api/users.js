@@ -1,6 +1,7 @@
 const { ServerError } = require("../errors");
 const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
+const { parseISO } = require('date-fns');
 
 const router = require("express").Router();
 module.exports = router;
@@ -769,6 +770,15 @@ router.put("/update-username", async (req, res, next) => {
     const userId = res.locals.user.id;
     const { username } = req.body;
 
+    // Check if the new username already exists
+    const existingUserWithUsername = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    if (existingUserWithUsername) {
+      throw new ServerError(400, "Username is already in use.");
+    }
+
     // Update username
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -798,7 +808,7 @@ router.put("/update-email", async (req, res, next) => {
     });
 
     if (existingUserWithEmail) {
-      return res.status(400).json({ error: "Email is already in use." });
+      throw new ServerError(400, "Email is already in use.");
     }
 
     // Update email
@@ -822,7 +832,10 @@ router.put("/update-email", async (req, res, next) => {
 router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
-    const { birthDate } = req.body;
+    let { birthDate } = req.body;
+
+    // Parse birthDate to ensure it's in the correct format
+    birthDate = parseISO(birthDate);
 
     // Update birthDate
     const updatedUser = await prisma.user.update({
