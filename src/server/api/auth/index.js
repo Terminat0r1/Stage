@@ -8,6 +8,8 @@ module.exports = router;
 
 
 
+
+
 // Creates a new account and returns a token
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,8 +17,16 @@ router.post("/register", async (req, res, next) => {
   try {
     const { username, email, password, birthDate, location, isAdmin } = req.body;
 
-    if (!username || !password || !birthDate || !location) {
-      throw new ServerError(400, "Username, password, birthDate, and location are required.");
+    // Check if all required fields are provided
+    if (!username || !email || !password || !birthDate || !location) {
+      const missingFields = [];
+      if (!username) missingFields.push("username");
+      if (!email) missingFields.push("email");
+      if (!password) missingFields.push("password");
+      if (!birthDate) missingFields.push("birthDate");
+      if (!location) missingFields.push("location");
+
+      throw new ServerError(400, `Missing required fields: ${missingFields.join(", ")}.`);
     }
 
     // Validate email format
@@ -24,8 +34,28 @@ router.post("/register", async (req, res, next) => {
       throw new ServerError(400, "Invalid email format.");
     }
 
+    // Validate birthDate format
+    const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!birthDateRegex.test(birthDate)) {
+      throw new ServerError(400, "Invalid birthDate format. Please use the format 'YYYY-MM-DD'.");
+    }
+
     // Parse birthDate to remove the time portion
-    const parsedBirthDate = parse(birthDate, 'yyyy-MM-dd', new Date());
+    let parsedBirthDate;
+    try {
+      parsedBirthDate = new Date(birthDate); // Attempt to create a Date object from the string
+      if (isNaN(parsedBirthDate.getTime())) {
+        // If the date is invalid, throw an error
+        throw new Error();
+      }
+    } catch (dateError) {
+      throw new ServerError(400, "Invalid birthDate. Please provide a valid date in the format 'YYYY-MM-DD'.");
+    }
+
+    // Check if location is a number
+    if (!isNaN(location)) {
+      throw new ServerError(400, "Invalid location. Location cannot be a number.");
+    }
 
     // Check if an account with the provided email already exists
     const existingEmailUser = await prisma.user.findUnique({
