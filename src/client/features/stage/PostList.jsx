@@ -4,6 +4,9 @@ import { selectToken } from "../auth/authSlice";
 import { useCreatePostMutation, useGetFollowingPostsQuery } from "./postSlice";
 import { useState } from "react";
 
+import "./stage.less"
+
+
 const mockData = [
   {
     id: 45,
@@ -170,7 +173,7 @@ function PostList() {
     <>
       <div className="container  py-4 px-3 mx-auto">
         <div>
-          <h1>The Vibe</h1>
+          <h1 className="title">The Vibe</h1>
         </div>
 
         <div className="row">

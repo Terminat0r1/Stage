@@ -21,9 +21,10 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1>Music App</h1>
-      <menu>
-        <button type="button" class="btn btn-outline-dark m-2">
+      <h1>Stage</h1>
+      <menu > 
+       
+        <button type="button" className="bnt" class="btn btn-outline-dark m-2">
           <NavLink to="/">The Vibe</NavLink>
         </button>
         <button type="button" class="btn btn-outline-dark m-2">
@@ -37,9 +38,9 @@ export default function Navbar() {
         </button>{" "}
         {token ? (
           <>
-            <button type="button" class="btn btn-outline-dark m-2">
+            {/* <button type="button" class="btn btn-outline-dark m-2">
               <NavLink to="/bkmark">Bookmark</NavLink>
-            </button>{" "}
+            </button>{" "} */}
             <button type="button" class="btn btn-outline-dark m-2">
               <a onClick={handleLogout}>Log Out</a>
             </button>
@@ -48,7 +49,9 @@ export default function Navbar() {
           <button type="button" class="btn btn-outline-dark m-2">
             <NavLink to="/login">Log In</NavLink>
           </button>
+          
         )}
+        
       </menu>
     </nav>
   );

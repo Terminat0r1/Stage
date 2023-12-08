@@ -5,6 +5,7 @@ import {
   useLikeMutation,
   useUnlikeMutation,
 } from "./postSlice";
+import "./stage.less"
 
 const Post = ({ post }) => {
   const [liked, setLiked] = useState(false);
