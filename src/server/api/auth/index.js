@@ -6,13 +6,22 @@ const router = require("express").Router();
 const { parse } = require("date-fns");
 module.exports = router;
 
+
+
 // Creates a new account and returns a token
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 router.post("/register", async (req, res, next) => {
   try {
     const { username, email, password, birthDate, location, isAdmin } = req.body;
 
-    if (!username || !email || !password || !birthDate || !location) {
-      throw new ServerError(400, "Username, email, password, birthDate, and location are required.");
+    if (!username || !password || !birthDate || !location) {
+      throw new ServerError(400, "Username, password, birthDate, and location are required.");
+    }
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      throw new ServerError(400, "Invalid email format.");
     }
 
     // Parse birthDate to remove the time portion
@@ -63,6 +72,7 @@ router.post("/register", async (req, res, next) => {
     next(err);
   }
 });
+
 
 
 

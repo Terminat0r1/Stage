@@ -797,10 +797,17 @@ router.put("/update-username", async (req, res, next) => {
 
 
 // Update email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 router.put("/update-email", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { email } = req.body;
+
+    // Validate email format
+    if (!emailRegex.test(email)) {
+      throw new ServerError(400, "Invalid email format.");
+    }
 
     // Check if the new email is already in use
     const existingUserWithEmail = await prisma.user.findUnique({
