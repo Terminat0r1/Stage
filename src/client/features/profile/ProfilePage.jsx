@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
 import { useGetUserQuery } from "../stage/postSlice";
 import { useDeletePostMutation } from "../stage/postSlice";
+import CurrUserPosts from "./CurrUserPosts";
 
 const ProfilePage = () => {
   const token = useSelector(selectToken);
@@ -55,7 +56,8 @@ const ProfilePage = () => {
             src={data.profilePhoto}
             alt="User Profile"
           />
-          <h5 className="card-title m-3">{data.username}</h5>
+          <h4 className="card-title m-3">{data.username}</h4>
+          <h5>{data.aboutMe}</h5>
           <p className="card-text m-3">
             {`Post:  ${numPosts}          Followers:     ${numFollowing}`}
           </p>
@@ -66,21 +68,22 @@ const ProfilePage = () => {
           <h4>Posts</h4>
         </div>
         {data.posts.map((post) => (
-          <div
-            className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
-            key={post.id}
-          >
-            <div className="card-title m-3 d-flex flex-column">
-              <h4>{post.content}</h4>
-            </div>
-            <div className="card-text m-3">{post.createdAt}</div>
-            <button
-              className="btn btn-danger"
-              onClick={() => handleDeletePost(post.id)}
-            >
-              Delete Post
-            </button>
-          </div>
+          <CurrUserPosts post={post} key={post.id} />
+          // <div
+          //   className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
+          //   key={post.id}
+          // >
+          //   <div className="card-title m-3 d-flex flex-column">
+          //     <h4>{post.content}</h4>
+          //   </div>
+          //   <div className="card-text m-3">{post.createdAt}</div>
+          //   <button
+          //     className="btn btn-danger"
+          //     onClick={() => handleDeletePost(post.id)}
+          //   >
+          //     Delete Post
+          //   </button>
+          // </div>
         ))}
         <div className="card-body d-flex flex-column"></div>
       </div>
