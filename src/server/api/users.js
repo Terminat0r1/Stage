@@ -55,6 +55,7 @@ router.get("/profile/:id", async (req, res, next) => {
     }
 
     const profileInfo = {
+      userId: userData.id,
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
@@ -74,6 +75,7 @@ router.get("/profile/:id", async (req, res, next) => {
     next(err);
   }
 });
+
 
 
 
