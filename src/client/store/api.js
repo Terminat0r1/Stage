@@ -16,14 +16,15 @@ const api = createApi({
       return headers;
     },
   }),
-  tagTypes: [
-    "Following",
-    "Unfollowing",
-    "Like",
-    "Unlike",
-    "DeletePost,",
-    "Post",
-  ],
+  refetchOnMountOrArgChange: true,
+  // tagTypes: [
+  //   "Following",
+  //   "Unfollowing",
+  //   "Like",
+  //   "Unlike",
+  //   "DeletePost,",
+  //   "Post",
+  // ],
   endpoints: () => ({}),
 });
 

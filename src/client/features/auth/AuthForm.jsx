@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation, useRegisterMutation } from "./authSlice";
+import "./Auth.less";
 
 /** This form allows users to register or log in. */
 export default function AuthForm() {
@@ -122,7 +123,6 @@ export default function AuthForm() {
           <a onClick={() => setIsLogin(!isLogin)} className="mt-3 d-block">
             {altCopy}
           </a>
-
           {(loginLoading || registerLoading) && <p>Please wait...</p>}
           {loginError && <p role="alert">{loginError}</p>}
           {registerError && <p role="alert">{registerError}</p>}
