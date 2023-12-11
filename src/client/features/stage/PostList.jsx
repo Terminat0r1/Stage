@@ -177,6 +177,7 @@ function PostList() {
           <h1 className="title">The Vibe</h1>
         </div>
 
+
         <div className="row">
           <div className="col text-center">
             <form onSubmit={create}>
@@ -192,7 +193,7 @@ function PostList() {
                 />
               </div>
               <div className=" col-4 text-right">
-                <button className="btn btn-dark">Post</button>
+                <button className="btn btn-dark ">Post</button>
               </div>
             </form>
           </div>
