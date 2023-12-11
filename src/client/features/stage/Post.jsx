@@ -7,9 +7,9 @@ import {
   useLikeMutation,
   useUnlikeMutation,
 } from "./postSlice";
-import "./stage.less"
+import "./stage.less";
 
-const Post = ({ post }) => {
+const Post = ({ post, refetch }) => {
   let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(true);
 
@@ -39,6 +39,7 @@ const Post = ({ post }) => {
       } else if (!follow) {
         await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       }
+      refetch();
     } catch (error) {
       console.error("Error unfollowing user:", error);
       // Handle error as needed
