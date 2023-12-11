@@ -12,9 +12,11 @@ async function seed() {
       const username = generateRandomUsername();
       const email = `${username}@example.com`;
 
-      // Create user and capture the returned user object
-      const user = await prisma.user.create({
-        data: {
+      // Use upsert with `create` and `update` options
+      const user = await prisma.user.upsert({
+        where: { username },
+        update: {},
+        create: {
           username,
           email,
           password: 'password123',
