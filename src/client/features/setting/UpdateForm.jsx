@@ -5,16 +5,21 @@ import { logout } from "../../features/auth/authSlice";
 import {
   useUpdateUsernameMutation,
   useUpdateEmailMutation,
+<<<<<<< HEAD
   useUpdatebirthDateMutation,
   useUpdatelocationMutation,
   useUpdatephotoMutation,
   useUpdatePasswordMutation,
   useDeleteUserMutation,
 } from "./settingSlice";
+=======
+} from "../stage/postSlice";
+>>>>>>> main
 
 const UpdateForm = () => {
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
+<<<<<<< HEAD
   const [birthDate, setBirthDate] = useState(null);
   const [location, setLocation] = useState(null);
   const [photo, setPhoto] = useState("");
@@ -31,6 +36,11 @@ const UpdateForm = () => {
   const [updatephoto] = useUpdatephotoMutation();
   const [updatePassword] = useUpdatePasswordMutation();
   const [deleteUser] = useDeleteUserMutation();
+=======
+
+  const updateUsername = useUpdateUsernameMutation();
+  const updateEmail = useUpdateEmailMutation();
+>>>>>>> main
 
   const handleUpdateUsername = async (e) => {
     e.preventDefault();
@@ -46,6 +56,7 @@ const UpdateForm = () => {
   };
 
   const handleUpdateEmail = async (e) => {
+<<<<<<< HEAD
     e.preventDefault();
     const credentials = {
       email: email,
@@ -108,8 +119,17 @@ const UpdateForm = () => {
       await updatePassword(credentials).unwrap();
       setOldPassword(null);
       setNewPassword(null);
+=======
+    e.preventDefault();
+    const credentials = {
+      email: email,
+    };
+    try {
+      await updateEmail(credentials).unwrap();
+      setEmail(null);
+>>>>>>> main
     } catch (error) {
-      console.error("Error updating password:", error);
+      console.error("Error updating email:", error);
     }
   };
 
@@ -168,6 +188,7 @@ const UpdateForm = () => {
           </form>
         </div>
         <br />
+<<<<<<< HEAD
         {/* Update BirthDate */}
         <div className="form-floating ">
           <form onSubmit={handleUpdatebirthDate}>
@@ -266,6 +287,8 @@ const UpdateForm = () => {
           </form>
         </div>
         <br />
+=======
+>>>>>>> main
       </div>
     </>
   );

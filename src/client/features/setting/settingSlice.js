@@ -4,6 +4,7 @@ import api from "../../store/api";
 /** Authentication endpoints */
 const postApi = api.injectEndpoints({
   endpoints: (builder) => ({
+<<<<<<< HEAD
     updateUsername: builder.mutation({
       query: (credentials) => ({
         url: "/users/update-username",
@@ -21,6 +22,8 @@ const postApi = api.injectEndpoints({
       }),
       transformErrorResponse: (response) => response.data,
     }),
+=======
+>>>>>>> main
     //-----------
     updatebirthDate: builder.mutation({
       query: (credentials) => ({
@@ -71,8 +74,6 @@ const postApi = api.injectEndpoints({
 });
 
 export const {
-  useUpdateUsernameMutation,
-  useUpdateEmailMutation,
   useUpdatebirthDateMutation,
   useUpdatelocationMutation,
   useUpdatephotoMutation,

@@ -55,6 +55,7 @@ router.get("/profile/:id", async (req, res, next) => {
     }
 
     const profileInfo = {
+      userId: userData.id,
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
@@ -78,6 +79,10 @@ router.get("/profile/:id", async (req, res, next) => {
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 // Get signed in user's ID
 router.get('/user-id', (req, res, next) => {
   try {
