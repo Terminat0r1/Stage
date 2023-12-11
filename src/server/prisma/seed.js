@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 function generateRandomUsername() {
-  return `user_${Math.floor(Math.random() * 10000)}_${Date.now()}`;
+  return `user_${Math.floor(Math.random() * 10000)}`;
 }
 
 async function seed() {
@@ -34,6 +34,7 @@ async function seed() {
         await prisma.post.create({
           data: {
             content: `Post ${j + 1} by ${username}`,
+            link: 'https://www.youtube.com/watch?v=0hiUuL5uTKc',
             createdAt: new Date(),
             authorId: user.id,
           },
