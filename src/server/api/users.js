@@ -64,7 +64,7 @@ router.get("/profile/:id", async (req, res, next) => {
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
-        link: post.link, // Include the link property
+        link: post.link,
         createdAt: post.createdAt,
         likes: post.likes.map((like) => ({ likerId: like.likerId })),
       })),
@@ -133,7 +133,7 @@ router.get("/profile/:id/posts", async (req, res, next) => {
     const posts = userData.posts.map((post) => ({
       id: post.id,
       content: post.content,
-      link: post.link,  // Include the link property
+      link: post.link,
       createdAt: post.createdAt,
       authorProfilePhoto: post.author.profilePhoto,
       likes: post.likes.map((like) => ({
@@ -302,7 +302,11 @@ router.get("/posts/location/:location", async (req, res, next) => {
           location: location,
         },
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
