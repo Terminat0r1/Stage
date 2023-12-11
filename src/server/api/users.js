@@ -556,7 +556,7 @@ router.get("/stage", async (req, res, next) => {
       (user) => user.userFollowedId
     );
 
-    // Fetch posts from users not followed by the current user with additional details including author and likes
+    // Fetch posts from users not followed by the current user with additional details including author, likes, and link
     const feedPostsNotFollowing = await prisma.post.findMany({
       where: {
         authorId: {
@@ -566,7 +566,11 @@ router.get("/stage", async (req, res, next) => {
       orderBy: {
         createdAt: "desc",
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
