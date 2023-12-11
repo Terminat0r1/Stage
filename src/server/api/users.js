@@ -431,12 +431,13 @@ router.get("/posts/:postId", async (req, res, next) => {
   try {
     const postId = parseInt(req.params.postId);
 
-    // Fetch post details including author and likes
+    // Fetch post details including author, likes, and link
     const postDetails = await prisma.post.findUnique({
       where: { id: postId },
       select: {
         id: true,
         content: true,
+        link: true,
         createdAt: true,
         author: {
           select: {
@@ -491,7 +492,7 @@ router.get("/vibe", async (req, res, next) => {
       (user) => user.userFollowedId
     );
 
-    // Fetch posts from the followed users with additional details including author and likes
+    // Fetch posts from the followed users with additional details including author, likes, and link
     const feedPosts = await prisma.post.findMany({
       where: {
         authorId: {
@@ -501,7 +502,11 @@ router.get("/vibe", async (req, res, next) => {
       orderBy: {
         createdAt: "desc",
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
