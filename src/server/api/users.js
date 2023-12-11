@@ -64,6 +64,7 @@ router.get("/profile/:id", async (req, res, next) => {
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
+        link: post.link, // Include the link property
         createdAt: post.createdAt,
         likes: post.likes.map((like) => ({ likerId: like.likerId })),
       })),
@@ -132,6 +133,7 @@ router.get("/profile/:id/posts", async (req, res, next) => {
     const posts = userData.posts.map((post) => ({
       id: post.id,
       content: post.content,
+      link: post.link,  // Include the link property
       createdAt: post.createdAt,
       authorProfilePhoto: post.author.profilePhoto,
       likes: post.likes.map((like) => ({
@@ -338,23 +340,25 @@ router.get("/posts/location/:location", async (req, res, next) => {
 // Create a new post
 router.post("/posts", async (req, res, next) => {
   try {
-    const { content } = req.body;
+    const { content, link } = req.body;
     const userId = res.locals.user.id;
 
-    // Check if the content is an empty string
-    if (!content.trim()) {
-      throw new ServerError(400, "Post content cannot be empty.");
+    // Check if the content or link is an empty string
+    if (!content.trim() || !link.trim()) {
+      throw new ServerError(400, "Post content and link cannot be empty.");
     }
 
     const newPost = await prisma.post.create({
       data: {
         content,
+        link,
         createdAt: new Date(),
         authorId: userId,
       },
       select: {
         id: true,
         content: true,
+        link: true,
         createdAt: true,
         author: {
           select: {
