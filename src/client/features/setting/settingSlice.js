@@ -71,6 +71,8 @@ const postApi = api.injectEndpoints({
 });
 
 export const {
+  useUpdateUsernameMutation,
+  useUpdateEmailMutation,
   useUpdatebirthDateMutation,
   useUpdatelocationMutation,
   useUpdatephotoMutation,
