@@ -4,8 +4,7 @@ import { selectToken } from "../auth/authSlice";
 import { useCreatePostMutation, useGetFollowingPostsQuery } from "./postSlice";
 import { useState } from "react";
 
-import "./stage.less"
-
+import "./stage.less";
 
 const mockData = [
   {
@@ -140,7 +139,12 @@ function PostList() {
   const token = useSelector(selectToken);
   const [newPost, setNewPost] = useState("");
   const [createPost] = useCreatePostMutation();
-  const { data: posts } = useGetFollowingPostsQuery();
+  const { data: posts, refetch } = useGetFollowingPostsQuery();
+
+  function handleRefetchOne() {
+    // force re-fetches the data
+    refetch();
+  }
 
   let followingposts = posts || mockData;
 
@@ -198,7 +202,7 @@ function PostList() {
       </div>
       <div className="container  py-5 px-3 w-100">
         {followingposts.map((post) => (
-          <Post post={post} key={post.id} />
+          <Post post={post} key={post.id} refetch={handleRefetchOne} />
         ))}
       </div>
     </>

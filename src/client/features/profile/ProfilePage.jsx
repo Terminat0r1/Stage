@@ -9,7 +9,7 @@ import { useDeletePostMutation } from "../stage/postSlice";
 const ProfilePage = () => {
   const token = useSelector(selectToken);
   const { id } = useParams();
-  const { data, error, isLoading } = useGetUserQuery(id);
+  const { data, error, isLoading, refetch } = useGetUserQuery(id);
   const { data: currentuser } = useGetCurrentUserQuery();
   const [deletePostMutation] = useDeletePostMutation();
 
@@ -19,6 +19,7 @@ const ProfilePage = () => {
   const handleDeletePost = async (postId) => {
     try {
       await deletePostMutation(postId).unwrap();
+      refetch();
     } catch (error) {
       console.error("Error deleting post:", error);
       // Handle error as needed
