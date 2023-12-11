@@ -150,7 +150,7 @@ router.get("/profile/:id/posts", async (req, res, next) => {
 
 
 
-// Get users followed by a specific user
+// Get users a specific user is following
 router.get("/profile/:id/following", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
@@ -180,9 +180,7 @@ router.get("/profile/:id/following", async (req, res, next) => {
     }
 
     if (userData.usersFollowed.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "This user is not following anyone." });
+      return res.status(200).send("This user is not following anyone.");
     }
 
     const followingInfo = userData.usersFollowed.map((followedUser) => ({
@@ -195,6 +193,12 @@ router.get("/profile/:id/following", async (req, res, next) => {
     res.json(followingInfo);
   } catch (err) {
     console.error(err);
+
+    // Check if it's a user-friendly error message
+    if (err instanceof ServerError) {
+      return res.status(err.statusCode).send(err.message);
+    }
+
     next(err);
   }
 });
