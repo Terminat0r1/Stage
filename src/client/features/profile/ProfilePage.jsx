@@ -3,14 +3,17 @@ import ProfileNavTabs from "./ProfileNavbar";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
-import { useGetUserQuery } from "../stage/postSlice";
+import { useGetUserQuery, useGetCurrentUserQuery } from "../stage/postSlice";
 import { useDeletePostMutation } from "../stage/postSlice";
 
 const ProfilePage = () => {
   const token = useSelector(selectToken);
   const { id } = useParams();
   const { data, error, isLoading } = useGetUserQuery(id);
+  const { data: currentuser } = useGetCurrentUserQuery();
   const [deletePostMutation] = useDeletePostMutation();
+
+  let showdelete = false;
 
   // Function to handle post deletion
   const handleDeletePost = async (postId) => {
@@ -39,7 +42,13 @@ const ProfilePage = () => {
   if (data.following) {
     numFollowing = data.following.length;
   }
-  // console.log(data);
+  if (data.userId == currentuser.userId) {
+    showdelete = true;
+  }
+
+  console.log(data);
+  console.log(currentuser.userId);
+  console.log(showdelete);
 
   return (
     <div className="profile-page">
@@ -56,6 +65,7 @@ const ProfilePage = () => {
             alt="User Profile"
           />
           <h5 className="card-title m-3">{data.username}</h5>
+          <h5>{data.aboutMe}</h5>
           <p className="card-text m-3">
             {`Post:  ${numPosts}          Followers:     ${numFollowing}`}
           </p>
@@ -65,23 +75,35 @@ const ProfilePage = () => {
         <div className="card-header m-3">
           <h4>Posts</h4>
         </div>
-        {data.posts.map((post) => (
-          <div
-            className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
-            key={post.id}
-          >
-            <div className="card-title m-3 d-flex flex-column">
-              <h4>{post.content}</h4>
-            </div>
-            <div className="card-text m-3">{post.createdAt}</div>
-            <button
-              className="btn btn-danger"
-              onClick={() => handleDeletePost(post.id)}
-            >
-              Delete Post
-            </button>
-          </div>
-        ))}
+        {showdelete
+          ? data.posts.map((post) => (
+              <div
+                className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
+                key={post.id}
+              >
+                <div className="card-title m-3 d-flex flex-column">
+                  <h4>{post.content}</h4>
+                </div>
+                <div className="card-text m-3">{post.createdAt}</div>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeletePost(post.id)}
+                >
+                  Delete Post
+                </button>
+              </div>
+            ))
+          : data.posts.map((post) => (
+              <div
+                className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
+                key={post.id}
+              >
+                <div className="card-title m-3 d-flex flex-column">
+                  <h4>{post.content}</h4>
+                </div>
+                <div className="card-text m-3">{post.createdAt}</div>
+              </div>
+            ))}
         <div className="card-body d-flex flex-column"></div>
       </div>
     </div>
