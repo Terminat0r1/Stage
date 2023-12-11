@@ -34,6 +34,7 @@ async function seed() {
         await prisma.post.create({
           data: {
             content: `Post ${j + 1} by ${username}`,
+            link: 'https://www.youtube.com/watch?v=0hiUuL5uTKc',
             createdAt: new Date(),
             authorId: user.id,
           },
