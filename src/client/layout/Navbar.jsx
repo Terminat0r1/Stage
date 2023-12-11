@@ -26,7 +26,7 @@ export default function Navbar() {
     <nav className="top">
       <h1>Stage</h1>
       <menu > 
-       
+       <div>
         <button type="button" className="bnt" class="btn btn-outline-dark m-2">
           <NavLink to="/">The Vibe</NavLink>
         </button>
@@ -54,6 +54,7 @@ export default function Navbar() {
           </button>
           
         )}
+      </div>
         
       </menu>
     </nav>

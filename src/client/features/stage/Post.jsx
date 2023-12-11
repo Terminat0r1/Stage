@@ -74,7 +74,7 @@ const Post = ({ post }) => {
       key={post.id}
     >
       <div className="col-md-5 w-100 m-3">
-        <div className="h-100 p-5 bg-body-tertiary border rounded-3">
+        <div className="h-100 p-5 bg-primary-tertiary border rounded-3 ">
           <p>{post.author.location}</p>
           <h2>
             {" "}
@@ -172,3 +172,5 @@ const Post = ({ post }) => {
 };
 
 export default Post;
+
+
