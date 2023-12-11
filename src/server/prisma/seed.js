@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 function generateRandomUsername() {
-  return `user_${Math.floor(Math.random() * 10000)}_${Date.now()}`;
+  return `user_${Math.floor(Math.random() * 10000)}`;
 }
 
 async function seed() {
