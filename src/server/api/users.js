@@ -1,10 +1,11 @@
 const { ServerError } = require("../errors");
 const prisma = require("../prisma");
 const bcrypt = require("bcrypt");
-const { parseISO } = require('date-fns');
+const { parseISO } = require("date-fns");
 
 const router = require("express").Router();
 module.exports = router;
+
 
 
 
@@ -55,6 +56,7 @@ router.get("/profile/:id", async (req, res, next) => {
     }
 
     const profileInfo = {
+      userId: userData.id,
       username: userData.username,
       location: userData.location,
       profilePhoto: userData.profilePhoto,
@@ -78,15 +80,16 @@ router.get("/profile/:id", async (req, res, next) => {
 
 
 
-// Define the route to get the user ID
-router.get('/user-id', (req, res, next) => {
+
+// Get signed in user's ID
+router.get("/user-id", (req, res, next) => {
   try {
     const userId = res.locals.user.id;
 
     // Respond with the user ID
     res.json({ userId });
   } catch (err) {
-    console.error('Error in /user-id route:', err);
+    console.error("Error in /user-id route:", err);
     next(err);
   }
 });
@@ -147,7 +150,7 @@ router.get("/profile/:id/posts", async (req, res, next) => {
 
 
 
-// Get users followed by a specific user
+// Get users a specific user is following
 router.get("/profile/:id/following", async (req, res, next) => {
   try {
     const userId = parseInt(req.params.id);
@@ -177,9 +180,7 @@ router.get("/profile/:id/following", async (req, res, next) => {
     }
 
     if (userData.usersFollowed.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "This user is not following anyone." });
+      return res.status(200).send("This user is not following anyone.");
     }
 
     const followingInfo = userData.usersFollowed.map((followedUser) => ({
@@ -192,6 +193,12 @@ router.get("/profile/:id/following", async (req, res, next) => {
     res.json(followingInfo);
   } catch (err) {
     console.error(err);
+
+    // Check if it's a user-friendly error message
+    if (err instanceof ServerError) {
+      return res.status(err.statusCode).send(err.message);
+    }
+
     next(err);
   }
 });
@@ -264,7 +271,10 @@ router.get("/location/:location", async (req, res, next) => {
     });
 
     if (usersInLocation.length === 0) {
-      throw new ServerError(404, `No users found for the location "${location}".`);
+      throw new ServerError(
+        404,
+        `No users found for the location "${location}".`
+      );
     }
 
     res.json(usersInLocation);
@@ -308,7 +318,10 @@ router.get("/posts/location/:location", async (req, res, next) => {
     });
 
     if (postsInLocation.length === 0) {
-      throw new ServerError(404, `No posts found for the location "${location}".`);
+      throw new ServerError(
+        404,
+        `No posts found for the location "${location}".`
+      );
     }
 
     res.json(postsInLocation);
@@ -835,14 +848,32 @@ router.put("/update-email", async (req, res, next) => {
 
 
 
-// Update birthdate
+// Update birth date
 router.put("/update-birthdate", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     let { birthDate } = req.body;
 
     // Parse birthDate to ensure it's in the correct format
-    birthDate = parseISO(birthDate);
+    const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (!birthDateRegex.test(birthDate)) {
+      throw new ServerError(
+        400,
+        "Invalid birth date format. Please use the format 'YYYY-MM-DD'."
+      );
+    }
+
+    // Convert the string to a Date object
+    birthDate = new Date(birthDate);
+
+    // Check if the Date object is valid
+    if (isNaN(birthDate.getTime())) {
+      throw new ServerError(
+        400,
+        "Invalid birth date. Please provide a valid date."
+      );
+    }
 
     // Update birthDate
     const updatedUser = await prisma.user.update({
@@ -866,6 +897,14 @@ router.put("/update-location", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { location } = req.body;
+
+    // Check if location is a number
+    if (!isNaN(location)) {
+      throw new ServerError(
+        400,
+        "Invalid location. Location cannot be a number."
+      );
+    }
 
     // Update location
     const updatedUser = await prisma.user.update({
@@ -908,7 +947,7 @@ router.put("/update-profile-photo", async (req, res, next) => {
 
 
 // Update about me
-router.put('/update-about-me', async (req, res, next) => {
+router.put("/update-about-me", async (req, res, next) => {
   try {
     const userId = res.locals.user.id;
     const { aboutMe } = req.body;

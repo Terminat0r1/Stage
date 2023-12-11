@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 function generateRandomUsername() {
-  return `user_${Math.floor(Math.random() * 10000)}`;
+  return `user_${Math.floor(Math.random() * 10000)}_${Date.now()}`;
 }
 
 async function seed() {
@@ -12,9 +12,11 @@ async function seed() {
       const username = generateRandomUsername();
       const email = `${username}@example.com`;
 
-      // Create user and capture the returned user object
+      // Use upsert with `create` and `update` options
       const user = await prisma.user.upsert({
-        data: {
+        where: { username },
+        update: {},
+        create: {
           username,
           email,
           password: 'password123',
@@ -29,7 +31,7 @@ async function seed() {
 
       // Create three posts for each user using the stored user object
       for (let j = 0; j < 3; j++) {
-        await prisma.post.upsert({
+        await prisma.post.create({
           data: {
             content: `Post ${j + 1} by ${username}`,
             createdAt: new Date(),
