@@ -697,7 +697,7 @@ router.post("/posts/:postId/like", async (req, res, next) => {
     // Check if the post exists
     const existingPost = await prisma.post.findUnique({
       where: { id: postId },
-      select: { id: true, authorId: true },
+      select: { id: true, authorId: true, link: true },
     });
 
     if (!existingPost) {
@@ -732,6 +732,7 @@ router.post("/posts/:postId/like", async (req, res, next) => {
           select: {
             id: true,
             content: true,
+            link: true,
             createdAt: true,
             author: {
               select: {
