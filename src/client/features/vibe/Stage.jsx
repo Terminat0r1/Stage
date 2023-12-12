@@ -48,8 +48,8 @@ const Stage = () => {
   return (
     <>
       <div className="container  py-4 px-3 mx-auto">
-        <div>
-          <h1>The Stage Page</h1>
+        <div className="title">
+          <h1>The Stage</h1>
         </div>
 
         <div className="row">
