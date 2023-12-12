@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StageUnit from "./StageUnit";
 import "./vibe.css";
-import { useGetPostStageQuery } from "../Stage/postSlice";
+import { useGetPostStageQuery } from "../stage/postSlice";
 
 const Stage = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);

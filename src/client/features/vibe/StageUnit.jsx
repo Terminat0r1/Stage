@@ -6,7 +6,7 @@ import {
   useFollowUserMutation,
   useLikeMutation,
   useUnlikeMutation,
-} from "../Stage/postSlice";
+} from "../stage/postSlice";
 
 const StageUnit = ({ post }) => {
   let [liked, setLiked] = useState(false);
