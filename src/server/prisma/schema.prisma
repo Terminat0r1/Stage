@@ -14,7 +14,7 @@ model User {
     password      String
     birthDate     DateTime
     location      String
-    profilePhoto  String?          @default("https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg")
+    profilePhoto  String?          @default("https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=")
     aboutMe       String?          @default("Welcome to my page!")
     posts         Post[]           @relation("userPosts")
     isAdmin       Boolean
@@ -27,6 +27,7 @@ model User {
 model Post {
     id            Int             @id @default(autoincrement())
     content       String
+    link          String
     createdAt     DateTime        @default(now())
     author        User            @relation("userPosts", fields: [authorId], references: [id])
     authorId      Int
