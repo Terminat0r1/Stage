@@ -6,7 +6,7 @@ import {
   useFollowUserMutation,
   useLikeMutation,
   useUnlikeMutation,
-} from "../stage/postSlice";
+} from "../Stage/postSlice";
 
 const StageUnit = ({ post }) => {
   let [liked, setLiked] = useState(false);
@@ -60,21 +60,23 @@ const StageUnit = ({ post }) => {
       key={post.id}
     >
 <div className="card-body d-flex flex-row">
+    <div className="user-picure">     
         <div className="d-flex flex-column align-items-center justify-content-center">
           <Link to={`/profile/${post.author.id}`}>
-            <div className="d-flex flex-column align-items-center justify-content-center">
-              <img
-                className="card-img-top userImg p-2"
-                src={post.author.profilephoto}
-                alt="Card image cap"
-              />
-              <h5 className="card-title p-2">
-                {" "}
-                {post.author.username.charAt(0).toUpperCase() +
-                  post.author.username.slice(1)}
-              </h5>
-            </div>
+              <div className="d-flex flex-column align-items-center justify-content-center">
+                <img
+                  className="card-img-top userImg p-2"
+                  src={post.author.profilephoto}
+                  alt="Card image cap"
+                />
+                <h5 className="card-title p-2">
+                  {" "}
+                  {post.author.username.charAt(0).toUpperCase() +
+                    post.author.username.slice(1)}
+                </h5>
+              </div>
           </Link>
+        </div>
         </div>
         <div className="card-body">
           <div className="m-3 p-3">
@@ -96,25 +98,27 @@ const StageUnit = ({ post }) => {
               post.author.location.slice(1)}
           </h4>
         </div>
-        <button
-          className={`d-flex align-items-center justify-content-center ${
-            liked ? "btn btn-danger" : "btn btn-outline-danger"
-          }`}
-          type="button"
-          onClick={handleLikeClick}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-chat-heart-fill me-2"
-            viewBox="0 0 16 16"
+        <div className="likebtn">
+          <button
+            className={`d-flex align-items-center justify-content-center ${
+              liked ? "btn btn-danger" : "btn btn-outline-danger"
+            }`}
+            type="button"
+            onClick={handleLikeClick}
           >
-            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
-          </svg>
-          Like
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chat-heart-fill me-2"
+              viewBox="0 0 16 16"
+            >
+              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
+            </svg>
+            Like
+          </button>
+        </div>
         <button
           className={`d-flex align-items-center justify-content-center m-2 ${
             follow ? "btn btn-dark" : "btn btn-outline-dark"
