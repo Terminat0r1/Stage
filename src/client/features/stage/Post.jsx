@@ -54,6 +54,7 @@ const Post = ({ post, refetch }) => {
       } else {
         await like(post.id).unwrap(); // Assuming post.id is the post's ID
       }
+      refetch();
       // Toggle the liked state when the button is clicked
       setLiked(!liked);
     } catch (error) {
