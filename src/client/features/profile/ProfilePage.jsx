@@ -85,6 +85,7 @@ const ProfilePage = () => {
                 <div className="card-title m-3 d-flex flex-column">
                   <h4>{post.content}</h4>
                 </div>
+                <div>{post.link}</div>
                 <div className="card-text m-3">{post.createdAt}</div>
                 <button
                   className="btn btn-danger"
@@ -102,6 +103,7 @@ const ProfilePage = () => {
                 <div className="card-title m-3 d-flex flex-column">
                   <h4>{post.content}</h4>
                 </div>
+                {post.link}
                 <div className="card-text m-3">{post.createdAt}</div>
               </div>
             ))}
