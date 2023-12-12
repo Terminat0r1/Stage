@@ -64,6 +64,7 @@ router.get("/profile/:id", async (req, res, next) => {
       posts: userData.posts.map((post) => ({
         id: post.id,
         content: post.content,
+        link: post.link,
         createdAt: post.createdAt,
         likes: post.likes.map((like) => ({ likerId: like.likerId })),
       })),
@@ -132,6 +133,7 @@ router.get("/profile/:id/posts", async (req, res, next) => {
     const posts = userData.posts.map((post) => ({
       id: post.id,
       content: post.content,
+      link: post.link,
       createdAt: post.createdAt,
       authorProfilePhoto: post.author.profilePhoto,
       likes: post.likes.map((like) => ({
@@ -300,7 +302,11 @@ router.get("/posts/location/:location", async (req, res, next) => {
           location: location,
         },
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
@@ -338,23 +344,25 @@ router.get("/posts/location/:location", async (req, res, next) => {
 // Create a new post
 router.post("/posts", async (req, res, next) => {
   try {
-    const { content } = req.body;
+    const { content, link } = req.body;
     const userId = res.locals.user.id;
 
-    // Check if the content is an empty string
-    if (!content.trim()) {
-      throw new ServerError(400, "Post content cannot be empty.");
+    // Check if the content or link is an empty string
+    if (!content.trim() || !link.trim()) {
+      throw new ServerError(400, "Post content and link cannot be empty.");
     }
 
     const newPost = await prisma.post.create({
       data: {
         content,
+        link,
         createdAt: new Date(),
         authorId: userId,
       },
       select: {
         id: true,
         content: true,
+        link: true,
         createdAt: true,
         author: {
           select: {
@@ -423,12 +431,13 @@ router.get("/posts/:postId", async (req, res, next) => {
   try {
     const postId = parseInt(req.params.postId);
 
-    // Fetch post details including author and likes
+    // Fetch post details including author, likes, and link
     const postDetails = await prisma.post.findUnique({
       where: { id: postId },
       select: {
         id: true,
         content: true,
+        link: true,
         createdAt: true,
         author: {
           select: {
@@ -483,7 +492,7 @@ router.get("/vibe", async (req, res, next) => {
       (user) => user.userFollowedId
     );
 
-    // Fetch posts from the followed users with additional details including author and likes
+    // Fetch posts from the followed users with additional details including author, likes, and link
     const feedPosts = await prisma.post.findMany({
       where: {
         authorId: {
@@ -493,7 +502,11 @@ router.get("/vibe", async (req, res, next) => {
       orderBy: {
         createdAt: "desc",
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
@@ -543,7 +556,7 @@ router.get("/stage", async (req, res, next) => {
       (user) => user.userFollowedId
     );
 
-    // Fetch posts from users not followed by the current user with additional details including author and likes
+    // Fetch posts from users not followed by the current user with additional details including author, likes, and link
     const feedPostsNotFollowing = await prisma.post.findMany({
       where: {
         authorId: {
@@ -553,7 +566,11 @@ router.get("/stage", async (req, res, next) => {
       orderBy: {
         createdAt: "desc",
       },
-      include: {
+      select: {
+        id: true,
+        content: true,
+        link: true,
+        createdAt: true,
         author: {
           select: {
             id: true,
@@ -680,7 +697,7 @@ router.post("/posts/:postId/like", async (req, res, next) => {
     // Check if the post exists
     const existingPost = await prisma.post.findUnique({
       where: { id: postId },
-      select: { id: true, authorId: true },
+      select: { id: true, authorId: true, link: true },
     });
 
     if (!existingPost) {
@@ -715,6 +732,7 @@ router.post("/posts/:postId/like", async (req, res, next) => {
           select: {
             id: true,
             content: true,
+            link: true,
             createdAt: true,
             author: {
               select: {

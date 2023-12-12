@@ -138,6 +138,7 @@ const mockData = [
 function PostList() {
   const token = useSelector(selectToken);
   const [newPost, setNewPost] = useState("");
+  const [musicLink, setMusicLink] = useState(""); // Added state for music link
   const [createPost] = useCreatePostMutation();
   const { data: posts, refetch } = useGetFollowingPostsQuery();
 
@@ -148,22 +149,21 @@ function PostList() {
 
   let followingposts = posts || mockData;
 
-  // console.log(posts);
-
   const create = async (evt) => {
     evt.preventDefault();
 
     const credentials = {
       content: newPost,
+      link: musicLink, // Include music link in the credentials
     };
     try {
       await createPost(credentials).unwrap();
       setNewPost("");
+      setMusicLink(""); // Clear music link after posting
     } catch (err) {
       console.error(err);
     }
   };
-  // console.log(token);
 
   if (!token) {
     return (
@@ -184,6 +184,16 @@ function PostList() {
           <div className="col text-center">
             <form onSubmit={create}>
               <div className="form-floating">
+                {/* Input field for music link */}
+                <div className="form-floating mt-2">
+                  <input
+                    type="text"
+                    value={musicLink}
+                    onChange={(e) => setMusicLink(e.target.value)}
+                    className="form-control"
+                    placeholder="Music link"
+                  />
+                </div>
                 <textarea
                   type="text"
                   value={newPost}

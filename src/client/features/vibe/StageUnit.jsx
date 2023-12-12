@@ -53,7 +53,7 @@ const StageUnit = ({ post }) => {
       // Handle error as needed
     }
   };
-
+  console.log(post);
   return (
     <div
       className="stagecard card border border-dark rounded w-100 p-3 m-3"
