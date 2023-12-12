@@ -25,6 +25,7 @@ router.use((req, res, next) => {
 // Get user profile information
 router.get("/profile/:id", async (req, res, next) => {
   try {
+    const loggedInUserId = res.locals.user.id; // Get the ID of the logged-in user
     const userId = parseInt(req.params.id);
 
     // Fetch user data including posts and followers
@@ -55,6 +56,11 @@ router.get("/profile/:id", async (req, res, next) => {
       throw new ServerError(404, "User not found.");
     }
 
+    // Check if the logged-in user is following the viewed user
+    const isFollowing = userData.followers.some(
+      (follower) => follower.followerId === loggedInUserId
+    );
+
     const profileInfo = {
       userId: userData.id,
       username: userData.username,
@@ -69,6 +75,7 @@ router.get("/profile/:id", async (req, res, next) => {
         likes: post.likes.map((like) => ({ likerId: like.likerId })),
       })),
       followers: userData.followers,
+      isFollowing: isFollowing,
     };
 
     res.json(profileInfo);
