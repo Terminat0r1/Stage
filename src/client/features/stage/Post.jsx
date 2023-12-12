@@ -75,30 +75,43 @@ const Post = ({ post, refetch }) => {
       className="stagecard card border border-dark rounded w-100 p-3 m-3"
       key={post.id}
     >
-      <div className="card-header">
-        <h4>
-          {" "}
-          {post.author.location.charAt(0).toUpperCase() +
-            post.author.location.slice(1)}
-        </h4>
-      </div>
-
-      <div className="d-flex card-body align-items-center text-center">
-        <Link to={`/profile/${post.author.id}`}>
-          <div className="d-flex align-items-center justify-content-center">
-            <img
-              className="card-img-top userImg p-2"
-              src={post.author.profilephoto}
-              alt="Card image cap"
-            />
-            <h5 className="card-title p-2">
-              {" "}
+     <div className="card-body d-flex flex-row">
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <Link to={`/profile/${post.author.id}`}>
+            <div className="d-flex flex-column align-items-center justify-content-center">
+              <img
+                className="card-img-top userImg p-2"
+                src={post.author.profilephoto}
+                alt="Card image cap"
+              />
+              <h5 className="card-title p-2">
+                {" "}
+                {post.author.username.charAt(0).toUpperCase() +
+                  post.author.username.slice(1)}
+              </h5>
+            </div>
+          </Link>
+        </div>
+        <div className="card-body">
+          <div className="m-3 p-3">
+            <h4>
               {post.author.username.charAt(0).toUpperCase() +
-                post.author.username.slice(1)}
-            </h5>
+                post.author.username.slice(1)}{" "}
+              is listening to <a href={post.link}>Music Track</a> by The
+              Foundations on Spotify.
+            </h4>
+            <h4>"{post.content}"</h4>
           </div>
-        </Link>
-
+        </div>
+      </div>
+      <div className="card-footer d-flex flex-row">
+        <div>
+          <h4>
+            {" "}
+            {post.author.location.charAt(0).toUpperCase() +
+              post.author.location.slice(1)}
+          </h4>
+        </div>
         <button
           className={`d-flex align-items-center justify-content-center ${
             liked ? "btn btn-danger" : "btn btn-outline-danger"
@@ -138,7 +151,6 @@ const Post = ({ post, refetch }) => {
           {follow ? "Unfollow" : "Follow"}
         </button>
       </div>
-      <h2>{post.content}</h2>
     </div>
   );
 };
