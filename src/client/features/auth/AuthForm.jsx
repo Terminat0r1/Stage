@@ -61,7 +61,7 @@ export default function AuthForm() {
           <form onSubmit={attemptAuth}>
             <div className="mb-3">
               <label className="form-label">
-                Username
+                Username:
                 <input
                   type="text"
                   className="form-control"
@@ -108,7 +108,7 @@ export default function AuthForm() {
             )}
 
             <label className="form-label mb-3">
-              Password
+              Password:
               <input 
                 type="password"
                 className="form-control-password"
