@@ -95,7 +95,7 @@ export default function AuthForm() {
                   />
                 </label>
                 <label className="form-label mb-3">
-                  Date of birth
+                  Date of Birth
                   <input
                     type="date"
                     className="form-control"
