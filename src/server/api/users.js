@@ -6,10 +6,6 @@ const { parseISO } = require("date-fns");
 const router = require("express").Router();
 module.exports = router;
 
-
-
-
-
 // User must be logged in to access features
 router.use((req, res, next) => {
   if (!res.locals.user) {
@@ -18,13 +14,10 @@ router.use((req, res, next) => {
   next();
 });
 
-
-
-
-
 // Get user profile information
 router.get("/profile/:id", async (req, res, next) => {
   try {
+    const loggedInUserId = res.locals.user.id; // Get the ID of the logged-in user
     const userId = parseInt(req.params.id);
 
     // Fetch user data including posts and followers
@@ -54,6 +47,10 @@ router.get("/profile/:id", async (req, res, next) => {
     if (!userData) {
       throw new ServerError(404, "User not found.");
     }
+    // Check if the logged-in user is following the viewed user
+    const isFollowing = userData.followers.some(
+      (follower) => follower.followerId === loggedInUserId
+    );
 
     const profileInfo = {
       userId: userData.id,
@@ -69,6 +66,7 @@ router.get("/profile/:id", async (req, res, next) => {
         likes: post.likes.map((like) => ({ likerId: like.likerId })),
       })),
       followers: userData.followers,
+      isFollowing: isFollowing,
     };
 
     res.json(profileInfo);
@@ -77,10 +75,6 @@ router.get("/profile/:id", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Get signed in user's ID
 router.get("/user-id", (req, res, next) => {
@@ -94,10 +88,6 @@ router.get("/user-id", (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Get user posts
 router.get("/profile/:id/posts", async (req, res, next) => {
@@ -147,10 +137,6 @@ router.get("/profile/:id/posts", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Get users a specific user is following
 router.get("/profile/:id/following", async (req, res, next) => {
@@ -205,10 +191,6 @@ router.get("/profile/:id/following", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Get followers of a specific user
 router.get("/profile/:id/followers", async (req, res, next) => {
   try {
@@ -252,10 +234,6 @@ router.get("/profile/:id/followers", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Get users by location
 router.get("/location/:location", async (req, res, next) => {
   try {
@@ -285,10 +263,6 @@ router.get("/location/:location", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Get user posts from a specific location
 router.get("/posts/location/:location", async (req, res, next) => {
@@ -337,10 +311,6 @@ router.get("/posts/location/:location", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Create a new post
 router.post("/posts", async (req, res, next) => {
   try {
@@ -382,10 +352,6 @@ router.post("/posts", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Delete a post
 router.delete("/posts/:postId", async (req, res, next) => {
   try {
@@ -421,10 +387,6 @@ router.delete("/posts/:postId", async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
 
 // Get details of a specific post
 router.get("/posts/:postId", async (req, res, next) => {
@@ -465,10 +427,6 @@ router.get("/posts/:postId", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Get feed of posts from users you are following
 router.get("/vibe", async (req, res, next) => {
@@ -530,10 +488,6 @@ router.get("/vibe", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Get feed of posts from users not followed by the current user
 router.get("/stage", async (req, res, next) => {
   try {
@@ -594,10 +548,6 @@ router.get("/stage", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Follow a user
 router.post("/follow/:id", async (req, res, next) => {
   try {
@@ -639,10 +589,6 @@ router.post("/follow/:id", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Unfollow a user
 router.post("/unfollow/:id", async (req, res, next) => {
   try {
@@ -683,10 +629,6 @@ router.post("/unfollow/:id", async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
 
 // Like a post
 router.post("/posts/:postId/like", async (req, res, next) => {
@@ -754,10 +696,6 @@ router.post("/posts/:postId/like", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Unlike a post
 router.delete("/posts/:postId/unlike", async (req, res, next) => {
   try {
@@ -791,10 +729,6 @@ router.delete("/posts/:postId/unlike", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Update username
 router.put("/update-username", async (req, res, next) => {
   try {
@@ -822,10 +756,6 @@ router.put("/update-username", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Update email
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -861,10 +791,6 @@ router.put("/update-email", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Update birth date
 router.put("/update-birthdate", async (req, res, next) => {
@@ -906,10 +832,6 @@ router.put("/update-birthdate", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Update location
 router.put("/update-location", async (req, res, next) => {
   try {
@@ -937,10 +859,6 @@ router.put("/update-location", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Update profile photo
 router.put("/update-profile-photo", async (req, res, next) => {
   try {
@@ -960,10 +878,6 @@ router.put("/update-profile-photo", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Update about me
 router.put("/update-about-me", async (req, res, next) => {
   try {
@@ -982,10 +896,6 @@ router.put("/update-about-me", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
-
 
 // Update password
 router.put("/update-password", async (req, res, next) => {
@@ -1024,10 +934,6 @@ router.put("/update-password", async (req, res, next) => {
   }
 });
 
-
-
-
-
 // Delete user profile
 router.delete("/profile", async (req, res, next) => {
   try {
@@ -1060,9 +966,5 @@ router.delete("/profile", async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
 
 module.exports = router;
