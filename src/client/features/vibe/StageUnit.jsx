@@ -61,10 +61,10 @@ const StageUnit = ({ post, refetch }) => {
       className="stagecard card border border-dark rounded w-100 p-3 m-3"
       key={post.id}
     >
-<div className="card-body d-flex flex-row">
-    <div className="user-picure">     
-        <div className="d-flex flex-column align-items-center justify-content-center">
-          <Link to={`/profile/${post.author.id}`}>
+      <div className="card-body d-flex flex-row">
+        <div className="user-picure">
+          <div className="d-flex flex-column align-items-center justify-content-center">
+            <Link to={`/profile/${post.author.id}`}>
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <img
                   className="card-img-top userImg p-2"
@@ -77,16 +77,18 @@ const StageUnit = ({ post, refetch }) => {
                     post.author.username.slice(1)}
                 </h5>
               </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
         </div>
         <div className="card-body">
           <div className="m-3 p-3">
             <h4>
               {post.author.username.charAt(0).toUpperCase() +
                 post.author.username.slice(1)}{" "}
-              is listening to <a href={post.link}>Music Track</a> by The
-              Foundations on Spotify.
+              is listening to{" "}
+              <a href={post.link} target="_blank" rel="noopener noreferrer">
+                Music Track
+              </a>
             </h4>
             <h4>"{post.content}"</h4>
           </div>

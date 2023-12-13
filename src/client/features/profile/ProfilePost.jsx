@@ -74,8 +74,10 @@ const ProfilePost = ({ post, refetch, data, currentuser }) => {
           <div className="m-3 p-3">
             <h4>
               {data.username.charAt(0).toUpperCase() + data.username.slice(1)}{" "}
-              is listening to <a href={post.link}>Music Track</a> by The
-              Foundations on Spotify.
+              is listening to{" "}
+              <a href={post.link} target="_blank" rel="noopener noreferrer">
+                Music Track
+              </a>
             </h4>
             <h4>"{post.content}"</h4>
           </div>

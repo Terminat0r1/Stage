@@ -100,8 +100,10 @@ const Post = ({ post, refetch }) => {
             <h4>
               {post.author.username.charAt(0).toUpperCase() +
                 post.author.username.slice(1)}{" "}
-              is listening to <a href={post.link}>Music Track</a> by The
-              Foundations on Spotify.
+              is listening to{" "}
+              <a href={post.link} target="_blank" rel="noopener noreferrer">
+                Music Track
+              </a>
             </h4>
             <h4>"{post.content}"</h4>
           </div>
@@ -248,5 +250,3 @@ const Post = ({ post, refetch }) => {
 };
 
 export default Post;
-
-
