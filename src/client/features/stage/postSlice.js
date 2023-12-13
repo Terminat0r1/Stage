@@ -25,12 +25,18 @@ const postApi = api.injectEndpoints({
       // providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
     }),
 
+    getUserFollowing: builder.query({
+      query: (id) => `/users/profile/${id}/following`,
+      // providesTags: ["Following", "Unfollowing", "Likes", "Unlikes"],
+    }),
+
     // get user profile
 
     getUser: builder.query({
       query: (id) => `/users/profile/${id}`,
       // providesTags: ["DeletePost", "Post"],
     }),
+
     // create post
     createPost: builder.mutation({
       query: (credentials) => ({
@@ -110,6 +116,7 @@ export const {
   useCreatePostMutation,
   useGetFollowingPostsQuery,
   useGetCurrentUserQuery,
+  useGetUserFollowingQuery,
   useUnfollowUserMutation,
   useFollowUserMutation,
   useLikeMutation,
