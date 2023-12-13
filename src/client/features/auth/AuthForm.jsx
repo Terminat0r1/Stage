@@ -75,7 +75,7 @@ export default function AuthForm() {
             {!isLogin && (
               <div className="mb-3">
                 <label className="form-labeln mb-3">
-                  Location
+                  Location:
                   <input
                     type="text"
                     className="form-control"
@@ -85,7 +85,7 @@ export default function AuthForm() {
                   />
                 </label>
                 <label className="form-label mb-3">
-                  Email
+                  Email:
                   <input
                     type="text"
                     className="form-control"
@@ -95,7 +95,7 @@ export default function AuthForm() {
                   />
                 </label>
                 <label className="form-label mb-3">
-                  Date of Birth
+                  Date of Birth:
                   <input
                     type="date"
                     className="form-control"
