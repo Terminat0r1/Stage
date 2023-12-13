@@ -179,7 +179,6 @@ function PostList() {
           <h1 className="title">The Vibe</h1>
         </div>
 
-
         <div className="row">
           <div className="col text-center">
             <form onSubmit={create}>
@@ -190,22 +189,23 @@ function PostList() {
                     type="text"
                     value={musicLink}
                     onChange={(e) => setMusicLink(e.target.value)}
-                    className="form-control"
-                    placeholder="Music link"
+                    className="form-control m-2 p-2"
+                    style={{ width: "75%" }}
+                    placeholder="Share what you're listening to..."
                   />
                 </div>
                 <textarea
                   type="text"
                   value={newPost}
                   onChange={(e) => setNewPost(e.target.value)}
-                  className="form-control "
-                  placeholder="Post here"
+                  className="form-control  m-2 p-2"
+                  placeholder="Share what your thoughts here..."
                   style={{ width: "75%", height: 100 }}
                   defaultValue={""}
                 />
               </div>
-              <div className=" col-4 text-right">
-                <button className="btn btn-dark ">Post</button>
+              <div className=" d-flex justify-content-center p-3 ">
+                <button className="btn btn-dark">Post</button>
               </div>
             </form>
           </div>
