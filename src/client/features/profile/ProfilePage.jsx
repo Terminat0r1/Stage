@@ -64,18 +64,17 @@ const ProfilePage = () => {
       <div className="error-message">Error fetching data: {error.message}</div>
     );
   }
-  const numPosts = data.posts.length;
+  const numPosts = data?.posts.length;
   let numFollowing = 0;
-  if (data.following) {
-    numFollowing = data.following.length;
-  }
+  const numFollowers = data?.followers.length || 0;
+
   if (data.userId == currentuser.userId) {
     showdelete = true;
   }
 
-  console.log("data", data);
-  console.log("currentuser", currentuser.userId);
-  console.log(showdelete);
+  // console.log("data", data);
+  // console.log("currentuser", currentuser.userId);
+  // console.log(showdelete);
 
   return (
     <div className="profile-page">
@@ -104,7 +103,7 @@ const ProfilePage = () => {
           </div>
           <div className="description d-flex flex-row">
             <p className="card-text m-3">
-              {`Post:  ${numPosts}          Followers:     ${numFollowing}`}
+              {`Post:  ${numPosts}          Followers:     ${numFollowers}`}
             </p>
             {!showdelete && (
               <button
@@ -141,6 +140,7 @@ const ProfilePage = () => {
             key={post.id}
             refetch={handleRefetchOne}
             data={data}
+            currentuser={currentuser}
           />
         ))}
 

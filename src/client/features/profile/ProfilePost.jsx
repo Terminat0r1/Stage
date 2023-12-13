@@ -7,15 +7,13 @@ import {
   useUnlikeMutation,
 } from "../stage/postSlice";
 
-const ProfilePost = ({ post, refetch, data }) => {
+const ProfilePost = ({ post, refetch, data, currentuser }) => {
   let [liked, setLiked] = useState(false);
 
   if (post.likes.length > 0) {
     liked = true;
   }
   const [deletePostMutation] = useDeletePostMutation();
-  const [unfollowUser] = useUnfollowUserMutation();
-  const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
   const [unlike] = useUnlikeMutation();
 
@@ -48,6 +46,10 @@ const ProfilePost = ({ post, refetch, data }) => {
       // Handle error as needed
     }
   };
+
+  if (data.userId == currentuser.userId) {
+    showdelete = true;
+  }
 
   return (
     <div
@@ -120,7 +122,3 @@ const ProfilePost = ({ post, refetch, data }) => {
 };
 
 export default ProfilePost;
-
-{
-  /* */
-}
