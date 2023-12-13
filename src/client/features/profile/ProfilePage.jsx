@@ -4,16 +4,9 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
 import { useGetUserQuery, useGetCurrentUserQuery } from "../stage/postSlice";
-import {
-  useDeletePostMutation,
-  useUnfollowUserMutation,
-  useFollowUserMutation,
-  useLikeMutation,
-  useUnlikeMutation,
-} from "../stage/postSlice";
+import ProfilePost from "./ProfilePost";
 
 const ProfilePage = () => {
-  let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
 
   // if (post.likes.length > 0) {
@@ -24,33 +17,22 @@ const ProfilePage = () => {
   const { id } = useParams();
   const { data, error, isLoading, refetch } = useGetUserQuery(id);
   const { data: currentuser } = useGetCurrentUserQuery();
-  const [deletePostMutation] = useDeletePostMutation();
-  const [unfollowUser] = useUnfollowUserMutation();
-  const [followUser] = useFollowUserMutation();
-  const [like] = useLikeMutation();
-  const [unlike] = useUnlikeMutation();
 
-  let showdelete = false;
-
-  // Function to handle post deletion
-  const handleDeletePost = async (postId) => {
-    try {
-      await deletePostMutation(postId).unwrap();
-      refetch();
-    } catch (error) {
-      console.error("Error deleting post:", error);
-      // Handle error as needed
-    }
-  };
+  function handleRefetchOne() {
+    // force re-fetches the data
+    refetch();
+  }
 
   const handleFollowClick = async () => {
     try {
       // If follow is true, unfollow the user using the mutation
+
       if (follow) {
-        await unfollowUser(data.id).unwrap(); // Assuming post.author.id is the user's ID
+        await unfollowUser(data.userId).unwrap(); // Assuming post.author.id is the user's ID
       } else if (!follow) {
-        await followUser(data.id).unwrap(); // Assuming post.author.id is the user's ID
+        await followUser(data.userId).unwrap(); // Assuming post.author.id is the user's ID
       }
+      console.log(follow);
       // Toggle the follow state when the button is clicked
       setFollow(!follow);
     } catch (error) {
@@ -58,23 +40,9 @@ const ProfilePage = () => {
       // Handle error as needed
     }
   };
-  const handleLikeClick = async () => {
-    try {
-      // Toggle the liked state when the button is clicked
-      setLiked(!liked);
+  let showdelete = false;
 
-      // If liked is true, unlike the post using the mutation
-      if (liked) {
-        console.log(post.id);
-        await unlike(post.id).unwrap(); // Assuming post.id is the post's ID
-      } else {
-        await like(post.id).unwrap(); // Assuming post.id is the post's ID
-      }
-    } catch (error) {
-      console.error("Error liking/unliking post:", error);
-      // Handle error as needed
-    }
-  };
+  // Function to handle post deletion
 
   if (!token) {
     return <p>You must be logged in.</p>;
@@ -97,9 +65,9 @@ const ProfilePage = () => {
     showdelete = true;
   }
 
-  console.log(data);
-  console.log(currentuser.userId);
-  console.log(showdelete);
+  // console.log("data", data);
+  // console.log("currentuser", currentuser.userId);
+  // console.log(showdelete);
 
   return (
     <div className="profile-page">
@@ -160,86 +128,12 @@ const ProfilePage = () => {
           <h4>Posts</h4>
         </div>
         {data.posts.map((post) => (
-          <div
-            className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
+          <ProfilePost
+            post={post}
             key={post.id}
-          >
-            <div className="card-body d-flex flex-row">
-              <div className="d-flex flex-column align-items-center justify-content-center">
-                <div className="d-flex flex-column align-items-center justify-content-center">
-                  <img
-                    className="card-img-top userImg p-2"
-                    src={data.profilePhoto}
-                    alt="Card image cap"
-                  />
-                  <h5 className="card-title p-2">
-                    {" "}
-                    {data.username.charAt(0).toUpperCase() +
-                      data.username.slice(1)}
-                  </h5>
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="m-3 p-3">
-                  <h4>
-                    {data.username.charAt(0).toUpperCase() +
-                      data.username.slice(1)}{" "}
-                    is listening to <a href={post.link}>Music Track</a> by The
-                    Foundations on Spotify.
-                  </h4>
-                  <h4>"{post.content}"</h4>
-                </div>
-              </div>
-            </div>
-            <div className="card-footer d-flex flex-row">
-              <div>
-                <h4>
-                  {" "}
-                  {data.location.charAt(0).toUpperCase() +
-                    data.location.slice(1)}
-                </h4>
-              </div>
-              {showdelete ? (
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDeletePost(post.id)}
-                >
-                  Delete Post
-                </button>
-              ) : (
-                <button
-                  className={`d-flex align-items-center justify-content-center ${
-                    liked ? "btn btn-danger" : "btn btn-outline-danger"
-                  }`}
-                  type="button"
-                  onClick={handleLikeClick}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-chat-heart-fill me-2"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
-                  </svg>
-                  Like
-                </button>
-              )}
-            </div>
-            {/* <div className="card-title m-3 d-flex flex-column">
-                  <h4>{post.content}</h4>
-                </div>
-                <div>{post.link}</div>
-                <div className="card-text m-3">{post.createdAt}</div>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDeletePost(post.id)}
-                >
-                  Delete Post
-                </button> */}
-          </div>
+            refetch={handleRefetchOne}
+            data={data}
+          />
         ))}
 
         <div className="card-body d-flex flex-column"></div>

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout, selectToken } from "../features/auth/authSlice";
-import { useGetCurrentUserQuery } from "../features/Stage/postSlice";
+import { useGetCurrentUserQuery } from "../features/stage/postSlice";
 import "./Navbar.less";
 
 /**

@@ -9,11 +9,16 @@ const Stage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const { data, error, isLoading } = useGetPostStageQuery();
+  const { data, error, isLoading, refetch } = useGetPostStageQuery();
 
   // const handleCityButtonClick = (location) => {
   //   setSelectedLocation(location);
   // };
+
+  function handleRefetchOne() {
+    // force re-fetches the data
+    refetch();
+  }
 
   const handleSearchInputChange = (event) => {
     setSelectedLocation(null);
@@ -88,7 +93,7 @@ const Stage = () => {
               return matchesSearch;
             })
             .map((post) => (
-              <StageUnit post={post} key={post.id} />
+              <StageUnit post={post} key={post.id} refetch={handleRefetchOne} />
             ))}
         </div>
       </div>

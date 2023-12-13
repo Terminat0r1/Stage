@@ -54,6 +54,7 @@ const Post = ({ post, refetch }) => {
       } else {
         await like(post.id).unwrap(); // Assuming post.id is the post's ID
       }
+      refetch();
       // Toggle the liked state when the button is clicked
       setLiked(!liked);
     } catch (error) {
@@ -69,7 +70,7 @@ const Post = ({ post, refetch }) => {
     // Example Redux dispatch action:
     // dispatch(updatePostLikesAction(postId, updatedLikes));
   };
-
+  console.log(post);
   return (
     <div
       className="stagecard card border border-dark rounded w-100 p-3 m-3"

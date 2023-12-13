@@ -8,7 +8,7 @@ import {
   useUnlikeMutation,
 } from "../stage/postSlice";
 
-const StageUnit = ({ post }) => {
+const StageUnit = ({ post, refetch }) => {
   let [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
   // console.log(post.likes);
@@ -29,6 +29,7 @@ const StageUnit = ({ post }) => {
       } else if (!follow) {
         await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
       }
+      refetch();
       // Toggle the follow state when the button is clicked
       setFollow(!follow);
     } catch (error) {
@@ -48,6 +49,7 @@ const StageUnit = ({ post }) => {
       } else {
         await like(post.id).unwrap(); // Assuming post.id is the post's ID
       }
+      refetch();
     } catch (error) {
       console.error("Error liking/unliking post:", error);
       // Handle error as needed
