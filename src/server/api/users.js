@@ -52,6 +52,11 @@ router.get("/profile/:id", async (req, res, next) => {
       (follower) => follower.followerId === loggedInUserId
     );
 
+    // Check if the logged-in user is following the viewed user
+    const isFollowing = userData.followers.some(
+      (follower) => follower.followerId === loggedInUserId
+    );
+
     const profileInfo = {
       userId: userData.id,
       username: userData.username,
