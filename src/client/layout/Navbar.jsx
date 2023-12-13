@@ -39,7 +39,7 @@ export default function Navbar() {
             
             
             <button type="button" className="btn btn-outline-dark m-2">
-              <NavLink to={`/profile/${currId}`}>profile</NavLink>
+              <NavLink to={`/profile/${currId}`}>Profile</NavLink>
             </button>{" "}
             {/* <button type="button" className="btn btn-outline-dark m-2">
               <NavLink to="/bkmark">Bookmark</NavLink>
