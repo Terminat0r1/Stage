@@ -11,8 +11,8 @@ export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const authAction = isLogin ? "Login" : "Register";
   const altCopy = isLogin
-    ? "Need an account? Register here."
-    : "Already have an account? Login here.";
+    ? " Register "
+    : " Login ";
 
   // Controlled form fields
   const [username, setUsername] = useState("");
@@ -55,7 +55,9 @@ export default function AuthForm() {
     <div className="container">
       <div className="row justify-content-center mt-5">
         <div className="col-md-6">
-          <h1>{authAction}</h1>
+          <div className="d-flex justify-content-center">
+            <h1>{authAction}</h1>
+          </div>
           <form onSubmit={attemptAuth}>
             <div className="mb-3">
               <label className="form-label">
@@ -107,9 +109,9 @@ export default function AuthForm() {
 
             <label className="form-label mb-3">
               Password
-              <input
+              <input 
                 type="password"
-                className="form-control"
+                className="form-control-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -120,9 +122,13 @@ export default function AuthForm() {
               {authAction}
             </button>
           </form>
-          <a onClick={() => setIsLogin(!isLogin)} className="mt-3 d-block">
-            {altCopy}
-          </a>
+
+          <div className="registerBtn">
+            <a onClick={() => setIsLogin(!isLogin)} className=" btn btn-primary mt-3 mt-3 d-block justify-content-center">
+              {altCopy}
+            </a>
+          </div>
+
           {(loginLoading || registerLoading) && <p>Please wait...</p>}
           {loginError && <p role="alert">{loginError}</p>}
           {registerError && <p role="alert">{registerError}</p>}
