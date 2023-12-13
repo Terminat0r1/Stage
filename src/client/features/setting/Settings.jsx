@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import userImg from "../ima/user.jpg";
 import UpdateForm from "./UpdateForm";
+import "./accnt_settings.less";
 
 const Settings = () => {
   const [profilePicture, setProfilePicture] = useState(userImg);
@@ -13,7 +14,7 @@ const Settings = () => {
   return (
     <div className="d-flex justify-content-center flex-wrap">
       <div className="container py-4 px-3 mx-auto">
-        <h1>Account Settings</h1>
+        <h1 className="text-center">Account Settings</h1>
 
         <div className="card border border-dark rounded p-3 m-3 w-100">
           <div>

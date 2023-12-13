@@ -11,6 +11,8 @@ import {
   useUpdatePasswordMutation,
   useDeleteUserMutation,
 } from "./settingSlice";
+import "./accnt_settings.less";
+
 
 const UpdateForm = () => {
   const [username, setUsername] = useState(null);
@@ -151,57 +153,45 @@ const UpdateForm = () => {
         </div>
         <br />
         {/* Update Email */}
-        <div className="form-floating ">
-          <form onSubmit={handleUpdateEmail}>
-            <div className="form-floating">
-              <label className="p-2">
-                Email:
-                <input
-                  className="m-2 p-2"
-                  type="text"
-                  value={email || ""}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
-          </form>
+        <div className="email">
+          <div className="form-floating ">
+            <form onSubmit={handleUpdateEmail}>
+              <div className="form-floating">
+                <label className="p-2">
+                  Email:
+                  <input
+                    className="m-2 p-2"
+                    type="text"
+                    value={email || ""}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </label>
+                <button className="btn btn-dark">Update</button>
+              </div>
+            </form>
+          </div>
         </div>
         <br />
         {/* Update BirthDate */}
-        <div className="form-floating ">
-          <form onSubmit={handleUpdatebirthDate}>
-            <div className="form-floating">
-              <label className="p-2">
-                BirthDate:
-                <input
-                  className="m-2 p-2"
-                  type="date"
-                  value={birthDate || ""}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
-          </form>
-        </div>
-        <br />
+        
         {/* Update Location */}
-        <div className="form-floating ">
-          <form onSubmit={handleUpdatelocation}>
-            <div className="form-floating">
-              <label className="p-2">
-                Location:
-                <input
-                  className="m-2 p-2"
-                  type="text"
-                  value={location || ""}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
-          </form>
+        <div className="location">
+          <div className="form-floating ">
+            <form onSubmit={handleUpdatelocation}>
+              <div className="form-floating">
+                <label className="p-2">
+                  Location:
+                  <input
+                    className="m-2 p-2"
+                    type="text"
+                    value={location || ""}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                </label>
+                <button className="btn btn-dark">Update</button>
+              </div>
+            </form>
+          </div>
         </div>
         <br />
         {/* Update Photo */}
@@ -222,8 +212,30 @@ const UpdateForm = () => {
           </form>
         </div>
         <br />
+
+
+        <div className="birthDate">
+          <div className="form-floating ">
+            <form onSubmit={handleUpdatebirthDate}>
+              <div className="form-floating">
+                <label className="p-2">
+                  Birth Date:
+                  <input
+                    className="m-2 p-2"
+                    type="date"
+                    value={birthDate || ""}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                  />
+                </label>
+                 <button className="btn btn-dark">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <br />
         {/* Update Password */}
-        <div className="form-floating ">
+        <div className="oldPassword"/>
+         <div className="form-floating ">
           <form onSubmit={handleUpdatePassword}>
             <div className="form-floating">
               <label className="p-2">

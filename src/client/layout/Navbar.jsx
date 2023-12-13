@@ -27,19 +27,19 @@ export default function Navbar() {
       <h1>Stage</h1>
       <menu > 
        <div>
-        <button type="button" className="bnt" class="btn btn-outline-dark m-2">
+       
+      
+        {token ? (
+          <>
+            
+            <button type="button" className="bnt" class="btn btn-outline-dark m-2">
           <NavLink to="/">The Vibe</NavLink>
         </button>
         <button type="button" className="btn btn-outline-dark m-2">
           <NavLink to="/stage">The Stage</NavLink>
         </button>
-      
-        {token ? (
-          <>
-            
-            
             <button type="button" className="btn btn-outline-dark m-2">
-              <NavLink to={`/profile/${currId}`}>profile</NavLink>
+              <NavLink to={`/profile/${currId}`}>Profile</NavLink>
             </button>{" "}
             {/* <button type="button" className="btn btn-outline-dark m-2">
               <NavLink to="/bkmark">Bookmark</NavLink>
@@ -48,12 +48,12 @@ export default function Navbar() {
               <NavLink to="/settings">Account Settings</NavLink>
             </button>{" "}
             <button type="button" className="btn btn-outline-dark m-2">
-              <a onClick={handleLogout}>Log Out</a>
+              <a onClick={handleLogout}>Logout</a>
             </button>
           </>
         ) : (
           <button type="button" className="btn btn-outline-dark m-2">
-            <NavLink to="/login">Log In</NavLink>
+            <NavLink to="/login">Login</NavLink>
           </button>
         )}
       </div>

@@ -1,17 +1,14 @@
- .card-img-top {
+.card-img-top {
   padding: 5px;
   width: 75px;
   border-radius: 50%;
 }
 
-
 .title {
   font-weight: bold;
 }
 
-
-
-.likebtn{
+.likebtn {
 margin-top: 8.5px;
 margin-left: 30px;
 }

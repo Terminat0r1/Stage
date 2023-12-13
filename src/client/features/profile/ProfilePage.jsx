@@ -10,6 +10,7 @@ import {
   useUnfollowUserMutation,
 } from "../stage/postSlice";
 import ProfilePost from "./ProfilePost";
+import "./Profile.less";
 
 const ProfilePage = () => {
   // if (post.likes.length > 0) {

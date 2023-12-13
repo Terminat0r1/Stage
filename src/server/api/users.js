@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 // Get user profile information
 router.get("/profile/:id", async (req, res, next) => {
   try {
-    const loggedInUserId = res.locals.user.id; // Get the ID of the logged-in user
+    const loggedInUserId = res.locals.user.id;
     const userId = parseInt(req.params.id);
 
     // Fetch user data including posts and followers
