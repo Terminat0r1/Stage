@@ -23,7 +23,7 @@ router.post("/register", async (req, res, next) => {
       if (!username) missingFields.push("username");
       if (!email) missingFields.push("email");
       if (!password) missingFields.push("password");
-      if (!birthDate) missingFields.push("birthDate");
+      if (!birthDate) missingFields.push("birth date");
       if (!location) missingFields.push("location");
 
       throw new ServerError(400, `Missing required fields: ${missingFields.join(", ")}.`);
@@ -37,7 +37,7 @@ router.post("/register", async (req, res, next) => {
     // Validate birthDate format
     const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!birthDateRegex.test(birthDate)) {
-      throw new ServerError(400, "Invalid birthDate format. Please use the format 'YYYY-MM-DD'.");
+      throw new ServerError(400, "Invalid birth date format. Please use the format 'YYYY-MM-DD'.");
     }
 
     // Parse birthDate to remove the time portion
@@ -49,7 +49,7 @@ router.post("/register", async (req, res, next) => {
         throw new Error();
       }
     } catch (dateError) {
-      throw new ServerError(400, "Invalid birthDate. Please provide a valid date in the format 'YYYY-MM-DD'.");
+      throw new ServerError(400, "Invalid birth date. Please provide a valid date in the format 'YYYY-MM-DD'.");
     }
 
     // Check if location is a number
