@@ -7,15 +7,13 @@ import {
   useUnlikeMutation,
 } from "../stage/postSlice";
 
-const ProfilePost = ({ post, refetch, data }) => {
+const ProfilePost = ({ post, refetch, data, currentuser }) => {
   let [liked, setLiked] = useState(false);
 
   if (post.likes.length > 0) {
     liked = true;
   }
   const [deletePostMutation] = useDeletePostMutation();
-  const [unfollowUser] = useUnfollowUserMutation();
-  const [followUser] = useFollowUserMutation();
   const [like] = useLikeMutation();
   const [unlike] = useUnlikeMutation();
 
@@ -49,6 +47,10 @@ const ProfilePost = ({ post, refetch, data }) => {
     }
   };
 
+  if (data.userId == currentuser.userId) {
+    showdelete = true;
+  }
+
   return (
     <div
       className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
@@ -72,8 +74,10 @@ const ProfilePost = ({ post, refetch, data }) => {
           <div className="m-3 p-3">
             <h4>
               {data.username.charAt(0).toUpperCase() + data.username.slice(1)}{" "}
-              is listening to <a href={post.link}>Music Track</a> by The
-              Foundations on Spotify.
+              is listening to{" "}
+              <a href={post.link} target="_blank" rel="noopener noreferrer">
+                Music Track
+              </a>
             </h4>
             <h4>"{post.content}"</h4>
           </div>
@@ -120,7 +124,3 @@ const ProfilePost = ({ post, refetch, data }) => {
 };
 
 export default ProfilePost;
-
-{
-  /* */
-}

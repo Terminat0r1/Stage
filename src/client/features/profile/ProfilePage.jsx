@@ -3,12 +3,15 @@ import ProfileNavTabs from "./ProfileNavbar";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectToken } from "../auth/authSlice";
-import { useGetUserQuery, useGetCurrentUserQuery } from "../stage/postSlice";
+import {
+  useGetUserQuery,
+  useGetCurrentUserQuery,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
+} from "../stage/postSlice";
 import ProfilePost from "./ProfilePost";
 
 const ProfilePage = () => {
-  const [follow, setFollow] = useState(false);
-
   // if (post.likes.length > 0) {
   //   liked = true;
   // }
@@ -17,20 +20,25 @@ const ProfilePage = () => {
   const { id } = useParams();
   const { data, error, isLoading, refetch } = useGetUserQuery(id);
   const { data: currentuser } = useGetCurrentUserQuery();
+  const [unfollowUser] = useUnfollowUserMutation();
+  const [followUser] = useFollowUserMutation();
+
+  const [follow, setFollow] = useState(data?.isFollowing);
 
   function handleRefetchOne() {
     // force re-fetches the data
     refetch();
   }
 
-  const handleFollowClick = async () => {
+  const handleFollowClick = async (userId) => {
+    console.log("User ID:", userId);
     try {
       // If follow is true, unfollow the user using the mutation
 
       if (follow) {
-        await unfollowUser(data.userId).unwrap(); // Assuming post.author.id is the user's ID
+        await unfollowUser(userId).unwrap(); // Assuming post.author.id is the user's ID
       } else if (!follow) {
-        await followUser(data.userId).unwrap(); // Assuming post.author.id is the user's ID
+        await followUser(userId).unwrap(); // Assuming post.author.id is the user's ID
       }
       console.log(follow);
       // Toggle the follow state when the button is clicked
@@ -56,11 +64,10 @@ const ProfilePage = () => {
       <div className="error-message">Error fetching data: {error.message}</div>
     );
   }
-  const numPosts = data.posts.length;
+  const numPosts = data?.posts.length;
   let numFollowing = 0;
-  if (data.following) {
-    numFollowing = data.following.length;
-  }
+  const numFollowers = data?.followers.length || 0;
+
   if (data.userId == currentuser.userId) {
     showdelete = true;
   }
@@ -96,7 +103,7 @@ const ProfilePage = () => {
           </div>
           <div className="description d-flex flex-row">
             <p className="card-text m-3">
-              {`Post:  ${numPosts}          Followers:     ${numFollowing}`}
+              {`Post:  ${numPosts}          Followers:     ${numFollowers}`}
             </p>
             {!showdelete && (
               <button
@@ -104,7 +111,7 @@ const ProfilePage = () => {
                   follow ? "btn btn-dark" : "btn btn-outline-dark"
                 }`}
                 type="button"
-                onClick={handleFollowClick}
+                onClick={() => handleFollowClick(data.userId)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -133,6 +140,7 @@ const ProfilePage = () => {
             key={post.id}
             refetch={handleRefetchOne}
             data={data}
+            currentuser={currentuser}
           />
         ))}
 
