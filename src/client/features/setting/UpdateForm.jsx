@@ -11,7 +11,7 @@ import {
   useUpdatePasswordMutation,
   useDeleteUserMutation,
 } from "./settingSlice";
-import "./account.css";
+import "./accnt_settings.less";
 
 
 const UpdateForm = () => {
@@ -234,7 +234,8 @@ const UpdateForm = () => {
         </div>
         <br />
         {/* Update Password */}
-        <div className="form-floating ">
+        <div className="oldPassword"/>
+         <div className="form-floating ">
           <form onSubmit={handleUpdatePassword}>
             <div className="form-floating">
               <label className="p-2">
