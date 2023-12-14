@@ -13,3 +13,9 @@
 .updatebtn{
 
 }
+
+.border-card{
+    border-color: #693cef;
+    border-width: 2px;
+    border-style: solid;
+  }

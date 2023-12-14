@@ -10,7 +10,7 @@ import {
   useUnfollowUserMutation,
 } from "../stage/postSlice";
 import ProfilePost from "./ProfilePost";
-
+import "./profile.less";
 const ProfilePage = () => {
   // if (post.likes.length > 0) {
   //   liked = true;
@@ -130,9 +130,9 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="card border border-dark rounded p-3 m-3 w-100">
+      <div className="card border-card rounded p-3 m-3 w-100">
         <div className="card-header m-3">
-          <h4>Posts</h4>
+          <h4>Posts </h4>
         </div>
         {data.posts.map((post) => (
           <ProfilePost

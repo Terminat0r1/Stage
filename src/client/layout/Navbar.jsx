@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1>Stage</h1>
+      <h1 className="logo">Stage</h1>
       <menu > 
        <div>
        

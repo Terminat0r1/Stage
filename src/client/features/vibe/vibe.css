@@ -7,13 +7,16 @@
 
 .title {
   font-weight: bold;
+  justify-content: center;
 }
 
 
 
 .likebtn{
 margin-top: 8.5px;
-margin-left: 30px;
+margin-left: auto;
+
+margin-bottom: .5rem;
 }
 
 
@@ -26,4 +29,19 @@ margin-left: 30px;
 
 .user-picure {
 background-color: black;
+}
+
+
+.inputBox{
+  width: 15.5em;;
+}
+
+.searchBtn{
+  background-color:#693cef;
+}
+
+.border-card{
+  border-color: #693cef;
+  border-width: 2px;
+  border-style: solid;
 }
