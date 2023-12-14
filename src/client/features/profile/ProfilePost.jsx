@@ -66,14 +66,24 @@ const ProfilePost = ({ post, refetch, data, currentuser }) => {
             />
             <h5 className="card-title p-2">
               {" "}
-              {data.username.charAt(0).toUpperCase() + data.username.slice(1)}
+              {data.username.length > 8
+                ? data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1, 6) +
+                  "..."
+                : data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1)}
             </h5>
           </div>
         </div>
         <div className="card-body">
           <div className="m-3 p-3">
             <h4>
-              {data.username.charAt(0).toUpperCase() + data.username.slice(1)}{" "}
+              {data.username.length > 8
+                ? data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1, 6) +
+                  "..."
+                : data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1)}{" "}
               is listening to{" "}
               <a href={post.link} target="_blank" rel="noopener noreferrer">
                 Music Track
@@ -83,7 +93,7 @@ const ProfilePost = ({ post, refetch, data, currentuser }) => {
           </div>
         </div>
       </div>
-      <div className="card-footer d-flex flex-row">
+      <div className="card-footer d-flex flex-row justify-content-between">
         <div>
           <h4>
             {" "}

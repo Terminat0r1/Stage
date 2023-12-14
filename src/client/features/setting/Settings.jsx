@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import userImg from "../ima/user.jpg";
 import UpdateForm from "./UpdateForm";
-import "./account.css";
+import "./accnt_settings.less";
 
 const Settings = () => {
   const [profilePicture, setProfilePicture] = useState(userImg);
