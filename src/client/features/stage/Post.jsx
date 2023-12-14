@@ -71,7 +71,7 @@ const Post = ({ post, refetch }) => {
     // Example Redux dispatch action:
     // dispatch(updatePostLikesAction(postId, updatedLikes));
   };
-  console.log(post);
+  
   return (
     <div
       className="stagecard card border-card rounded w-100 p-3 m-3"

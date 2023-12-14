@@ -50,7 +50,7 @@ const ProfilePost = ({ post, refetch, data, currentuser }) => {
   if (data.userId == currentuser.userId) {
     showdelete = true;
   }
-
+  console.log("photo",data.profilePhoto)
   return (
     <div
       className="card-body d-flex flex-column border-card rounded p-3 m-3"
