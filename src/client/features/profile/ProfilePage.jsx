@@ -73,7 +73,7 @@ const ProfilePage = () => {
     showdelete = true;
   }
 
-  // console.log("data", data);
+  console.log("data", data);
   // console.log("currentuser", currentuser.userId);
   // console.log(showdelete);
 
@@ -92,46 +92,59 @@ const ProfilePage = () => {
             />
           </div>
           <div className="username">
-            <h5 className="card-title m-3">{data.username}</h5>
-          </div>
-          <div className="location">
-            <h4>{data.location}</h4>
-          </div>
-        </div>
-        <div className="content d-flex flex-column">
-          <div className="content">
-            <h5>{data.aboutMe}</h5>
-          </div>
-          <div className="description d-flex flex-row">
-            <p className="card-text m-3">
+            <h5 className="card-title m-3 text-center">
+              {" "}
+              {data.username.length > 8
+                ? data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1, 6) +
+                  "..."
+                : data.username.charAt(0).toUpperCase() +
+                  data.username.slice(1)}
+            </h5>
+            <p className="card-text m-3 text-center text-dark">
               {`Post:  ${numPosts}          Followers:     ${numFollowers}`}
             </p>
-            {!showdelete && (
-              <button
-                className={`d-flex align-items-center justify-content-center m-2 ${
-                  follow ? "btn btn-dark" : "btn btn-outline-dark"
-                }`}
-                type="button"
-                onClick={() => handleFollowClick(data.userId)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-plus-circle-fill me-2"
-                  viewBox="0 0 16 16"
+          </div>
+          <div className="location">
+            <h4>
+              {data.location.charAt(0).toUpperCase() + data.location.slice(1)}
+            </h4>
+          </div>
+        </div>
+        <div
+          className="content d-flex flex-column h-100 "
+          style={{ width: 480, height: 480 }}
+        >
+          <div className="content" style={{ width: 480, height: 170 }}>
+            <h5 className="h-100">{data.aboutMe}</h5>
+            <div className="description d-flex justify-content-end">
+              {!showdelete && (
+                <button
+                  className={`d-flex align-items-center justify-content-center m-2 ${
+                    follow ? "btn btn-dark" : "btn btn-outline-dark"
+                  }`}
+                  type="button"
+                  onClick={() => handleFollowClick(data.userId)}
                 >
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                </svg>
-                {follow ? "Unfollow" : "Follow"}
-              </button>
-            )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-plus-circle-fill me-2"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                  </svg>
+                  {follow ? "Unfollow" : "Follow"}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="card border border-dark rounded p-3 m-3 w-100">
+      <div className="card border border-dark rounded p-3 m-3 w-85">
         <div className="card-header m-3">
           <h4>Posts</h4>
         </div>
