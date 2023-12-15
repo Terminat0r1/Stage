@@ -1,17 +1,17 @@
+.border-card{
+    border-color: #693cef;
+    border-width: 2px;
+    border-style: solid;
+  }
 @primary-color: #5529db;
 @secondary-color: #210e0e;
 @text-color: #333;
-@font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
+@font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 .body {
-  font-family: @font-family;
-  color: @text-color;
-  background-color: @secondary-color;
   margin: 0;
   padding: 0;
 }
-
 
 .border-radius(@radius) {
   border-radius: @radius;
@@ -23,7 +23,6 @@
   justify-content: center;
 }
 
-
 .profile-page {
   width: 100%;
   max-width: 768px;
@@ -32,7 +31,6 @@
   .border-radius(8px);
   overflow: hidden;
 }
-
 
 .card-header {
   background-color: white;
@@ -54,6 +52,7 @@
     .username {
       h5 {
         margin: 10px 0;
+        color: #210e0e;
       }
     }
 
@@ -93,13 +92,10 @@
   }
 }
 
-
 .card {
   background-color: rgb(0, 0, 0);
-  margin: 20px;
-  .border-radius(8px);
-  padding: 20px;
-  overflow: auto;
+
+  .border-radius(5px);
 
   .card-header {
     h4 {
@@ -125,7 +121,6 @@
     cursor: pointer;
   }
 }
-
 
 @media (max-width: 768px) {
   .profile-page {
