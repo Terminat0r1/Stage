@@ -24,12 +24,14 @@ const StageUnit = ({ post, refetch }) => {
   const handleFollowClick = async () => {
     try {
       // If follow is true, unfollow the user using the mutation
-      if (follow) {
-        await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
-      } else if (!follow) {
-        await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
-      }
-      refetch();
+      setTimeout(async () => {
+        if (follow) {
+          await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+        } else if (!follow) {
+          await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+        }
+        refetch();
+      }, 2000);
       // Toggle the follow state when the button is clicked
       setFollow(!follow);
     } catch (error) {
