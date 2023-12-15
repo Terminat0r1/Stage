@@ -152,15 +152,19 @@ const UpdateForm = () => {
         {" "}
         {/* This is the container for all form groups */}
         {/* Update Username */}
-        <div className="form-group">
+
+        <div className="form-group d-flex flex-column">
+
           {" "}
           {/* This is a single form group */}
           <form onSubmit={handleUpdateUsername}>
             <label>
-              Username:
+              <div className="m-2">Username:</div>
+
               <input
                 type="text"
                 value={username || ""}
+                style={{ width: "500px" }}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </label>
@@ -168,13 +172,15 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update Email */}
-        <div className="form-group">
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdateEmail}>
             <label>
-              Email:
+              <div className="m-2">Email:</div>
+
               <input
                 type="text"
                 value={email || ""}
+                style={{ width: "500px" }}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </label>
@@ -182,13 +188,15 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update Location */}
-        <div className="form-group">
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdatelocation}>
             <label>
-              Location:
+              <div className="m-2">Location:</div>
+
               <input
                 type="text"
                 value={location || ""}
+                style={{ width: "500px" }}
                 onChange={(e) => setLocation(e.target.value)}
               />
             </label>
@@ -196,13 +204,15 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update Photo */}
-        <div className="form-group">
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdatephoto}>
             <label>
-              Profile Photo (Image URL):
+              <div className="m-2">Profile Photo (Image URL):</div>
+
               <input
                 type="text"
                 value={photo}
+                style={{ width: "500px" }}
                 onChange={(e) => setPhoto(e.target.value)}
               />
             </label>
@@ -210,13 +220,16 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update About Me */}
-        <div className="form-group">
+
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdateAboutMe}>
             <label>
-              About Me:
-              <input
+              <div className="m-2">About Me:</div>
+
+              <textarea
                 type="text"
                 value={aboutMe || ""}
+                style={{ width: "500px", height: "150px" }}
                 onChange={(e) => setAboutMe(e.target.value)}
               />
             </label>
@@ -224,13 +237,15 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update BirthDate */}
-        <div className="form-group">
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdatebirthDate}>
             <label>
-              Birth Date:
+              <div className="m-2">Birth Date:</div>
+
               <input
                 type="date"
                 value={birthDate || ""}
+                style={{ width: "500px" }}
                 onChange={(e) => setBirthDate(e.target.value)}
               />
             </label>
@@ -238,21 +253,25 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update Password */}
-        <div className="form-group">
+        <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdatePassword}>
             <label>
-              Old Password:
+              <div className="m-2">Old Password:</div>
+
               <input
                 type="password"
                 value={oldPassword}
+                style={{ width: "500px" }}
                 onChange={(e) => setOldPassword(e.target.value)}
               />
             </label>
             <label>
-              New Password:
+              <div className="m-2">New Password:</div>
+
               <input
                 type="password"
                 value={newpassword}
+                style={{ width: "500px" }}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
             </label>
@@ -260,13 +279,15 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Delete User */}
-        <div className="form-group">
+        <div className="form-group border border-danger p-3 d-flex flex-column">
           <form onSubmit={handleDeleteUser}>
             <label>
-              Enter Password to Delete Account:
+              <div className="m-2"> Enter Password to Delete Account:</div>
+
               <input
                 type="password"
                 value={confirmDelete}
+                style={{ width: "500px" }}
                 onChange={(e) => setConfirmDelete(e.target.value)}
               />
             </label>
