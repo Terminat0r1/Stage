@@ -79,9 +79,9 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
-      <h1>
+      <h1 className="text-center">
         {data.username.charAt(0).toUpperCase() + data.username.slice(1)}'s
-        Profile 
+        Profile  
       </h1>
 
       <div className="card-header d-flex flex-row">
