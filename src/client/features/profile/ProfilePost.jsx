@@ -6,7 +6,7 @@ import {
   useLikeMutation,
   useUnlikeMutation,
 } from "../stage/postSlice";
-import"./profile.less";
+import "./profile.less";
 const ProfilePost = ({ post, refetch, data, currentuser }) => {
   let [liked, setLiked] = useState(false);
 
@@ -50,10 +50,10 @@ const ProfilePost = ({ post, refetch, data, currentuser }) => {
   if (data.userId == currentuser.userId) {
     showdelete = true;
   }
-  console.log("photo",data.profilePhoto)
+  console.log("photo", data.profilePhoto);
   return (
     <div
-      className="card-body d-flex flex-column border-card rounded p-3 m-3"
+      className="card-body d-flex flex-column border border-dark rounded p-3 m-3"
       key={post.id}
     >
       <div className="card-body d-flex flex-row">
