@@ -133,154 +133,123 @@ const UpdateForm = () => {
 
   return (
     <>
-      <div>
+      <div className="form-section"> {/* This is the container for all form groups */}
         {/* Update Username */}
-        <div className="form-floating ">
+        <div className="form-group"> {/* This is a single form group */}
           <form onSubmit={handleUpdateUsername}>
-            <div className="form-floating">
-              <label className="p-2">
-                Username:
-                <input
-                  className="m-2 p-2"
-                  type="text"
-                  value={username || ""}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
+            <label>
+              Username:
+              <input
+                type="text"
+                value={username || ""}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
           </form>
         </div>
-        <br />
+
         {/* Update Email */}
-        <div className="email">
-          <div className="form-floating ">
-            <form onSubmit={handleUpdateEmail}>
-              <div className="form-floating">
-                <label className="p-2">
-                  Email:
-                  <input
-                    className="m-2 p-2"
-                    type="text"
-                    value={email || ""}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </label>
-                <button className="btn btn-dark">Update</button>
-              </div>
-            </form>
-          </div>
+        <div className="form-group">
+          <form onSubmit={handleUpdateEmail}>
+            <label>
+              Email:
+              <input
+                type="text"
+                value={email || ""}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
+          </form>
         </div>
-        <br />
-        {/* Update BirthDate */}
-        
+
         {/* Update Location */}
-        <div className="location">
-          <div className="form-floating ">
-            <form onSubmit={handleUpdatelocation}>
-              <div className="form-floating">
-                <label className="p-2">
-                  Location:
-                  <input
-                    className="m-2 p-2"
-                    type="text"
-                    value={location || ""}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                </label>
-                <button className="btn btn-dark">Update</button>
-              </div>
-            </form>
-          </div>
+        <div className="form-group">
+          <form onSubmit={handleUpdatelocation}>
+            <label>
+              Location:
+              <input
+                type="text"
+                value={location || ""}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
+          </form>
         </div>
-        <br />
+
         {/* Update Photo */}
-        <div className="form-floating ">
+        <div className="form-group">
           <form onSubmit={handleUpdatephoto}>
-            <div className="form-floating">
-              <label className="p-2">
-                Image URL:
-                <input
-                  className="m-2 p-2"
-                  type="text"
-                  value={photo}
-                  onChange={(e) => setPhoto(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
+            <label>
+              Image URL:
+              <input
+                type="text"
+                value={photo}
+                onChange={(e) => setPhoto(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
           </form>
         </div>
-        <br />
 
-
-        <div className="birthDate">
-          <div className="form-floating ">
-            <form onSubmit={handleUpdatebirthDate}>
-              <div className="form-floating">
-                <label className="p-2">
-                  Birth Date:
-                  <input
-                    className="m-2 p-2"
-                    type="date"
-                    value={birthDate || ""}
-                    onChange={(e) => setBirthDate(e.target.value)}
-                  />
-                </label>
-                 <button className="btn btn-dark">Update</button>
-              </div>
-            </form>
-          </div>
+        {/* Update BirthDate */}
+        <div className="form-group">
+          <form onSubmit={handleUpdatebirthDate}>
+            <label>
+              Birth Date:
+              <input
+                type="date"
+                value={birthDate || ""}
+                onChange={(e) => setBirthDate(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
+          </form>
         </div>
-        <br />
+
         {/* Update Password */}
-        <div className="oldPassword"/>
-         <div className="form-floating ">
+        <div className="form-group">
           <form onSubmit={handleUpdatePassword}>
-            <div className="form-floating">
-              <label className="p-2">
-                Old Password:
-                <input
-                  className="m-2 p-2"
-                  type="password"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                />
-              </label>
-              <label className="p-2">
-                New Password:
-                <input
-                  className="m-2 p-2"
-                  type="password"
-                  value={newpassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-dark">Update</button>
-            </div>
+            <label>
+              Old Password:
+              <input
+                type="password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+            </label>
+            <label>
+              New Password:
+              <input
+                type="password"
+                value={newpassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
           </form>
         </div>
-        <br />
+
         {/* Delete User */}
-        <div className="form-floating border border-danger rounded">
+        <div className="form-group">
           <form onSubmit={handleDeleteUser}>
-            <div className="form-floating">
-              <label className="p-2">
-                Enter Password:
-                <input
-                  type="password"
-                  value={confirmDelete}
-                  onChange={(e) => setConfirmDelete(e.target.value)}
-                />
-              </label>
-              <button className="btn btn-danger">Delete Account</button>
-            </div>
+            <label>
+              Enter Password to Delete Account:
+              <input
+                type="password"
+                value={confirmDelete}
+                onChange={(e) => setConfirmDelete(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-danger">Delete Account</button>
           </form>
         </div>
-        <br />
       </div>
     </>
   );
 };
 
 export default UpdateForm;
+
