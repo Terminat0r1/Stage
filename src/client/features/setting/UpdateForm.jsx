@@ -199,7 +199,7 @@ const UpdateForm = () => {
         <div className="form-group">
           <form onSubmit={handleUpdatephoto}>
             <label>
-              Image URL:
+              Profile Photo (Image URL):
               <input
                 type="text"
                 value={photo}

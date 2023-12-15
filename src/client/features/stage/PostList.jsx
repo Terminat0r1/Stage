@@ -198,7 +198,7 @@ function PostList() {
                   value={newPost}
                   onChange={(e) => setNewPost(e.target.value)}
                   className="form-control  m-2 p-2"
-                  placeholder="Share what your thoughts here..."
+                  placeholder="Share your thoughts here..."
                   style={{ height: 100 }}
                   defaultValue={""}
                 />
