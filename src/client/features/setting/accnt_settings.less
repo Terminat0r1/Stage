@@ -2,17 +2,35 @@
 @secondary-color: #210e0e;
 @text-color: #000000;
 
-.email{
-    margin-left: 35px;
+.update-info-container {
+    border: 2px solid @primary-color;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-.birthDate{
-    margin-left: 5px;
+.form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px;
+
+  .form-group {
+    margin-bottom: 16px;
+    
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+
+    .btn-dark {
+        background-color: #693CEF
+    }
+  }
 }
 
-.location{
-    margin-left: 10px;
-}
-.oldPassword{
-    margin-left: 500px;
-}
