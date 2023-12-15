@@ -61,22 +61,25 @@ const Stage = () => {
           <div className="col text-center">
             <form className="form-inline">
               <div className="form-group mb-2">
-                <label htmlFor="staticEmail2" className="sr-only">
-                  Find user by Location or Username
+                <label htmlFor="staticEmail2" type="text" >
+                Explore Other Users
                 </label>
                 <br />
                 <input
                   type="text"
-                  className="form-control-plaintext"
+                  className="inputBox"
                   id="citysearch"
                   placeholder="Search by Location or Username"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
                 />
               </div>
-              <button type="submit" className="btn btn-dark mb-2">
+              
+              <button type="submit" className="btn btn-dark mb-2 searchBtn">
+              {/* btn btn-dark mb-2 */}
                 Search
               </button>
+             
             </form>
           </div>
         </div>

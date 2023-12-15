@@ -14,9 +14,10 @@ const Settings = () => {
   return (
     <div className="d-flex justify-content-center flex-wrap">
       <div className="container py-4 px-3 mx-auto">
+        <div className="">
         <h1 className="text-center">Account Settings</h1>
-
-        <div className="card border border-dark rounded p-3 m-3 w-100">
+        </div>
+        <div className="card border-card rounded p-3 m-3 w-100">
           <div>
             <h3>Update Info</h3>
           </div>

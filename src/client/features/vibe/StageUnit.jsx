@@ -60,7 +60,7 @@ const StageUnit = ({ post, refetch }) => {
   console.log(post);
   return (
     <div
-      className="stagecard card border border-dark rounded w-100 p-3 m-3"
+      className="stagecard card  border-card rounded w-100 p-3 m-3"
       key={post.id}
     >
       <div className="card-body d-flex flex-row">
@@ -71,7 +71,7 @@ const StageUnit = ({ post, refetch }) => {
                 <img
                   className="card-img-top userImg p-2"
                   src={post.author.profilephoto}
-                  alt="Card image cap"
+                  alt="Card image cap "
                 />
                 <h5 className="card-title p-2">
                   {" "}
@@ -104,9 +104,9 @@ const StageUnit = ({ post, refetch }) => {
               post.author.location.slice(1)}
           </h4>
         </div>
-        <div className="likebtn">
+        
           <button
-            className={`d-flex align-items-center justify-content-center ${
+            className={`d-flex align-items-center likebtn ${
               liked ? "btn btn-danger" : "btn btn-outline-danger"
             }`}
             type="button"
@@ -124,7 +124,7 @@ const StageUnit = ({ post, refetch }) => {
             </svg>
             Like
           </button>
-        </div>
+       
         <button
           className={`d-flex align-items-center justify-content-center m-2 ${
             follow ? "btn btn-dark" : "btn btn-outline-dark"
