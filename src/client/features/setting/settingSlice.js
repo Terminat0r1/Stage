@@ -48,6 +48,15 @@ const postApi = api.injectEndpoints({
       }),
       transformErrorResponse: (response) => response.data,
     }),
+
+    updateAboutMe: builder.mutation({
+      query: (credentials) => ({
+        url: "/users/update-about-me",
+        method: "PUT",
+        body: credentials,
+      }),
+      transformErrorResponse: (response) => response.data,
+    }),
     //---------------------
     updatePassword: builder.mutation({
       query: (credentials) => ({
@@ -77,5 +86,6 @@ export const {
   useUpdatelocationMutation,
   useUpdatephotoMutation,
   useUpdatePasswordMutation,
+  useUpdateAboutMeMutation,
   useDeleteUserMutation,
 } = postApi;

@@ -57,7 +57,7 @@ const StageUnit = ({ post, refetch }) => {
       // Handle error as needed
     }
   };
-  console.log(post);
+  console.log(post.author.profilePhoto);
   return (
     <div
       className="stagecard card  border-card rounded w-100 p-3 m-3"
@@ -70,7 +70,7 @@ const StageUnit = ({ post, refetch }) => {
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <img
                   className="card-img-top userImg p-2"
-                  src={post.author.profilephoto}
+                  src={post.author.profilePhoto}
                   alt="Card image cap "
                 />
                 <h5 className="card-title p-2">
@@ -96,7 +96,7 @@ const StageUnit = ({ post, refetch }) => {
           </div>
         </div>
       </div>
-      <div className="card-footer d-flex flex-row">
+      <div className="card-footer d-flex flex-row align-items-end">
         <div>
           <h4>
             {" "}
@@ -104,27 +104,27 @@ const StageUnit = ({ post, refetch }) => {
               post.author.location.slice(1)}
           </h4>
         </div>
-        
-          <button
-            className={`d-flex align-items-center likebtn ${
-              liked ? "btn btn-danger" : "btn btn-outline-danger"
-            }`}
-            type="button"
-            onClick={handleLikeClick}
+
+        <button
+          className={`d-flex align-items-center likebtn ${
+            liked ? "btn btn-danger" : "btn btn-outline-danger"
+          }`}
+          type="button"
+          onClick={handleLikeClick}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-chat-heart-fill me-2"
+            viewBox="0 0 16 16"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-chat-heart-fill me-2"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
-            </svg>
-            Like
-          </button>
-       
+            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15m0-9.007c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132" />
+          </svg>
+          Like
+        </button>
+
         <button
           className={`d-flex align-items-center justify-content-center m-2 ${
             follow ? "btn btn-dark" : "btn btn-outline-dark"
