@@ -81,7 +81,7 @@ const ProfilePage = () => {
     <div className="profile-page">
       <h1>
         {data.username.charAt(0).toUpperCase() + data.username.slice(1)}'s
-        Profile
+        Profile 
       </h1>
 
       <div className="card-header d-flex flex-row">
@@ -100,7 +100,7 @@ const ProfilePage = () => {
               {data.username.charAt(0).toUpperCase() + data.username.slice(1)}
             </h5>
             <p className="card-text m-3 text-center text-dark">
-              {`Post:  ${numPosts}          Followers:     ${numFollowers}`}
+              {`Posts:  ${numPosts}          Followers:     ${numFollowers}`}
             </p>
           </div>
           <div className="location">
