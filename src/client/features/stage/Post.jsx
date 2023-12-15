@@ -33,14 +33,15 @@ const Post = ({ post, refetch }) => {
     try {
       // Toggle the follow state when the button is clicked
       setFollow(!follow);
-
-      // If follow is true, unfollow the user using the mutation
-      if (follow) {
-        await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
-      } else if (!follow) {
-        await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
-      }
-      refetch();
+      setTimeout(async () => {
+        // If follow is true, unfollow the user using the mutation
+        if (follow) {
+          await unfollowUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+        } else if (!follow) {
+          await followUser(post.author.id).unwrap(); // Assuming post.author.id is the user's ID
+        }
+        refetch();
+      }, 2000);
     } catch (error) {
       console.error("Error unfollowing user:", error);
       // Handle error as needed
@@ -77,10 +78,10 @@ const Post = ({ post, refetch }) => {
       className="stagecard card border-card rounded w-100 p-3 m-3"
       key={post.id}
     >
-     <div className="card-body d-flex flex-row">
-    <div className="user-picure">     
-        <div className="d-flex flex-column align-items-center justify-content-center">
-          <Link to={`/profile/${post.author.id}`}>
+      <div className="card-body d-flex flex-row">
+        <div className="user-picure">
+          <div className="d-flex flex-column align-items-center justify-content-center">
+            <Link to={`/profile/${post.author.id}`}>
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <img
                   className="card-img-top userImg p-2"
@@ -93,8 +94,8 @@ const Post = ({ post, refetch }) => {
                     post.author.username.slice(1)}
                 </h5>
               </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
         </div>
         <div className="card-body">
           <div className="m-3 p-3">
@@ -141,7 +142,7 @@ const Post = ({ post, refetch }) => {
         </div>
         <button
           className={`d-flex align-items-center justify-content-center m-2 ${
-            follow ? "btn btn-dark" : "btn btn-outline-dark"
+            follow ? "btn btn-primary" : "btn btn-outline-primary"
           }`}
           type="button"
           onClick={handleFollowClick}
@@ -159,7 +160,6 @@ const Post = ({ post, refetch }) => {
           {follow ? "Unfollow" : "Follow"}
         </button>
       </div>
-    
 
       {/* <div >
         <h4>

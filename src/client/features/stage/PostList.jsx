@@ -204,7 +204,7 @@ function PostList() {
                 />
               </div>
               <div className=" d-flex justify-content-center p-3 ">
-                <button className="btn btn-dark">Post</button>
+                <button className="btn btn-primary">Post</button>
               </div>
             </form>
           </div>

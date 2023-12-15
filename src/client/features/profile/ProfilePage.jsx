@@ -79,7 +79,10 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
-      <h1>Profile</h1>
+      <h1>
+        {data.username.charAt(0).toUpperCase() + data.username.slice(1)}'s
+        Profile
+      </h1>
 
       <div className="card-header d-flex flex-row">
         <div className="user d-flex flex-column">
@@ -94,12 +97,7 @@ const ProfilePage = () => {
           <div className="username">
             <h5 className="card-title m-3 text-center">
               {" "}
-              {data.username.length > 8
-                ? data.username.charAt(0).toUpperCase() +
-                  data.username.slice(1, 6) +
-                  "..."
-                : data.username.charAt(0).toUpperCase() +
-                  data.username.slice(1)}
+              {data.username.charAt(0).toUpperCase() + data.username.slice(1)}
             </h5>
             <p className="card-text m-3 text-center text-dark">
               {`Post:  ${numPosts}          Followers:     ${numFollowers}`}

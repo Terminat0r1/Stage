@@ -24,31 +24,29 @@ export default function Navbar() {
 
   return (
     <nav className="top">
-      <h1 className="logo">Stage</h1>
-      <menu > 
-       <div>
-       
-      
+      <h1>Stage</h1>
+      <div className="menu">
         {token ? (
           <>
-            
-            <button type="button" className="bnt" class="btn btn-outline-dark m-2">
-          <NavLink to="/">The Vibe</NavLink>
-        </button>
-        <button type="button" className="btn btn-outline-dark m-2">
-          <NavLink to="/stage">The Stage</NavLink>
-        </button>
+            <button type="button" className="btn btn-outline-dark m-2">
+              <NavLink to="/">The Vibe</NavLink>
+            </button>
+            <button type="button" className="btn btn-outline-dark m-2">
+              <NavLink to="/stage">The Stage</NavLink>
+            </button>
             <button type="button" className="btn btn-outline-dark m-2">
               <NavLink to={`/profile/${currId}`}>Profile</NavLink>
-            </button>{" "}
-            {/* <button type="button" className="btn btn-outline-dark m-2">
-              <NavLink to="/bkmark">Bookmark</NavLink>
-            </button>{" "} */}
+            </button>
+            {/* 
+              <button type="button" className="btn btn-outline-dark m-2">
+                <NavLink to="/bkmark">Bookmark</NavLink>
+              </button>
+            */}
             <button type="button" className="btn btn-outline-dark m-2">
               <NavLink to="/settings">Account Settings</NavLink>
-            </button>{" "}
+            </button>
             <button type="button" className="btn btn-outline-dark m-2">
-              <a onClick={handleLogout}>Logout</a>
+              <span onClick={handleLogout}>Logout</span>
             </button>
           </>
         ) : (
@@ -57,8 +55,6 @@ export default function Navbar() {
           </button>
         )}
       </div>
-        
-      </menu>
     </nav>
   );
 }
