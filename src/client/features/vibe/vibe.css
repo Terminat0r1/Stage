@@ -1,12 +1,14 @@
 .card-img-top {
   padding: 5px;
-  width: 75px;
+  width: 95px;
   border-radius: 50%;
 }
 
 .title {
   font-weight: bold;
   justify-content: center;
+  
+
 }
 
 .likebtn {
@@ -30,7 +32,7 @@ background-color: black;
 
 
 .inputBox{
-  width: 15.5em;;
+  width: 17.5em;;
 }
 
 .searchBtn{

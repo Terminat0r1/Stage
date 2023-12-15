@@ -152,7 +152,9 @@ const UpdateForm = () => {
         {" "}
         {/* This is the container for all form groups */}
         {/* Update Username */}
+
         <div className="form-group d-flex flex-column">
+
           {" "}
           {/* This is a single form group */}
           <form onSubmit={handleUpdateUsername}>
@@ -218,6 +220,7 @@ const UpdateForm = () => {
           </form>
         </div>
         {/* Update About Me */}
+
         <div className="form-group d-flex flex-column">
           <form onSubmit={handleUpdateAboutMe}>
             <label>
