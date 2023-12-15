@@ -9,10 +9,10 @@ import {
   useUpdatelocationMutation,
   useUpdatephotoMutation,
   useUpdatePasswordMutation,
+  useUpdateAboutMeMutation,
   useDeleteUserMutation,
 } from "./settingSlice";
 import "./accnt_settings.less";
-
 
 const UpdateForm = () => {
   const [username, setUsername] = useState(null);
@@ -23,6 +23,7 @@ const UpdateForm = () => {
   const [oldPassword, setOldPassword] = useState(null);
   const [newpassword, setNewPassword] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [aboutMe, setAboutMe] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const UpdateForm = () => {
   const [updatelocation] = useUpdatelocationMutation();
   const [updatephoto] = useUpdatephotoMutation();
   const [updatePassword] = useUpdatePasswordMutation();
+  const [updateAboutMe] = useUpdateAboutMeMutation();
   const [deleteUser] = useDeleteUserMutation();
 
   const handleUpdateUsername = async (e) => {
@@ -100,6 +102,19 @@ const UpdateForm = () => {
     }
   };
 
+  const handleUpdateAboutMe = async (e) => {
+    e.preventDefault();
+    const credentials = {
+      aboutMe: aboutMe,
+    };
+    try {
+      await updateAboutMe(credentials).unwrap();
+      setAboutMe(null);
+    } catch (error) {
+      console.error("Error updating aboutMe:", error);
+    }
+  };
+
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     const credentials = {
@@ -133,9 +148,13 @@ const UpdateForm = () => {
 
   return (
     <>
-      <div className="form-section"> {/* This is the container for all form groups */}
+      <div className="form-section">
+        {" "}
+        {/* This is the container for all form groups */}
         {/* Update Username */}
-        <div className="form-group"> {/* This is a single form group */}
+        <div className="form-group">
+          {" "}
+          {/* This is a single form group */}
           <form onSubmit={handleUpdateUsername}>
             <label>
               Username:
@@ -148,7 +167,6 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
         {/* Update Email */}
         <div className="form-group">
           <form onSubmit={handleUpdateEmail}>
@@ -163,7 +181,6 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
         {/* Update Location */}
         <div className="form-group">
           <form onSubmit={handleUpdatelocation}>
@@ -178,7 +195,6 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
         {/* Update Photo */}
         <div className="form-group">
           <form onSubmit={handleUpdatephoto}>
@@ -193,7 +209,20 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
+        {/* Update About Me */}
+        <div className="form-group">
+          <form onSubmit={handleUpdateAboutMe}>
+            <label>
+              About Me:
+              <input
+                type="text"
+                value={aboutMe || ""}
+                onChange={(e) => setAboutMe(e.target.value)}
+              />
+            </label>
+            <button className="btn btn-dark">Update</button>
+          </form>
+        </div>
         {/* Update BirthDate */}
         <div className="form-group">
           <form onSubmit={handleUpdatebirthDate}>
@@ -208,7 +237,6 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
         {/* Update Password */}
         <div className="form-group">
           <form onSubmit={handleUpdatePassword}>
@@ -231,7 +259,6 @@ const UpdateForm = () => {
             <button className="btn btn-dark">Update</button>
           </form>
         </div>
-
         {/* Delete User */}
         <div className="form-group">
           <form onSubmit={handleDeleteUser}>
@@ -252,4 +279,3 @@ const UpdateForm = () => {
 };
 
 export default UpdateForm;
-
