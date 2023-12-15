@@ -6,7 +6,7 @@ import {
   useLikeMutation,
   useUnlikeMutation,
 } from "../stage/postSlice";
-import "./profile.less";
+
 const ProfilePost = ({ post, refetch, data, currentuser }) => {
   let [liked, setLiked] = useState(false);
 
