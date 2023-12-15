@@ -8,7 +8,7 @@ import {
   useUnlikeMutation,
 } from "./postSlice";
 import "./stage.less";
-import "../ima/user.jpg"
+import "../ima/user.jpg";
 
 const Post = ({ post, refetch }) => {
   let [liked, setLiked] = useState(false);
@@ -72,7 +72,7 @@ const Post = ({ post, refetch }) => {
     // Example Redux dispatch action:
     // dispatch(updatePostLikesAction(postId, updatedLikes));
   };
-  
+
   return (
     <div
       className="stagecard card border-card rounded w-100 p-3 m-3"
@@ -85,7 +85,7 @@ const Post = ({ post, refetch }) => {
               <div className="d-flex flex-column align-items-center justify-content-center">
                 <img
                   className="card-img-top userImg p-2"
-                  src={post.author.profilephoto|| "user.jpg" }
+                  src={post.author.profilePhoto}
                   alt="Card image cap"
                 />
                 <h5 className="card-title p-2">
@@ -111,7 +111,7 @@ const Post = ({ post, refetch }) => {
           </div>
         </div>
       </div>
-      <div className="card-footer d-flex flex-row">
+      <div className="card-footer d-flex flex-row align-items-end">
         <div>
           <h4>
             {" "}
