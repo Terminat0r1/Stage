@@ -1,8 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
+const { faker } = require('@faker-js/faker');
+
 const prisma = new PrismaClient();
 
 function generateRandomUsername() {
-  return `user_${Math.floor(Math.random() * 10000)}`;
+  // Use a real human name as the username
+  return faker.person.fullName();
 }
 
 async function seed() {
@@ -20,9 +23,10 @@ async function seed() {
           username,
           email,
           password: 'password123',
-          birthDate: new Date(`1990-01-01`),
-          location: 'Pittsburgh',
-          profilePhoto: 'https://cdn.costumewall.com/wp-content/uploads/2017/01/pedro-sanchez.jpg',
+          birthDate: faker.date.between('1980-01-01', '2000-12-31'),
+          location: faker.address.city(),
+          // Use a realistic profile photo of a person
+          profilePhoto: faker.image.avatar(),
           isAdmin: false,
         },
       });
@@ -31,9 +35,10 @@ async function seed() {
 
       // Create three posts for each user using the stored user object
       for (let j = 0; j < 3; j++) {
+        const postContent = faker.lorem.paragraph();
         await prisma.post.create({
           data: {
-            content: `Post ${j + 1} by ${username}`,
+            content: postContent,
             link: 'https://www.youtube.com/watch?v=0hiUuL5uTKc',
             createdAt: new Date(),
             authorId: user.id,
